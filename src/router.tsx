@@ -24,6 +24,9 @@ const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
 
 const Messenger = Loader(lazy(() => import('src/content/applications/Messenger')));
 const Transactions = Loader(lazy(() => import('src/content/applications/Transactions')));
+const Produtos = Loader(lazy(() => import('src/content/applications/Produtos')));
+const Movimentacoes = Loader(lazy(() => import('src/content/applications/Movimentacoes')));
+const Pedidos = Loader(lazy(() => import('src/content/applications/Pedidos')));
 const UserProfile = Loader(lazy(() => import('src/content/applications/Users/profile')));
 const UserSettings = Loader(lazy(() => import('src/content/applications/Users/settings')));
 
@@ -148,17 +151,17 @@ const routes: PartialRouteObject[] = [
       ,
       {
         path: 'produtos',
-        element: <Transactions />
+        element: <Produtos />
       }
       ,
       {
         path: 'movimentacoes',
-        element: <Transactions />
+        element: <Movimentacoes />
       },
       ,
       {
         path: 'pedidos',
-        element: <Transactions />
+        element: <Pedidos />
       },
       {
         path: 'profile',

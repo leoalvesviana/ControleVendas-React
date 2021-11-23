@@ -52,19 +52,9 @@ function AccountBalance() {
         <Grid item xs={12} md={6}>
           <Box p={4}>
             <Typography sx={{ pb: 3 }} variant="h4">
-              Account Balance
+              Histórico do mês
             </Typography>
             <Box>
-              <Typography variant="h1" gutterBottom>
-                $54,584.23
-              </Typography>
-              <Typography
-                variant="h4"
-                fontWeight="normal"
-                color="text.secondary"
-              >
-                1.0045983485234 BTC
-              </Typography>
               <Box display="flex" sx={{ py: 4 }} alignItems="center">
                 <AvatarSuccess sx={{ mr: 2 }} variant="rounded">
                   <TrendingUp fontSize="large" />
@@ -72,23 +62,11 @@ function AccountBalance() {
                 <Box>
                   <Typography variant="h4">+ $3,594.00</Typography>
                   <Typography variant="subtitle2" noWrap>
-                    this month
+                    Em vendas
                   </Typography>
                 </Box>
               </Box>
             </Box>
-            <Grid container spacing={3}>
-              <Grid sm item>
-                <Button fullWidth variant="outlined">
-                  Send
-                </Button>
-              </Grid>
-              <Grid sm item>
-                <Button fullWidth variant="contained">
-                  Receive
-                </Button>
-              </Grid>
-            </Grid>
           </Box>
         </Grid>
         <Grid
@@ -116,7 +94,7 @@ function AccountBalance() {
                   <AccountBalanceChartWrapper data={cryptoBalance} />
                 </Box>
               </Grid>
-              <Grid xs={12} sm={7} item display="flex" alignItems="center">
+              <Grid xs={12} sm={4} item display="flex" alignItems="center">
                 <List disablePadding sx={{ width: '100%' }}>
                   <ListItem disableGutters>
                     <ListItemAvatar
@@ -127,14 +105,14 @@ function AccountBalance() {
                       }}
                     >
                       <img
-                        alt="BTC"
-                        src="/static/images/placeholders/logo/bitcoin.png"
+                        alt=""
+                        src=""
                       />
                     </ListItemAvatar>
                     <ListItemText
-                      primary="BTC"
+                      primary=""
                       primaryTypographyProps={{ variant: 'h5', noWrap: true }}
-                      secondary="Bitcoin"
+                      secondary=""
                       secondaryTypographyProps={{
                         variant: 'subtitle2',
                         noWrap: true
@@ -156,14 +134,14 @@ function AccountBalance() {
                       }}
                     >
                       <img
-                        alt="XRP"
-                        src="/static/images/placeholders/logo/ripple.png"
+                        alt=""
+                        src=""
                       />
                     </ListItemAvatar>
                     <ListItemText
-                      primary="XRP"
+                      primary=""
                       primaryTypographyProps={{ variant: 'h5', noWrap: true }}
-                      secondary="Ripple"
+                      secondary=""
                       secondaryTypographyProps={{
                         variant: 'subtitle2',
                         noWrap: true
@@ -185,14 +163,14 @@ function AccountBalance() {
                       }}
                     >
                       <img
-                        alt="ADA"
-                        src="/static/images/placeholders/logo/cardano.png"
+                        alt=""
+                        src=""
                       />
                     </ListItemAvatar>
                     <ListItemText
-                      primary="ADA"
+                      primary=""
                       primaryTypographyProps={{ variant: 'h5', noWrap: true }}
-                      secondary="Cardano"
+                      secondary=""
                       secondaryTypographyProps={{
                         variant: 'subtitle2',
                         noWrap: true
@@ -214,14 +192,14 @@ function AccountBalance() {
                       }}
                     >
                       <img
-                        alt="ETH"
-                        src="/static/images/placeholders/logo/ethereum.png"
+                        alt=""
+                        src=""
                       />
                     </ListItemAvatar>
                     <ListItemText
-                      primary="ETH"
+                      primary=""
                       primaryTypographyProps={{ variant: 'h5', noWrap: true }}
-                      secondary="Ethereum"
+                      secondary=""
                       secondaryTypographyProps={{
                         variant: 'subtitle2',
                         noWrap: true

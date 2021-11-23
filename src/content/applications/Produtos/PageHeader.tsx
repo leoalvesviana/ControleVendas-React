@@ -13,19 +13,23 @@ function PageHeader() {
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Clientes
+          Produtos
         </Typography>
         <Typography variant="subtitle2">
-          Tabela de clientes cadastrados.
+          Tabela de produtos cadastrados.
         </Typography>
       </Grid>
       <Grid item>
         <Button
           sx={{ mt: { xs: 2, md: 0 } }}
           variant="contained"
-          startIcon={<AddTwoToneIcon fontSize="small" />}
         >
-        </Button>
+          Alterar Valores
+        </Button>&nbsp;
+        <Button
+          sx={{ mt: { xs: 2, md: 0 } }}
+          variant="contained"
+        ><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
       </Grid>
     </Grid>
   );
