@@ -28,7 +28,6 @@ function ApplicationsTransactions() {
           </Grid>
         </Grid>
       </Container>
-      <Footer />
     </>
   );
 }

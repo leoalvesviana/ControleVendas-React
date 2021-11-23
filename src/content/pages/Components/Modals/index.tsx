@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 import PageTitle from 'src/components/PageTitle';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import TextField from '@mui/material/TextField';
+import CheckIcon from '@mui/icons-material/Check';
 import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -34,26 +37,47 @@ function SimpleDialog(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Set backup account</DialogTitle>
+      <DialogTitle>Cadastrar Cliente</DialogTitle>
       <List sx={{ pt: 0 }}>
-        {emails.map((email) => (
-          <ListItem button onClick={() => handleListItemClick(email)} key={email}>
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                <PersonIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={email} />
-          </ListItem>
-        ))}
+        <ListItem>
+          <TextField
+            label="Nome Completo"
+          />
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Tratamento"
+          />
+        </ListItem>
+        <ListItem>
+          <TextField
+            type="time"
+            label="Data de cadastro"
+          />
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Telefone"
+          /> <AddIcon />
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Email"
+          /><AddIcon />
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Observação"
+          />
+        </ListItem>
 
         <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
           <ListItemAvatar>
             <Avatar>
-              <AddIcon />
+              <CheckIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Add account" />
+          <ListItemText primary="Cadastrar" />
         </ListItem>
       </List>
     </Dialog>
@@ -83,46 +107,16 @@ function Modals() {
 
   return (
     <>
-      <Helmet>
-        <title>Modals - Components</title>
-      </Helmet>
-      <PageTitleWrapper>
-        <PageTitle
-          heading="Modals"
-          subHeading="Dialogs inform users about a task and can contain critical information, require decisions, or involve multiple tasks."
-          docs="https://material-ui.com/components/dialogs/" />
-      </PageTitleWrapper>
-      <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
-          spacing={3}
-        >
-          <Grid item xs={12}>
-            <Card>
-              <CardHeader title="Basic Dialog" />
-              <Divider />
-              <CardContent>
-                <Typography variant="subtitle1" component="div">
-                  Selected: {selectedValue}
-                </Typography>
-                <br />
-                <Button variant="outlined" onClick={handleClickOpen}>
-                  Open simple dialog
-                </Button>
-                <SimpleDialog
-                  selectedValue={selectedValue}
-                  open={open}
-                  onClose={handleClose}
-                />
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Container>
-      <Footer />
+      <Grid item>
+        <Button sx={{ mt: { xs: 2, md: 0 } }}
+          variant="contained"
+          onClick={handleClickOpen}><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
+        <SimpleDialog
+          selectedValue={selectedValue}
+          open={open}
+          onClose={handleClose}
+        />
+      </Grid>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { Typography, Button, Grid } from '@mui/material';
-
+import Modals from 'src/content/pages/Components/Modals';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 function PageHeader() {
@@ -20,10 +20,7 @@ function PageHeader() {
         </Typography>
       </Grid>
       <Grid item>
-        <Button
-          sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-        ><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
+        <Modals />
       </Grid>
     </Grid>
   );
