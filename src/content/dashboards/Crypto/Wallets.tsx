@@ -12,6 +12,12 @@ import {
 
 import { styled } from '@mui/material/styles';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import StoreIcon from '@mui/icons-material/Store';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -64,37 +70,31 @@ function Wallets() {
         justifyContent="space-between"
         sx={{ pb: 3 }}
       >
-        <Typography variant="h3">Wallets</Typography>
+        <Typography variant="h3">Início</Typography>
         <Button
           size="small"
           variant="outlined"
           startIcon={<AddTwoToneIcon fontSize="small" />}
         >
-          Add new wallet
         </Button>
       </Box>
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3} item>
           <Card sx={{ px: 1 }}>
             <CardContent>
-              <AvatarWrapper>
-                <img
-                  alt="BTC"
-                  src="/static/images/placeholders/logo/bitcoin.png"
-                />
-              </AvatarWrapper>
+              <SupervisedUserCircleIcon sx={{ fontSize: 50 }} color="primary" />
               <Typography variant="h5" noWrap>
-                Bitcoin
+                Clientes
               </Typography>
               <Typography variant="subtitle1" noWrap>
-                BTC
+
               </Typography>
               <Box sx={{ pt: 3 }}>
                 <Typography variant="h3" gutterBottom noWrap>
-                  $3,586.22
+
                 </Typography>
                 <Typography variant="subtitle2" noWrap>
-                  1.25843 BTC
+
                 </Typography>
               </Box>
             </CardContent>
@@ -103,24 +103,19 @@ function Wallets() {
         <Grid xs={12} sm={6} md={3} item>
           <Card sx={{ px: 1 }}>
             <CardContent>
-              <AvatarWrapper>
-                <img
-                  alt="Ripple"
-                  src="/static/images/placeholders/logo/ripple.png"
-                />
-              </AvatarWrapper>
+              <StoreIcon sx={{ fontSize: 50 }} color="secondary" />
               <Typography variant="h5" noWrap>
-                Ripple
+                Produtos
               </Typography>
               <Typography variant="subtitle1" noWrap>
-                XRP
+
               </Typography>
               <Box sx={{ pt: 3 }}>
                 <Typography variant="h3" gutterBottom noWrap>
-                  $586.83
+
                 </Typography>
                 <Typography variant="subtitle2" noWrap>
-                  5,783 XRP
+
                 </Typography>
               </Box>
             </CardContent>
@@ -129,24 +124,19 @@ function Wallets() {
         <Grid xs={12} sm={6} md={3} item>
           <Card sx={{ px: 1 }}>
             <CardContent>
-              <AvatarWrapper>
-                <img
-                  alt="Cardano"
-                  src="/static/images/placeholders/logo/cardano.png"
-                />
-              </AvatarWrapper>
+              <CompareArrowsIcon sx={{ fontSize: 50 }} color="success" />
               <Typography variant="h5" noWrap>
-                Cardano
+                Movimentações
               </Typography>
               <Typography variant="subtitle1" noWrap>
-                ADA
+
               </Typography>
               <Box sx={{ pt: 3 }}>
                 <Typography variant="h3" gutterBottom noWrap>
-                  $54,985.00
+
                 </Typography>
                 <Typography variant="subtitle2" noWrap>
-                  34,985 ADA
+
                 </Typography>
               </Box>
             </CardContent>

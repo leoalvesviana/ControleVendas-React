@@ -60,7 +60,7 @@ const routes: PartialRouteObject[] = [
         path: 'dashboards',
         element: (
           <Navigate
-            to="/dashboards/crypto"
+            to="/dashboards/home"
             replace
           />
         )
@@ -111,13 +111,13 @@ const routes: PartialRouteObject[] = [
         path: '/',
         element: (
           <Navigate
-            to="/dashboards/crypto"
+            to="/dashboards/home"
             replace
           />
         )
       },
       {
-        path: 'crypto',
+        path: 'home',
         element: <Crypto />
       },
       {
@@ -153,6 +153,11 @@ const routes: PartialRouteObject[] = [
       ,
       {
         path: 'movimentacoes',
+        element: <Transactions />
+      },
+      ,
+      {
+        path: 'pedidos',
         element: <Transactions />
       },
       {

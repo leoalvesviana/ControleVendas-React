@@ -35,7 +35,7 @@ const AvatarSuccess = styled(Avatar)(
 );
 
 function AccountBalance() {
-  
+
   const cryptoBalance = {
     datasets: [
       {

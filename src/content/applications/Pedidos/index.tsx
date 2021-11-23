@@ -4,18 +4,16 @@ import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 
-import AccountBalance from './AccountBalance';
-import Wallets from './Wallets';
-import AccountSecurity from './AccountSecurity';
-import WatchList from './WatchList';
+import RecentOrders from './RecentOrders';
 
-function DashboardCrypto() {
+function ApplicationsTransactions() {
   return (
     <>
       <Helmet>
-        <title>Página Inicial</title>
+        <title>Transactions - Applications</title>
       </Helmet>
       <PageTitleWrapper>
+        <PageHeader />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -25,11 +23,8 @@ function DashboardCrypto() {
           alignItems="stretch"
           spacing={3}
         >
-          <Grid item lg={8} xs={12}>
-            <Wallets />
-          </Grid>
           <Grid item xs={12}>
-            <AccountBalance />
+            <RecentOrders />
           </Grid>
         </Grid>
       </Container>
@@ -38,4 +33,4 @@ function DashboardCrypto() {
   );
 }
 
-export default DashboardCrypto;
+export default ApplicationsTransactions;

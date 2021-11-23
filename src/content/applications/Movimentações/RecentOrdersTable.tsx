@@ -219,10 +219,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   onChange={handleSelectAllCryptoOrders}
                 />
               </TableCell>
-              <TableCell>Nome</TableCell>
-              <TableCell>Tratamento</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell align="right">Ultimo Registro</TableCell>
+              <TableCell>Order Details</TableCell>
+              <TableCell>Order ID</TableCell>
+              <TableCell>Source</TableCell>
+              <TableCell align="right">Amount</TableCell>
+              <TableCell align="right">Status</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
