@@ -7,8 +7,11 @@ import {
 } from '@mui/material';
 
 import { Link as RouterLink } from 'react-router-dom';
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
+import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
+import { makeStyles } from '@mui/material/styles';
 
 const TypographyH1 = styled(Typography)(
   ({ theme }) => `
@@ -22,9 +25,31 @@ const TypographyH2 = styled(Typography)(
 `
 );
 
-const Container1 = styled(Container)(
+// const Container1 = styled(Container)(
+//   ({ theme }) => `
+//     background-color: #836FFF;
+//     text-align: center;
+//     align-items: center;
+//     justify-content: center;
+// `
+// );
+
+const LoginContainer = styled(Box)(
   ({ theme }) => `
-    background-image: url("https://c0.wallpaperflare.com/preview/241/384/859/analysis-analytics-analyzing-annual.jpg");
+    background-color: white;
+    width: 500px;
+    height: 480px;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    border-radius: 15px;
+    box-shadow: 0px 0px 8px 1px #3a3a3a66;
 `
 );
 
@@ -82,64 +107,76 @@ const TsAvatar = styled(Box)(
 `
 );
 
+
 function Hero() {
 
   return (
-    <Container1 maxWidth="lg" sx={{ textAlign: 'center' }}>
+    <Container sx={{ textAlign: 'center' }}>
       <Grid spacing={{ xs: 6, md: 10 }} justifyContent="center" alignItems="center" container>
         <Grid item md={10} lg={8} mx="auto">
-          <LabelWrapper color="success">Version 1.1.0</LabelWrapper>
-          <TypographyH1 sx={{ mb: 2 }} variant="h1">
-            Tokyo Free White React Admin Dashboard
-          </TypographyH1>
-          <TypographyH2
-            sx={{ lineHeight: 1.5, pb: 4 }}
-            variant="h4"
-            color="text.secondary"
-            fontWeight="normal"
-          >
-            High performance React template built with lots of powerful Material-UI components across multiple product niches for fast & perfect apps development processes
-          </TypographyH2>
-          <Button
-            component={RouterLink}
-            to="/dashboards/crypto"
-            size="large"
-            variant="contained"
-          >
-            Browse Live Preview
-          </Button>
-          <Button
-            sx={{ ml: 2 }}
-            component="a"
-            target="_blank"
-            rel="noopener"
-            href="https://bloomui.com/product/tokyo-free-white-react-typescript-material-ui-admin-dashboard"
-            size="large"
-            variant="text"
-          >
-            Key Features
-          </Button>
-          <Grid container spacing={3} mt={5}>
-            <Grid item md={6}>
-              <MuiAvatar>
-                <img src="/static/images/logo/material-ui.svg" alt="Material-UI" />
-              </MuiAvatar>
-              <Typography variant="h4">
-                <Box sx={{ pb: 2 }}><b>Powered by Material-UI</b></Box><Typography component="span" variant="subtitle2"> - A simple and customizable component library to build faster, beautiful, andaccessible React apps.</Typography>
-              </Typography>
+          <LoginContainer>
+            <TypographyH1 sx={{ mb: 2 }} variant="h3">
+              Login
+            </TypographyH1>
+
+            <Grid sx={{ mt: 8 }} container spacing={1} alignItems="flex-end" justifyContent="center">
+              <Grid item>
+                <AccountCircleIcon />
+              </Grid>
+              <Grid item>
+                <TextField id="input-with-icon-grid" label="Usuário" />
+              </Grid>
             </Grid>
-            <Grid item md={6}>
-              <TsAvatar>
-                <img src="/static/images/logo/typescript.svg" alt="Typescript" />
-              </TsAvatar>
-              <Typography variant="h4">
-                <Box sx={{ pb: 2 }}><b>Built with Typescript</b></Box><Typography component="span" variant="subtitle2"> - Tokyo Free White features a modern technology stack and is built with React + Typescript.</Typography>
-              </Typography>
+            <Grid sx={{ mt: 2 }} container spacing={1} alignItems="flex-end" justifyContent="center">
+              <Grid item>
+                <VpnKeyRoundedIcon />
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="outlined-password-input"
+                  label="Senha"
+                  type="password"
+                  autoComplete="current-password"
+                />
+              </Grid>
             </Grid>
-          </Grid>
+            <TypographyH2
+              sx={{ lineHeight: 1.5, pb: 4 }}
+              variant="h4"
+              color="text.secondary"
+              fontWeight="normal"
+            >
+
+            </TypographyH2>
+
+
+            <Grid container spacing={3} mt={5}>
+
+              <Grid item>
+                <Button
+                  component={RouterLink}
+                  to="/dashboards/home"
+                  size="large"
+                  variant="contained"
+                  style={{ width: 470 }}
+                >
+                  Entrar
+                </Button>
+
+              </Grid>
+              <Grid item md={6}>
+
+
+              </Grid>
+
+            </Grid>
+
+          </LoginContainer>
+
+
         </Grid>
       </Grid>
-    </Container1>
+    </Container>
   );
 }
 
