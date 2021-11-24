@@ -59,17 +59,38 @@ function SimpleDialog(props) {
     <Dialog onClose={handleClose} open={open}>
 
       <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
-      <DialogTitle>Cadastrar Produto</DialogTitle>
+      <DialogTitle>Editar Cliente</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
-            label="Descrição"
+            label="Nome Completo"
+          />&nbsp;
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Tratamento"
             style={{ width: 415 }}
           />
         </ListItem>
         <ListItem>
           <TextField
-            label="Valor"
+            label="Telefone"
+            style={{ width: 415 }}
+          />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
+            <AddIcon sx={{ fontSize: 25 }} />
+          </Fab>
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Email"
+            style={{ width: 415 }}
+          />&nbsp;<Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
+            <AddIcon sx={{ fontSize: 25 }} />
+          </Fab>
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Observação"
             style={{ width: 415, height: 80 }}
           />
         </ListItem>
@@ -80,7 +101,7 @@ function SimpleDialog(props) {
               <CheckIcon color="primary" />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Cadastrar" />
+          <ListItemText primary="Confirmar" />
         </ListItem>
       </List>
     </Dialog>
@@ -93,7 +114,7 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-function ModalProduto() {
+function ModalEditCliente() {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
@@ -124,4 +145,4 @@ function ModalProduto() {
   );
 }
 
-export default ModalProduto;
+export default ModalEditCliente;

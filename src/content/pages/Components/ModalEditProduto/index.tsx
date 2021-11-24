@@ -59,7 +59,7 @@ function SimpleDialog(props) {
     <Dialog onClose={handleClose} open={open}>
 
       <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
-      <DialogTitle>Cadastrar Produto</DialogTitle>
+      <DialogTitle>Editar Produto</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
@@ -80,7 +80,7 @@ function SimpleDialog(props) {
               <CheckIcon color="primary" />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Cadastrar" />
+          <ListItemText primary="Confirmar" />
         </ListItem>
       </List>
     </Dialog>
@@ -93,7 +93,7 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-function ModalProduto() {
+function ModalEditProduto() {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
@@ -124,4 +124,4 @@ function ModalProduto() {
   );
 }
 
-export default ModalProduto;
+export default ModalEditProduto;

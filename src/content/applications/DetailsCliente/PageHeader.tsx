@@ -1,5 +1,5 @@
 import { Typography, Button, Grid } from '@mui/material';
-
+import Modals from 'src/content/pages/Components/Modals';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 function PageHeader() {
@@ -13,31 +13,28 @@ function PageHeader() {
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Movimentações
+          Detalhes
         </Typography>
         <Typography variant="subtitle2">
-          Tabela de movimentações.
+          Cliente: <br />
+          Email: <br />
+          Observações:
         </Typography>
       </Grid>
       <Grid item>
-        <Grid item>
-          <Button
-            sx={{ mt: { xs: 2, md: 0 } }}
-            variant="contained"
-          > Mês atual
-          </Button>&nbsp;
-          <Button
-            sx={{ mt: { xs: 2, md: 0 } }}
-            variant="contained"
-          > Dia atual
-          </Button>&nbsp;
-          <Button
-            sx={{ mt: { xs: 2, md: 0 } }}
-            variant="contained"
-          >Exibir Todos</Button>
-        </Grid>
+        <Typography variant="h3" component="h3" gutterBottom>
+          Detalhes
+        </Typography>
+        <Typography variant="subtitle2">
+          Resumo do cliente: <br />
+          Numero de compras: <br />
+          Total geral:
+        </Typography>
       </Grid>
-    </Grid >
+      <Grid item>
+        <Modals />
+      </Grid>
+    </Grid>
   );
 }
 

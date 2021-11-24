@@ -121,7 +121,7 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-function Modals() {
+function ModalMovi() {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
@@ -152,4 +152,4 @@ function Modals() {
   );
 }
 
-export default Modals;
+export default ModalMovi;

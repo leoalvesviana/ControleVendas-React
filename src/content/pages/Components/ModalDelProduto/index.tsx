@@ -59,18 +59,12 @@ function SimpleDialog(props) {
     <Dialog onClose={handleClose} open={open}>
 
       <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
-      <DialogTitle>Cadastrar Produto</DialogTitle>
+      <DialogTitle>Deletar Produto</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
             label="Descrição"
             style={{ width: 415 }}
-          />
-        </ListItem>
-        <ListItem>
-          <TextField
-            label="Valor"
-            style={{ width: 415, height: 80 }}
           />
         </ListItem>
 
@@ -80,7 +74,7 @@ function SimpleDialog(props) {
               <CheckIcon color="primary" />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Cadastrar" />
+          <ListItemText primary="Deletar" />
         </ListItem>
       </List>
     </Dialog>
@@ -93,7 +87,7 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-function ModalProduto() {
+function ModalDelProduto() {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
@@ -124,4 +118,4 @@ function ModalProduto() {
   );
 }
 
-export default ModalProduto;
+export default ModalDelProduto;
