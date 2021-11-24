@@ -7,6 +7,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -37,44 +38,50 @@ function SimpleDialog(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Cadastrar Cliente</DialogTitle>
+      <DialogTitle>Cadastrar Cliente <Button onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
+
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
             label="Nome Completo"
+          />&nbsp;
+          <TextField
+            name="dataCadastro"
+            label="Data de cadastro"
+            InputLabelProps={{ shrink: true, required: true }}
+            type="date"
+            defaultValue="Data de cadastro"
           />
         </ListItem>
         <ListItem>
           <TextField
             label="Tratamento"
-          />
-        </ListItem>
-        <ListItem>
-          <TextField
-            type="time"
-            label="Data de cadastro"
+            style={{ width: 415 }}
           />
         </ListItem>
         <ListItem>
           <TextField
             label="Telefone"
+            style={{ width: 415 }}
           /> <AddIcon />
         </ListItem>
         <ListItem>
           <TextField
             label="Email"
+            style={{ width: 415 }}
           /><AddIcon />
         </ListItem>
         <ListItem>
           <TextField
             label="Observação"
+            style={{ width: 415, height: 80 }}
           />
         </ListItem>
 
         <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
           <ListItemAvatar>
             <Avatar>
-              <CheckIcon />
+              <CheckIcon color="primary" />
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary="Cadastrar" />

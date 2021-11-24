@@ -203,7 +203,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
               </FormControl>
             </Box>
           }
-          title="Clientes recentes"
+          title="Lista de clientes"
         />
       )}
       <Divider />
@@ -223,7 +223,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
               <TableCell>Tratamento</TableCell>
               <TableCell>Status</TableCell>
               <TableCell align="right">Ultimo Registro</TableCell>
-              <TableCell align="right">Actions</TableCell>
+              <TableCell align="right">Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -1,6 +1,7 @@
 import { Box, Hidden, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
+import AnalyticsTwoToneIcon from '@mui/icons-material/AnalyticsTwoTone';
 
 const LogoWrapper = styled(Link)(
   ({ theme }) => `
@@ -103,9 +104,10 @@ function Logo() {
   return (
     <LogoWrapper to="/overview">
       <LogoSignWrapper>
-        <LogoSign>
+        <AnalyticsTwoToneIcon sx={{ fontSize: 50 }} color="success" />
+        {/* <LogoSign>
           <LogoSignInner />
-        </LogoSign>
+        </LogoSign> */}
       </LogoSignWrapper>
       <Hidden smDown>
         <LogoTextWrapper>
