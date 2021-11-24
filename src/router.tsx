@@ -7,6 +7,7 @@ import BaseLayout from 'src/layouts/BaseLayout';
 
 import SuspenseLoader from 'src/components/SuspenseLoader';
 
+
 const Loader = (Component) => (props) => (
   <Suspense fallback={<SuspenseLoader />}>
     <Component {...props} />
@@ -21,8 +22,7 @@ const Loader = (Component) => (props) => (
 const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
 
 // Applications
-
-const Messenger = Loader(lazy(() => import('src/content/applications/Messenger')));
+const Overview = Loader(lazy(() => import('src/content/overview/Hero')));
 const Transactions = Loader(lazy(() => import('src/content/applications/Transactions')));
 const Produtos = Loader(lazy(() => import('src/content/applications/Produtos')));
 const Movimentacoes = Loader(lazy(() => import('src/content/applications/Movimentacoes')));
@@ -122,10 +122,6 @@ const routes: PartialRouteObject[] = [
       {
         path: 'home',
         element: <Crypto />
-      },
-      {
-        path: 'clientes',
-        element: <Messenger />
       }
     ]
   },
@@ -186,7 +182,60 @@ const routes: PartialRouteObject[] = [
         ]
       }
     ]
-  }
+  },
+  {
+    path: '',
+    element: <BaseLayout />,
+    children: [
+      {
+        path: '/',
+        element: <Overview />
+      },
+      {
+        path: 'overview',
+        element: (
+          <Navigate
+            to="/"
+            replace
+          />
+        )
+      },
+      {
+        path: 'status',
+        children: [
+          {
+            path: '/',
+            element: (
+              <Navigate
+                to="404"
+                replace
+              />
+            )
+          },
+          {
+            path: '404',
+            element: <Status404 />
+          },
+          {
+            path: '500',
+            element: <Status500 />
+          },
+          {
+            path: 'maintenance',
+            element: <StatusMaintenance />
+          },
+          {
+            path: 'coming-soon',
+            element: <StatusComingSoon />
+          },
+        ]
+      },
+      {
+        path: '',
+        element: <Status404 />
+      },
+    ]
+  },
 ];
 
 export default routes;

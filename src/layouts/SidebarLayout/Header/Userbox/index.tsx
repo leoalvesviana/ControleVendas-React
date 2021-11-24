@@ -124,14 +124,6 @@ function HeaderUserbox() {
           </ListItem>
           <ListItem
             button
-            to="/dashboards/messenger"
-            component={NavLink}
-          >
-            <InboxTwoToneIcon fontSize="small" />
-            <ListItemText primary="Messenger" />
-          </ListItem>
-          <ListItem
-            button
             to="/management/profile/settings"
             component={NavLink}
           >

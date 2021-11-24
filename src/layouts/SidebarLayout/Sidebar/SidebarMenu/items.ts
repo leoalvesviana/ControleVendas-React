@@ -5,6 +5,8 @@ import GroupIcon from '@mui/icons-material/Group';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import ManageAccountsTwoToneIcon from '@mui/icons-material/ManageAccountsTwoTone';
 
 
 
@@ -55,6 +57,26 @@ const menuItems: MenuItems[] = [
         name: 'Pedidos',
         icon: AddShoppingCartIcon,
         link: '/tarefas/pedidos'
+      }
+    ]
+  },
+  {
+    heading: 'Segurança',
+    items: [
+      {
+        name: 'Usuários',
+        icon: ManageAccountsTwoToneIcon,
+        link: '/seguranca/usuarios'
+      }
+    ]
+  },
+  {
+    heading: '',
+    items: [
+      {
+        name: 'Overview',
+        link: '/overview',
+        icon: ManageAccountsTwoToneIcon,
       }
     ]
   }

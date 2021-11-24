@@ -22,6 +22,12 @@ const TypographyH2 = styled(Typography)(
 `
 );
 
+const Container1 = styled(Container)(
+  ({ theme }) => `
+    background-image: url("https://c0.wallpaperflare.com/preview/241/384/859/analysis-analytics-analyzing-annual.jpg");
+`
+);
+
 const LabelWrapper = styled(Box)(
   ({ theme }) => `
     background-color: ${theme.colors.success.main};
@@ -79,7 +85,7 @@ const TsAvatar = styled(Box)(
 function Hero() {
 
   return (
-    <Container maxWidth="lg" sx={{ textAlign: 'center' }}>
+    <Container1 maxWidth="lg" sx={{ textAlign: 'center' }}>
       <Grid spacing={{ xs: 6, md: 10 }} justifyContent="center" alignItems="center" container>
         <Grid item md={10} lg={8} mx="auto">
           <LabelWrapper color="success">Version 1.1.0</LabelWrapper>
@@ -133,7 +139,7 @@ function Hero() {
           </Grid>
         </Grid>
       </Grid>
-    </Container>
+    </Container1>
   );
 }
 
