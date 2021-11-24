@@ -102,7 +102,7 @@ function Logo() {
 
 
   return (
-    <LogoWrapper to="/overview">
+    <LogoWrapper to="/dashboards/home">
       <LogoSignWrapper>
         <AnalyticsTwoToneIcon sx={{ fontSize: 50 }} color="success" />
         {/* <LogoSign>
