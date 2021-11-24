@@ -59,45 +59,17 @@ function SimpleDialog(props) {
     <Dialog onClose={handleClose} open={open}>
 
       <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
-      <DialogTitle>Cadastrar Cliente</DialogTitle>
+      <DialogTitle>Cadastrar Produto</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
-            label="Nome Completo"
-          />&nbsp;
-          <TextField
-            name="dataCadastro"
-            label="Data de cadastro"
-            InputLabelProps={{ shrink: true, required: true }}
-            type="date"
-            defaultValue="Data de cadastro"
-          />
-        </ListItem>
-        <ListItem>
-          <TextField
-            label="Tratamento"
+            label="Descrição"
             style={{ width: 415 }}
           />
         </ListItem>
         <ListItem>
           <TextField
-            label="Telefone"
-            style={{ width: 415 }}
-          />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-            <AddIcon sx={{ fontSize: 25 }} />
-          </Fab>
-        </ListItem>
-        <ListItem>
-          <TextField
-            label="Email"
-            style={{ width: 415 }}
-          />&nbsp;<Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-            <AddIcon sx={{ fontSize: 25 }} />
-          </Fab>
-        </ListItem>
-        <ListItem>
-          <TextField
-            label="Observação"
+            label="Valor"
             style={{ width: 415, height: 80 }}
           />
         </ListItem>

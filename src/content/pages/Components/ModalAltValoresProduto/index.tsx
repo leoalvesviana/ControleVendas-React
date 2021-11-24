@@ -59,48 +59,15 @@ function SimpleDialog(props) {
     <Dialog onClose={handleClose} open={open}>
 
       <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
-      <DialogTitle>Cadastrar Cliente</DialogTitle>
+      <DialogTitle>Alterar valores de todos os produtos</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
-            label="Nome Completo"
-          />&nbsp;
-          <TextField
-            name="dataCadastro"
-            label="Data de cadastro"
-            InputLabelProps={{ shrink: true, required: true }}
-            type="date"
-            defaultValue="Data de cadastro"
-          />
-        </ListItem>
-        <ListItem>
-          <TextField
-            label="Tratamento"
-            style={{ width: 415 }}
-          />
-        </ListItem>
-        <ListItem>
-          <TextField
-            label="Telefone"
-            style={{ width: 415 }}
-          />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-            <AddIcon sx={{ fontSize: 25 }} />
-          </Fab>
-        </ListItem>
-        <ListItem>
-          <TextField
-            label="Email"
-            style={{ width: 415 }}
-          />&nbsp;<Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-            <AddIcon sx={{ fontSize: 25 }} />
-          </Fab>
-        </ListItem>
-        <ListItem>
-          <TextField
-            label="Observação"
+            label="Novo Valor"
             style={{ width: 415, height: 80 }}
           />
         </ListItem>
+
 
         <ListItem autoFocus button onClick={() => handleListItemCreate('Create')}>
           <ListItemAvatar>
@@ -108,7 +75,7 @@ function SimpleDialog(props) {
               <CheckIcon color="primary" />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Cadastrar" />
+          <ListItemText primary="Confirmar" />
         </ListItem>
       </List>
     </Dialog>
@@ -121,7 +88,7 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-function Modals() {
+function ModalAltValoresProduto() {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
@@ -141,7 +108,7 @@ function Modals() {
       <Grid item>
         <Button sx={{ mt: { xs: 2, md: 0 } }}
           variant="contained"
-          onClick={handleClickOpen}><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
+          onClick={handleClickOpen}>Alterar Valores</Button>
         <SimpleDialog
           selectedValue={selectedValue}
           open={open}
@@ -152,4 +119,4 @@ function Modals() {
   );
 }
 
-export default Modals;
+export default ModalAltValoresProduto;

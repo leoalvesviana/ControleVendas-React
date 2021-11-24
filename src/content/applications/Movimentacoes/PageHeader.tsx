@@ -34,7 +34,7 @@ function PageHeader() {
           <Button
             sx={{ mt: { xs: 2, md: 0 } }}
             variant="contained"
-          ><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
+          >Exibir Todos</Button>
         </Grid>
       </Grid>
     </Grid >

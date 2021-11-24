@@ -1,5 +1,6 @@
 import { Typography, Button, Grid } from '@mui/material';
-
+import ModalProduto from '../../pages/Components/ModalProduto';
+import ModalAltValoresProduto from '../../pages/Components/ModalAltValoresProduto';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 function PageHeader() {
@@ -20,16 +21,8 @@ function PageHeader() {
         </Typography>
       </Grid>
       <Grid item>
-        <Button
-          sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-        >
-          Alterar Valores
-        </Button>&nbsp;
-        <Button
-          sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-        ><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
+        <Button><ModalProduto /></Button>
+        <Button><ModalAltValoresProduto /></Button>
       </Grid>
     </Grid>
   );
