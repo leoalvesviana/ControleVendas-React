@@ -1,4 +1,6 @@
 import { FC, ChangeEvent, useState } from 'react';
+import React, { useEffect } from 'react';
+import api from 'src/service/api';
 import { format } from 'date-fns';
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
@@ -174,6 +176,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const selectedAllCryptoOrders =
     selectedCryptoOrders.length === cryptoOrders.length;
   const theme = useTheme();
+
+
+  useEffect(() => {
+    api.get('/Clientes/GetClientes').then(response => {
+      console.log(response);
+    });
+  }, []);
 
   return (
     <Card>
