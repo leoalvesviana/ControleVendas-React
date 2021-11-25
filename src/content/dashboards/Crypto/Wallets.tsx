@@ -17,7 +17,29 @@ import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import StoreIcon from '@mui/icons-material/Store';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import api from 'src/service/api';
+import React, { useEffect, useState } from 'react';
 
+
+interface Cliente {
+  codigo: number;
+  nome: string;
+  tratameno: string;
+  data: Date;
+  telefone1: string;
+  telefone2?: string;
+  email1: string;
+  email2?: string;
+  observacoes: string;
+  foto?: string;
+  status: string;
+}
+
+interface Produto {
+  codigo: number;
+  descricao: string;
+  valor: number;
+}
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -62,6 +84,25 @@ const CardAddAction = styled(Card)(
 
 function Wallets() {
 
+  const [clienteList, setClienteList] = useState<Cliente[]>([]);
+  const [ProdutoList, setProdutoList] = useState<Produto[]>([]);
+
+
+  useEffect(() => {
+    api.get('/Clientes/GetClientes').then(response => {
+      setClienteList(response.data);
+      console.log(response);
+    });
+  }, []);
+
+
+  useEffect(() => {
+    api.get('/Itens/GetItens').then(response => {
+      setProdutoList(response.data);
+      console.log(response);
+    });
+  }, []);
+
   return (
     <>
       <Box
@@ -86,17 +127,9 @@ function Wallets() {
               <Typography variant="h5" noWrap>
                 Clientes
               </Typography>
-              <Typography variant="subtitle1" noWrap>
-
+              <Typography variant="h5" noWrap>
+                {clienteList.length}
               </Typography>
-              <Box sx={{ pt: 3 }}>
-                <Typography variant="h3" gutterBottom noWrap>
-
-                </Typography>
-                <Typography variant="subtitle2" noWrap>
-
-                </Typography>
-              </Box>
             </CardContent>
           </Card>
         </Grid>
@@ -107,17 +140,9 @@ function Wallets() {
               <Typography variant="h5" noWrap>
                 Produtos
               </Typography>
-              <Typography variant="subtitle1" noWrap>
-
+              <Typography variant="h5" noWrap>
+                {ProdutoList.length}
               </Typography>
-              <Box sx={{ pt: 3 }}>
-                <Typography variant="h3" gutterBottom noWrap>
-
-                </Typography>
-                <Typography variant="subtitle2" noWrap>
-
-                </Typography>
-              </Box>
             </CardContent>
           </Card>
         </Grid>
@@ -128,7 +153,7 @@ function Wallets() {
               <Typography variant="h5" noWrap>
                 Movimentações
               </Typography>
-              <Typography variant="subtitle1" noWrap>
+              <Typography variant="h5" noWrap>
 
               </Typography>
               <Box sx={{ pt: 3 }}>

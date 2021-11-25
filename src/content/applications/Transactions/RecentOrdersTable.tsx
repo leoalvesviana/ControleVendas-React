@@ -1,5 +1,5 @@
-import { FC, ChangeEvent, useState } from 'react';
-import React, { useEffect } from 'react';
+import { FC, ChangeEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from 'src/service/api';
 import { format } from 'date-fns';
 import numeral from 'numeral';
@@ -40,6 +40,20 @@ interface RecentOrdersTableProps {
 
 interface Filters {
   status?: CryptoOrderStatus;
+}
+
+interface Cliente {
+  codigo: number;
+  nome: string;
+  tratameno: string;
+  data: Date;
+  telefone1: string;
+  telefone2?: string;
+  email1: string;
+  email2?: string;
+  observacoes: string;
+  foto?: string;
+  status: string;
 }
 
 const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
@@ -178,8 +192,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const theme = useTheme();
 
 
+  const [clienteList, setClienteList] = useState<Cliente[]>([]);
+
   useEffect(() => {
     api.get('/Clientes/GetClientes').then(response => {
+      setClienteList(response.data);
       console.log(response);
     });
   }, []);
@@ -220,42 +237,20 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  checked={selectedAllCryptoOrders}
-                  indeterminate={selectedSomeCryptoOrders}
-                  onChange={handleSelectAllCryptoOrders}
-                />
-              </TableCell>
               <TableCell>Nome</TableCell>
               <TableCell>Tratamento</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell align="right">Ultimo Registro</TableCell>
+              <TableCell>Ultimo Registro</TableCell>
               <TableCell align="right">Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoOrders.map((cryptoOrder) => {
-              const isCryptoOrderSelected = selectedCryptoOrders.includes(
-                cryptoOrder.id
-              );
+            {clienteList.map((cliente) => {
               return (
                 <TableRow
                   hover
-                  key={cryptoOrder.id}
-                  selected={isCryptoOrderSelected}
+                  key={cliente.codigo}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isCryptoOrderSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoOrder(event, cryptoOrder.id)
-                      }
-                      value={isCryptoOrderSelected}
-                    />
-                  </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -264,10 +259,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderDetails}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(cryptoOrder.orderDate, 'MMMM dd yyyy')}
+                      {cliente.nome}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -278,7 +270,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderID}
+                      {cliente.tratameno}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -289,13 +281,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.sourceName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.sourceDesc}
+                      {cliente.status}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell>
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -303,17 +292,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.amountCrypto}
-                      {cryptoOrder.cryptoCurrency}
+                      {cliente.data}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(cryptoOrder.amount).format(
-                        `${cryptoOrder.currency}0,0.00`
-                      )}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.status)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
