@@ -1,7 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-
 import PageTitle from 'src/components/PageTitle';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
@@ -26,6 +25,8 @@ import { blue } from '@mui/material/colors';
 import Footer from 'src/components/Footer';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
+import api from 'src/service/api';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -46,43 +47,76 @@ function SimpleDialog(props) {
 
   const handleListItemCreate = (value) => {
     onClose(value);
-    return (
-      <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert variant="outlined" severity="success">
-          This is a success alert — check it out!
-        </Alert>
-      </Stack>
-    );
   };
 
+  const dateNow = () => {
+    const date = Date.now();
+    return (
+      date.toString()
+    );
+  }
+
+  async function handleSubmit() {
+    const { nome, tratameno, telefone1, email1, observacao } = formData;
+
+    const data = {
+      nome,
+      tratameno,
+      telefone1,
+      email1,
+      observacao,
+    };
+    await api.post('/Clientes/InserirCliente', data);
+  }
+
+  const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    console.log(event.target.name, event.target.value);
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  }
+
+  const [formData, setFormData] = useState({
+    nome: '',
+    tratameno: '',
+    telefone1: '',
+    email1: '',
+    observacao: '',
+  });
+
+
+
+
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog onClose={handleClose} open={open} >
 
       <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
       <DialogTitle>Cadastrar Cliente</DialogTitle>
-      <List sx={{ pt: 0 }}>
+      <List sx={{ pt: 0 }} >
         <ListItem>
           <TextField
             label="Nome Completo"
+            name="nome"
+            multiline
+            style={{ width: 415 }}
+            onChange={handleFieldChange}
           />&nbsp;
-          <TextField
-            name="dataCadastro"
-            label="Data de cadastro"
-            InputLabelProps={{ shrink: true, required: true }}
-            type="date"
-            defaultValue="Data de cadastro"
-          />
         </ListItem>
         <ListItem>
           <TextField
             label="Tratamento"
+            name="tratameno"
+            multiline
             style={{ width: 415 }}
+            onChange={handleFieldChange}
           />
         </ListItem>
         <ListItem>
           <TextField
             label="Telefone"
+            name="telefone1"
             style={{ width: 415 }}
+            multiline
+            onChange={handleFieldChange}
           />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
             <AddIcon sx={{ fontSize: 25 }} />
           </Fab>
@@ -90,7 +124,10 @@ function SimpleDialog(props) {
         <ListItem>
           <TextField
             label="Email"
+            name="email1"
             style={{ width: 415 }}
+            multiline
+            onChange={handleFieldChange}
           />&nbsp;<Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
             <AddIcon sx={{ fontSize: 25 }} />
           </Fab>
@@ -98,18 +135,23 @@ function SimpleDialog(props) {
         <ListItem>
           <TextField
             label="Observação"
+            name="observacao"
+            multiline
             style={{ width: 415, height: 80 }}
+            onChange={handleFieldChange}
           />
         </ListItem>
-
-        <ListItem autoFocus button onClick={() => handleListItemCreate('Create')}>
-          <ListItemAvatar>
-            <Avatar>
-              <CheckIcon color="primary" />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Cadastrar" />
+        <ListItem onClick={() => handleListItemCreate('Create')}>
+          <ListItem autoFocus button onClick={handleSubmit} >
+            <ListItemAvatar>
+              <Avatar>
+                <CheckIcon color="primary" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Cadastrar" />
+          </ListItem>
         </ListItem>
+
       </List>
     </Dialog>
   );
