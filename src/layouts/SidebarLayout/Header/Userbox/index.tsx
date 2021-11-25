@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-
+import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
 import {
@@ -133,10 +133,12 @@ function HeaderUserbox() {
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
-            <LockOpenTwoToneIcon sx={{ mr: 1 }} />
-            Sign out
-          </Button>
+          <Link to="/">
+            <Button color="primary" fullWidth>
+              <LockOpenTwoToneIcon sx={{ mr: 1 }} />
+              Sign out
+            </Button>
+          </Link>
         </Box>
       </Popover>
     </>

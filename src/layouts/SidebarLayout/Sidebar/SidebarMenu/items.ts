@@ -69,16 +69,6 @@ const menuItems: MenuItems[] = [
         link: '/seguranca/usuarios'
       }
     ]
-  },
-  {
-    heading: '',
-    items: [
-      {
-        name: 'Overview',
-        link: '/overview',
-        icon: ManageAccountsTwoToneIcon,
-      }
-    ]
   }
 ];
 

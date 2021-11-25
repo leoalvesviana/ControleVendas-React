@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import { PartialRouteObject } from 'react-router';
-
+import { Route, BrowserRouter } from 'react-router-dom';
 import SidebarLayout from 'src/layouts/SidebarLayout';
 import BaseLayout from 'src/layouts/BaseLayout';
 
