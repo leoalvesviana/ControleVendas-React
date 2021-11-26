@@ -7,6 +7,8 @@ import RecentOrders from './RecentOrders';
 import React, { useEffect } from 'react';
 import api from 'src/service/api';
 
+
+
 function ApplicationsTransactions() {
 
   return (
