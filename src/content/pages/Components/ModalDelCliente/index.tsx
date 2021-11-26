@@ -1,7 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-
+import api from 'src/service/api';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import {
+  IconButton,
+  useTheme
+} from '@mui/material';
+import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import PageTitle from 'src/components/PageTitle';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
@@ -55,6 +61,31 @@ function SimpleDialog(props) {
     );
   };
 
+
+  async function handleSubmit() {
+    const { codigo } = formData;
+
+    const data = {
+    };
+    await api.put('/Clientes/ExcluirClientes', data).then(response => {
+      if (response.status === 200) {
+        window.location.reload();
+      }
+    }).catch(error => {
+
+    });;
+  }
+
+  const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    console.log(event.target.name, event.target.value);
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  }
+
+  const [formData, setFormData] = useState({
+    codigo: 0,
+  });
+
   return (
     <Dialog onClose={handleClose} open={open}>
 
@@ -91,6 +122,7 @@ function ModalDelCliente() {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
+  const theme = useTheme();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -99,16 +131,23 @@ function ModalDelCliente() {
   const handleClose = (value) => {
     setOpen(false);
     setSelectedValue(value);
-    window.location.reload();
   };
 
 
   return (
     <>
       <Grid item>
-        <Button sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-          onClick={handleClickOpen}><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
+        <IconButton
+          sx={{
+            '&:hover': { background: theme.colors.error.lighter },
+            color: theme.palette.error.main
+          }}
+          color="inherit"
+          size="small"
+          onClick={handleClickOpen}
+        >
+          <DeleteTwoToneIcon fontSize="small" />
+        </IconButton>
         <SimpleDialog
           selectedValue={selectedValue}
           open={open}

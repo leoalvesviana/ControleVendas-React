@@ -2,6 +2,8 @@ import { FC, ChangeEvent } from 'react';
 import React, { useEffect, useState } from 'react';
 import api from 'src/service/api';
 import { format } from 'date-fns';
+import ModalEditCliente from 'src/content/pages/Components/ModalEditCliente';
+import ModalDelCliente from 'src/content/pages/Components/ModalDelCliente';
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
@@ -297,30 +299,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <EditTwoToneIcon fontSize="small" />
-                      </IconButton>
+                      <ModalEditCliente />
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <DeleteTwoToneIcon fontSize="small" />
-                      </IconButton>
+                      <ModalDelCliente />
                     </Tooltip>
                   </TableCell>
                 </TableRow>

@@ -1,6 +1,8 @@
 import { FC, ChangeEvent, useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import numeral from 'numeral';
+import ModalEditProduto from '../../pages/Components/ModalEditProduto'
+import ModalDelProduto from '../../pages/Components/ModalDelProduto'
 import PropTypes from 'prop-types';
 import {
   Tooltip,
@@ -31,6 +33,7 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 import api from '../../../service/api'
+import ModalEditCliente from 'src/content/pages/Components/ModalEditCliente';
 
 interface RecentOrdersTableProps {
   className?: string;
@@ -269,17 +272,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <EditTwoToneIcon fontSize="small" />
+                      <IconButton>
+                        <ModalEditCliente />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
