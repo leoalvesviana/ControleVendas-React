@@ -60,7 +60,7 @@ function SimpleDialog(props) {
   return (
     <Dialog onClose={handleClose} open={open}>
 
-      <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
+      <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
       <DialogTitle>Editar Produto</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem>

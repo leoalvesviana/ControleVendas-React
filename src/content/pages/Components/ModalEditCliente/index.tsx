@@ -102,7 +102,7 @@ function SimpleDialog(props) {
   return (
     <Dialog onClose={handleClose} open={open}>
 
-      <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
+      <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
       <DialogTitle>Editar Cliente</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem>
@@ -152,8 +152,8 @@ function SimpleDialog(props) {
                 <CheckIcon color="primary" />
               </Avatar>
             </ListItemAvatar>
+            <ListItemText primary="Confirmar" />
           </ListItem>
-          <ListItemText primary="Confirmar" />
         </ListItem>
       </List>
     </Dialog>
