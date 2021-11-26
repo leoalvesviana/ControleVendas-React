@@ -17,6 +17,7 @@ import Dialog from '@mui/material/Dialog';
 import AddIcon from '@mui/icons-material/Add';
 import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from 'src/service/api';
+import { Link } from 'react-router-dom';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -71,7 +72,7 @@ function SimpleDialog(props) {
 
 
   return (
-    <Dialog onClose={handleClose} open={open} >
+    <Dialog onClose={handleClose} open={open}>
 
       <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
       <DialogTitle>Cadastrar Cliente</DialogTitle>
@@ -125,17 +126,18 @@ function SimpleDialog(props) {
             onChange={handleFieldChange}
           />
         </ListItem>
-        <ListItem onClick={() => handleListItemCreate('Create')}>
-          <ListItem autoFocus button onClick={handleSubmit} >
-            <ListItemAvatar>
-              <Avatar>
-                <CheckIcon color="primary" />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Cadastrar" />
+        <Link to="/tarefas/clientes">
+          <ListItem onClick={() => handleListItemCreate('Create')}>
+            <ListItem autoFocus button onClick={handleSubmit} >
+              <ListItemAvatar>
+                <Avatar>
+                  <CheckIcon color="primary" />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Cadastrar" />
+            </ListItem>
           </ListItem>
-        </ListItem>
-
+        </Link>
       </List>
     </Dialog>
   );
@@ -159,6 +161,7 @@ function Modals() {
   const handleClose = (value) => {
     setOpen(false);
     setSelectedValue(value);
+    window.location.reload();
   };
 
 

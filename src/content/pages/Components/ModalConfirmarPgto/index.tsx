@@ -104,6 +104,7 @@ function ModalDelProduto() {
   const handleClose = (value) => {
     setOpen(false);
     setSelectedValue(value);
+    window.location.reload();
   };
 
 

@@ -119,6 +119,7 @@ function ModalProduto() {
 
   const handleClose = (value) => {
     setOpen(false);
+    window.location.reload();
   };
 
 
