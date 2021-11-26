@@ -32,8 +32,7 @@ import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
-import api from '../../../service/api'
-import ModalEditCliente from 'src/content/pages/Components/ModalEditCliente';
+import api from '../../../service/api';
 
 interface RecentOrdersTableProps {
   className?: string;
@@ -272,21 +271,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
-                      <IconButton>
-                        <ModalEditCliente />
-                      </IconButton>
+                      <ModalEditProduto />
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <DeleteTwoToneIcon fontSize="small" />
-                      </IconButton>
+                      <ModalDelProduto />
                     </Tooltip>
                   </TableCell>
                 </TableRow>
