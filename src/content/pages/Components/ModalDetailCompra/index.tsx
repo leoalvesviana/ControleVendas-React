@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import PageTitle from 'src/components/PageTitle';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import AlertTitle from '@mui/material/AlertTitle';
-import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Container, Grid, Card, CardHeader, CardContent, Divider, Table, TableHead, TableRow, TableCell, TableBody, TableFooter } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Fab from '@mui/material/Fab';
@@ -45,63 +45,56 @@ function SimpleDialog(props) {
     onClose(value);
   };
 
-  const handleListItemDelete = (value) => {
-    api.delete(`/Movimento/ExcluirMovimento/${value}`)
-        .then(response => {
-
-      if (response.status === 200) {
-
-        window.location.reload();
-
-      }
-
-    }).catch(error => {
-
-
-
-    });
-    
-    
+  const handleListItemCreate = (value) => {
+    onClose(value);
+    return (
+      <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert variant="outlined" severity="success">
+          This is a success alert — check it out!
+        </Alert>
+      </Stack>
+    );
   };
 
   return (
     <Dialog onClose={handleClose} open={open}>
 
       <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
-      <DialogTitle>Deletar Movimentação</DialogTitle>
+      <DialogTitle>Detalhar Compra</DialogTitle>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Codigo</TableCell>
+            <TableCell>Descrição</TableCell>
+            <TableCell>Valor</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {selectedValue.produtos.map((produto,i) => (
+            <TableRow
+              key={produto.codigo}
+            >
+              <TableCell>{produto.codigo}</TableCell>
+              <TableCell>{produto.descricao}</TableCell>
+              <TableCell>{produto.valor}</TableCell>
+            </TableRow>       
+          ))}
+       </TableBody>
+       <TableFooter>
+       <TableRow>
+            <TableCell>Total Itens:  {selectedValue.totalItens}</TableCell>
+            <TableCell>Valor Total:  {selectedValue.valorTotal}</TableCell>
+          </TableRow>   
+       </TableFooter>
+      </Table>
       <List sx={{ pt: 0 }}>
-        <ListItem>
-          <TextField
-            disabled
-            label="Nome"
-            style={{ width: 415 }}
-            value={selectedValue.cliente.nome}
-          />
-        </ListItem>
-        <ListItem>
-          <TextField
-          disabled
-            label="Status"
-            style={{ width: 415 }}
-            value={selectedValue.compra.status}
-          />
-        </ListItem>
-        <ListItem>
-          <TextField 
-            disabled 
-            label="N° da compra"
-            style={{ width: 415 }}
-            value={selectedValue.compra.numCompra}
-          />  
-        </ListItem>
-
-        <ListItem autoFocus button onClick={() => handleListItemDelete(selectedValue.compra.numCompra)}>
+        <ListItem autoFocus button onClick={() => handleListItemCreate('Create')}>
           <ListItemAvatar>
             <Avatar>
               <CheckIcon color="primary" />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Deletar" />
+          <ListItemText primary="Ok" />
         </ListItem>
       </List>
     </Dialog>
@@ -118,14 +111,19 @@ interface ModalProps {
   Numcompra: number;
 }
 
-function ModalDelMovi<ModalProps>({NumCompra}) {
+function ModalDetailCompra<ModalProps>({Numcompra}) {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
 
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
-      api.get(`/Movimento/GetCompra/${NumCompra}`)
+      api.get(`/Movimento/DetalhesCompra/${Numcompra}`)
         .then(response => {
           if (response && response.status === 200 && response.data) {
             console.log(response)
@@ -133,15 +131,8 @@ function ModalDelMovi<ModalProps>({NumCompra}) {
           }
         })
     }
+    const [movimento, setMovimento] = useState<any>();
 
-  const handleClose = (value) => {
-    setOpen(false);
-  };
-
-  const [movimento, setMovimento] = useState<any>();
-
-
-  
 
   return (
     <>
@@ -151,14 +142,14 @@ function ModalDelMovi<ModalProps>({NumCompra}) {
           onClick={handleClickOpen}><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
         {movimento &&
           <SimpleDialog
-          selectedValue={movimento}
-          open={open}
-          onClose={handleClose}
-        />
+            selectedValue={movimento}
+            open={open}
+            onClose={handleClose}
+          />
         }
       </Grid>
     </>
   );
 }
 
-export default ModalDelMovi;
+export default ModalDetailCompra;

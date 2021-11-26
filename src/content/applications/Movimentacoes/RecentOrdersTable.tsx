@@ -1,5 +1,6 @@
-import { FC, ChangeEvent, useState } from 'react';
+import { FC, ChangeEvent, useState, useEffect } from 'react';
 import { format } from 'date-fns';
+import api from 'src/service/api';
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
@@ -29,7 +30,13 @@ import Label from 'src/components/Label';
 import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import AttachMoneyTwoToneIcon from '@mui/icons-material/AttachMoneyTwoTone';
+import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone';
 import BulkActions from './BulkActions';
+import * as t from "../../../models/Types"
+import ModalDelMovi from "../../pages/Components/ModalDelMovi/index"
+import ModalDetailCompra from "../../pages/Components/ModalDetailCompra/index"
+
 
 interface RecentOrdersTableProps {
   className?: string;
@@ -175,6 +182,24 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     selectedCryptoOrders.length === cryptoOrders.length;
   const theme = useTheme();
 
+  const [movimentosList, setMovimentosList] = useState<t.MovimentacaoFinanceiraPage>();
+
+  useEffect(() => {
+    api.get('/Movimento/IndexMovimento')
+      .then(response => {
+        if (response && response.status === 200 && response.data) {
+          setMovimentosList(response.data);
+        }else{
+
+        }
+        console.log(response)
+      })
+      .catch(err => {
+        console.log("Error -> ", err)
+      });
+  }, [api]);
+
+
   return (
     <Card>
       {selectedBulkActions && (
@@ -211,14 +236,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  checked={selectedAllCryptoOrders}
-                  indeterminate={selectedSomeCryptoOrders}
-                  onChange={handleSelectAllCryptoOrders}
-                />
-              </TableCell>
               <TableCell>Nome</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Data_Compra</TableCell>
@@ -229,116 +246,130 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoOrders.map((cryptoOrder) => {
-              const isCryptoOrderSelected = selectedCryptoOrders.includes(
-                cryptoOrder.id
-              );
-              return (
+            {movimentosList && movimentosList.movimentacaoFinanceira !== undefined && movimentosList.movimentacaoFinanceira.length > 0 ?
+              movimentosList.movimentacaoFinanceira.map((movimento, i) => (
                 <TableRow
-                  hover
-                  key={cryptoOrder.id}
-                  selected={isCryptoOrderSelected}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isCryptoOrderSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoOrder(event, cryptoOrder.id)
-                      }
-                      value={isCryptoOrderSelected}
+                hover
+                key={movimento.compra.numCompra}
+              >
+                <TableCell>
+                  <Typography
+                    variant="body1"
+                    fontWeight="bold"
+                    color="text.primary"
+                    gutterBottom
+                    noWrap
+                  >
+                    {movimento.cliente.nome}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography
+                    variant="body1"
+                    fontWeight="bold"
+                    color="text.primary"
+                    gutterBottom
+                    noWrap
+                  >
+                    {movimento.compra.status}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography
+                    variant="body1"
+                    fontWeight="bold"
+                    color="text.primary"
+                    gutterBottom
+                    noWrap
+                  >
+                    {movimento.compra.dataCompra}
+                  </Typography>
+                </TableCell>
+                <TableCell align="right">
+                  <Typography
+                    variant="body1"
+                    fontWeight="bold"
+                    color="text.primary"
+                    gutterBottom
+                    noWrap
+                  >
+                    {movimento.compra.numCompra}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography
+                    variant="body1"
+                    fontWeight="bold"
+                    color="text.primary"
+                    gutterBottom
+                    noWrap
+                  >
+                    {movimento.compra.totalItens}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography
+                    variant="body1"
+                    fontWeight="bold"
+                    color="text.primary"
+                    gutterBottom
+                    noWrap
+                  >
+                    {movimento.compra.valor}
+                  </Typography>
+                </TableCell>
+                <TableCell align="right">
+                  {movimento.compra.status === "AGUARD PGTO" &&
+                    <Tooltip title="Confirmar Pagamento" arrow>
+                    <IconButton
+                      sx={{
+                        '&:hover': {
+                          background: theme.colors.success.lighter
+                        },
+                        color: theme.palette.success.main
+                      }}
+                      color="inherit"
+                      size="small"
+                    >
+                      <AttachMoneyTwoToneIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                  
+                  }
+                  <ModalDetailCompra 
+                     Numcompra={movimento.compra.numCompra}
                     />
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
+                  <Tooltip title="Detalhar compra" arrow>
+                    <IconButton
+                      sx={{
+                        '&:hover': { background: theme.colors.primary.lighter },
+                        color: theme.palette.primary.main
+                      }}
+                      color="inherit"
+                      size="small"
                     >
-                      {cryptoOrder.orderDetails}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(cryptoOrder.orderDate, 'MMMM dd yyyy')}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {cryptoOrder.orderID}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {cryptoOrder.sourceName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.sourceDesc}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {cryptoOrder.amountCrypto}
-                      {cryptoOrder.cryptoCurrency}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(cryptoOrder.amount).format(
-                        `${cryptoOrder.currency}0,0.00`
-                      )}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.status)}
-                  </TableCell>
-                  <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <EditTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <DeleteTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+
+
+                      <AssignmentTwoToneIcon fontSize="small" />
+                    </IconButton>
+                    
+                  </Tooltip>  
+                  
+                  <Tooltip title="Deletar compra" arrow>
+                    <ModalDelMovi 
+                     NumCompra={movimento.compra.numCompra}
+                    />
+
+                  </Tooltip>    
+                  
+
+                </TableCell>
+              </TableRow>
+              )
+          )
+          :
+          <p>Error</p>
+          }
           </TableBody>
         </Table>
       </TableContainer>
