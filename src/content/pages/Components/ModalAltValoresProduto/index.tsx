@@ -26,6 +26,8 @@ import { blue } from '@mui/material/colors';
 import Footer from 'src/components/Footer';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
+import api from 'src/service/api';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -46,14 +48,25 @@ function SimpleDialog(props) {
 
   const handleListItemCreate = (value) => {
     onClose(value);
-    return (
-      <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert variant="outlined" severity="success">
-          This is a success alert — check it out!
-        </Alert>
-      </Stack>
-    );
   };
+
+  async function handleSubmit() {
+    const data = {
+
+    };
+    await api.put('/Itens/AtualizarValores', data);
+  }
+
+  const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    console.log(event.target.value);
+    const value = event.target;
+    setFormData({ ...formData, value });
+  }
+
+  const [formData, setFormData] = useState({
+
+  });
+
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -64,18 +77,21 @@ function SimpleDialog(props) {
         <ListItem>
           <TextField
             label="Novo Valor"
+            name="valor"
             style={{ width: 415, height: 80 }}
+            onChange={handleFieldChange}
           />
         </ListItem>
 
-
-        <ListItem autoFocus button onClick={() => handleListItemCreate('Create')}>
-          <ListItemAvatar>
-            <Avatar>
-              <CheckIcon color="primary" />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Confirmar" />
+        <ListItem onClick={() => handleListItemCreate('Create')}>
+          <ListItem autoFocus button onClick={handleSubmit} >
+            <ListItemAvatar>
+              <Avatar>
+                <CheckIcon color="primary" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Confirmar" />
+          </ListItem>
         </ListItem>
       </List>
     </Dialog>

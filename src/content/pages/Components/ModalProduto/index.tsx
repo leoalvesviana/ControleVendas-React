@@ -1,14 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-
+import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import PageTitle from 'src/components/PageTitle';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import AlertTitle from '@mui/material/AlertTitle';
 import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -19,13 +18,8 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
-import Footer from 'src/components/Footer';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+
+import api from 'src/service/api';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -46,14 +40,29 @@ function SimpleDialog(props) {
 
   const handleListItemCreate = (value) => {
     onClose(value);
-    return (
-      <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert variant="outlined" severity="success">
-          This is a success alert — check it out!
-        </Alert>
-      </Stack>
-    );
   };
+
+  async function handleSubmit() {
+    const { descricao, valor } = formData;
+
+    const data = {
+      descricao,
+      valor,
+    };
+    await api.post('/Itens/InserirItem', data);
+  }
+
+  const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    console.log(event.target.name, event.target.value);
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  }
+
+  const [formData, setFormData] = useState({
+    descricao: '',
+    valor: 0,
+  });
+
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -64,23 +73,30 @@ function SimpleDialog(props) {
         <ListItem>
           <TextField
             label="Descrição"
+            name="descricao"
             style={{ width: 415 }}
+            multiline
+            onChange={handleFieldChange}
           />
         </ListItem>
         <ListItem>
           <TextField
             label="Valor"
+            name="valor"
             style={{ width: 415, height: 80 }}
+            multiline
+            onChange={handleFieldChange}
           />
         </ListItem>
-
-        <ListItem autoFocus button onClick={() => handleListItemCreate('Create')}>
-          <ListItemAvatar>
-            <Avatar>
-              <CheckIcon color="primary" />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Cadastrar" />
+        <ListItem onClick={() => handleListItemCreate('Create')}>
+          <ListItem autoFocus button onClick={handleSubmit}>
+            <ListItemAvatar>
+              <Avatar>
+                <CheckIcon color="primary" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Cadastrar" />
+          </ListItem>
         </ListItem>
       </List>
     </Dialog>
@@ -96,7 +112,6 @@ SimpleDialog.propTypes = {
 function ModalProduto() {
 
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(emails[1]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -104,7 +119,6 @@ function ModalProduto() {
 
   const handleClose = (value) => {
     setOpen(false);
-    setSelectedValue(value);
   };
 
 
@@ -115,7 +129,6 @@ function ModalProduto() {
           variant="contained"
           onClick={handleClickOpen}><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
         <SimpleDialog
-          selectedValue={selectedValue}
           open={open}
           onClose={handleClose}
         />

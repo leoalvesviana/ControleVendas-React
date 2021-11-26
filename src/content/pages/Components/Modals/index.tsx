@@ -1,13 +1,9 @@
-import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import PageTitle from 'src/components/PageTitle';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import AlertTitle from '@mui/material/AlertTitle';
 import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -18,13 +14,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
-import Footer from 'src/components/Footer';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from 'src/service/api';
 
@@ -49,12 +39,6 @@ function SimpleDialog(props) {
     onClose(value);
   };
 
-  const dateNow = () => {
-    const date = Date.now();
-    return (
-      date.toString()
-    );
-  }
 
   async function handleSubmit() {
     const { nome, tratameno, telefone1, email1, observacao } = formData;
@@ -99,7 +83,7 @@ function SimpleDialog(props) {
             multiline
             style={{ width: 415 }}
             onChange={handleFieldChange}
-          />&nbsp;
+          />
         </ListItem>
         <ListItem>
           <TextField
