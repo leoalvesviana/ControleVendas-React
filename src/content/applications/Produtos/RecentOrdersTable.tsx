@@ -189,14 +189,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   useEffect(() => {
 
     api.get('/Itens/GetItens').then(response => {
-
       setProdutoList(response.data);
-
       console.log(response);
 
     });
 
   }, []);
+
 
   return (
     <Card>

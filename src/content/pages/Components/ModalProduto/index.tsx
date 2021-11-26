@@ -42,26 +42,36 @@ function SimpleDialog(props) {
     onClose(value);
   };
 
+  const [formData, setFormData] = useState({
+    descricao: '',
+    valor: 0,
+  });
+
   async function handleSubmit() {
     const { descricao, valor } = formData;
 
     const data = {
       descricao,
-      valor,
+      valor
     };
-    await api.post('/Itens/InserirItem', data);
+    await api.post('/Itens/InserirItem', {
+      descricao: data.descricao,
+      valor: Number(valor)
+    }).then(response => {
+      if (response.status === 200) {
+        window.location.reload();
+      }
+    }).catch(error => {
+
+    });
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     console.log(event.target.name, event.target.value);
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+    console.log(formData);
   }
-
-  const [formData, setFormData] = useState({
-    descricao: '',
-    valor: 0,
-  });
 
 
   return (
@@ -81,10 +91,10 @@ function SimpleDialog(props) {
         </ListItem>
         <ListItem>
           <TextField
+            type="number"
             label="Valor"
             name="valor"
             style={{ width: 415, height: 80 }}
-            multiline
             onChange={handleFieldChange}
           />
         </ListItem>
@@ -119,7 +129,7 @@ function ModalProduto() {
 
   const handleClose = (value) => {
     setOpen(false);
-    window.location.reload();
+
   };
 
 

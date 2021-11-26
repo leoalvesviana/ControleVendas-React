@@ -51,7 +51,13 @@ function SimpleDialog(props) {
       email1,
       observacao,
     };
-    await api.post('/Clientes/InserirCliente', data);
+    await api.post('/Clientes/InserirCliente', data).then(response => {
+      if (response.status === 200) {
+        window.location.reload();
+      }
+    }).catch(error => {
+
+    });;
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -161,7 +167,6 @@ function Modals() {
   const handleClose = (value) => {
     setOpen(false);
     setSelectedValue(value);
-    window.location.reload();
   };
 
 
