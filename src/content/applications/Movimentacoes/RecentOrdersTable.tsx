@@ -36,6 +36,8 @@ import BulkActions from './BulkActions';
 import * as t from "../../../models/Types"
 import ModalDelMovi from "../../pages/Components/ModalDelMovi/index"
 import ModalDetailCompra from "../../pages/Components/ModalDetailCompra/index"
+import ModalConfirmarPgto from "../../pages/Components/ModalConfirmarPgto/index"
+
 
 
 interface RecentOrdersTableProps {
@@ -320,20 +322,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                 </TableCell>
                 <TableCell align="right">
                   {movimento.compra.status === "AGUARD PGTO" &&
-                    <Tooltip title="Confirmar Pagamento" arrow>
-                    <IconButton
-                      sx={{
-                        '&:hover': {
-                          background: theme.colors.success.lighter
-                        },
-                        color: theme.palette.success.main
-                      }}
-                      color="inherit"
-                      size="small"
-                    >
-                      <AttachMoneyTwoToneIcon fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
+                   
+                   <ModalConfirmarPgto
+                   NumCompra={movimento.compra.numCompra}
+                 />
                   
                   }
                   <ModalDetailCompra 
