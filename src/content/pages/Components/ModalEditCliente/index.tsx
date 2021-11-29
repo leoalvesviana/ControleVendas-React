@@ -66,16 +66,19 @@ function SimpleDialog(props) {
 
 
   async function handleSubmit() {
-    const { nome, tratameno, telefone1, email1, observacao } = formData;
+    const { codigo, nome, tratameno, data, telefone1, email1, observacao, status } = formData;
 
-    const data = {
+    const dados = {
+      codigo,
       nome,
       tratameno,
+      data,
       telefone1,
       email1,
       observacao,
+      status
     };
-    await api.put('/Clientes/AtualizarCliente', data).then(response => {
+    await api.put('/Clientes/AtualizarCliente', dados).then(response => {
       if (response.status === 200) {
         window.location.reload();
       }
@@ -84,20 +87,22 @@ function SimpleDialog(props) {
     });;
   }
 
+  const [formData, setFormData] = useState({
+    codigo: selectedValue.codigo,
+    nome: selectedValue.nome,
+    tratameno: selectedValue.tratameno,
+    data: selectedValue.data,
+    telefone1: selectedValue.telefone1,
+    email1: selectedValue.email1,
+    observacao: selectedValue.observacao,
+    status: selectedValue.status,
+  });
+
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     console.log(event.target.name, event.target.value);
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   }
-
-  const [formData, setFormData] = useState({
-    nome: '',
-    tratameno: '',
-    telefone1: '',
-    email1: '',
-    observacao: '',
-  });
-
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -109,7 +114,9 @@ function SimpleDialog(props) {
           <TextField
             label="Nome Completo"
             name="nome"
-            style={{ width: 415 }}
+            style={{ width: 415 }}  
+            value={formData.nome}   
+            onChange={handleFieldChange}
           />&nbsp;
         </ListItem>
         <ListItem>
@@ -117,13 +124,17 @@ function SimpleDialog(props) {
             label="Tratamento"
             name="tratameno"
             style={{ width: 415 }}
-          />
+            value={formData.tratameno}
+            onChange={handleFieldChange}
+          />  
         </ListItem>
         <ListItem>
           <TextField
             label="Telefone"
             name="telefone1"
             style={{ width: 415 }}
+            value={formData.telefone1}
+            onChange={handleFieldChange}
           />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
             <AddIcon sx={{ fontSize: 25 }} />
           </Fab>
@@ -133,6 +144,8 @@ function SimpleDialog(props) {
             label="Email"
             name="email1"
             style={{ width: 415 }}
+            onChange={handleFieldChange}
+            value={formData.email1}
           />&nbsp;<Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
             <AddIcon sx={{ fontSize: 25 }} />
           </Fab>
@@ -142,11 +155,12 @@ function SimpleDialog(props) {
             label="Observação"
             name="observacao"
             style={{ width: 415, height: 80 }}
+            onChange={handleFieldChange}
+            value={formData.observacao}
           />
         </ListItem>
 
-        <ListItem autoFocus button onClick={() => handleListItemCreate('Create')}>
-          <ListItem autoFocus button onClick={handleSubmit} >
+        <ListItem autoFocus button onClick={handleSubmit} >
             <ListItemAvatar>
               <Avatar>
                 <CheckIcon color="primary" />
@@ -154,7 +168,6 @@ function SimpleDialog(props) {
             </ListItemAvatar>
             <ListItemText primary="Confirmar" />
           </ListItem>
-        </ListItem>
       </List>
     </Dialog>
   );
@@ -166,14 +179,25 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-function ModalEditCliente() {
+interface modalProps {
+  codigo: number;
+}
+
+function ModalEditCliente<modalProps>({codigo}) {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
   const theme = useTheme();
+  const [cliente, setCliente] = useState<any>();
 
   const handleClickOpen = () => {
-    setOpen(true);
+    api.get(`/Clientes/GetCliente/${codigo}`)
+      .then(response => {
+        if (response && response.status === 200 && response.data) {
+          setCliente(response.data);
+          setOpen(true);
+        }
+      })
   };
 
   const handleClose = (value) => {
@@ -198,11 +222,13 @@ function ModalEditCliente() {
         >
           <EditTwoToneIcon fontSize="small" />
         </IconButton>
+        {cliente &&
         <SimpleDialog
-          selectedValue={selectedValue}
+          selectedValue={cliente}
           open={open}
           onClose={handleClose}
-        />
+          />
+      }
       </Grid>
     </>
   );
