@@ -1,38 +1,20 @@
-import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import PageTitle from 'src/components/PageTitle';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import AlertTitle from '@mui/material/AlertTitle';
-import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import Fab from '@mui/material/Fab';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
-import Footer from 'src/components/Footer';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 import { IconButton, useTheme } from '@mui/material';
-
-const emails = ['username@gmail.com', 'user02@gmail.com'];
-
-function BasicAlerts() {
-
-}
+import api from 'src/service/api';
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -45,15 +27,14 @@ function SimpleDialog(props) {
     onClose(value);
   };
 
-  const handleListItemCreate = (value) => {
-    onClose(value);
-    return (
-      <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert variant="outlined" severity="success">
-          This is a success alert — check it out!
-        </Alert>
-      </Stack>
-    );
+  const handleListItemDelete = (value) => {
+    api.delete(`/Itens/ExcluirItem/${value}`)
+      .then(response => {
+        if (response.status === 200) {
+          window.location.reload();
+        }
+      }).catch(error => {
+      });
   };
 
   return (
@@ -64,12 +45,14 @@ function SimpleDialog(props) {
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
+            disabled
             label="Descrição"
             style={{ width: 415, marginBottom: 25 }}
+            value={selectedValue.descricao}
           />
         </ListItem>
 
-        <ListItem autoFocus button onClick={() => handleListItemCreate('Create')}>
+        <ListItem autoFocus button onClick={() => handleListItemDelete(selectedValue.codigo)}>
           <ListItemAvatar>
             <Avatar>
               <CheckIcon color="primary" />
@@ -88,21 +71,31 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-function ModalDelProduto() {
+interface ModalProps {
+  Codigo: number;
+}
+
+function ModalDelProduto<ModalProps>({ Codigo }) {
 
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(emails[1]);
+  const [selectedValue, setSelectedValue] = useState();
   const theme = useTheme();
 
   const handleClickOpen = () => {
     setOpen(true);
-  };
-
+    api.get(`/Itens/GetItem/${Codigo}`)
+      .then(response => {
+        if (response && response.status === 200 && response.data) {
+          console.log(response)
+          setItem(response.data);
+        }
+      })
+  }
   const handleClose = (value) => {
     setOpen(false);
-    setSelectedValue(value);
   };
 
+  const [item, setItem] = useState<any>();
 
   return (
     <>
@@ -118,11 +111,13 @@ function ModalDelProduto() {
         >
           <DeleteTwoToneIcon fontSize="small" />
         </IconButton>
-        <SimpleDialog
-          selectedValue={selectedValue}
-          open={open}
-          onClose={handleClose}
-        />
+        {item &&
+          <SimpleDialog
+            selectedValue={item}
+            open={open}
+            onClose={handleClose}
+          />
+        }
       </Grid>
     </>
   );

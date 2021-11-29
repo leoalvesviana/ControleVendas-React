@@ -1,39 +1,21 @@
-import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import api from 'src/service/api';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import {
-  IconButton,
-  useTheme
-} from '@mui/material';
-import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
-import PageTitle from 'src/components/PageTitle';
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import { IconButton, useTheme } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import AlertTitle from '@mui/material/AlertTitle';
-import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import Fab from '@mui/material/Fab';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
-import Footer from 'src/components/Footer';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 function BasicAlerts() {
 
@@ -52,39 +34,28 @@ function SimpleDialog(props) {
 
   const handleListItemCreate = (value) => {
     onClose(value);
-    return (
-      <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert variant="outlined" severity="success">
-          This is a success alert — check it out!
-        </Alert>
-      </Stack>
-    );
   };
 
 
-  async function handleSubmit() {
-    const { codigo } = formData;
+  const handleListItemDelete = (value) => {
+    api.delete(`/Clientes/ExcluirCliente/${value}`)
+      .then(response => {
+        if (response.status === 200) {
+          window.location.reload();
+        }
+      }).catch(error => {
+      });
+  };
 
-    const data = {
-    };
-    await api.put('/Clientes/ExcluirClientes', data).then(response => {
-      if (response.status === 200) {
-        window.location.reload();
-      }
-    }).catch(error => {
+  // const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  //   console.log(event.target.name, event.target.value);
+  //   const { name, value } = event.target;
+  //   setFormData({ ...formData, [name]: value });
+  // }
 
-    });;
-  }
-
-  const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.target.name, event.target.value);
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  }
-
-  const [formData, setFormData] = useState({
-    codigo: 0,
-  });
+  // const [formData, setFormData] = useState({
+  //   codigo: 0,
+  // });
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -94,13 +65,14 @@ function SimpleDialog(props) {
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
+            disabled
             label="Nome Completo"
             style={{ marginBottom: 25 }}
+            value={selectedValue.nome}
           />
         </ListItem>
 
-
-        <ListItem sx={{ pt: 1 }} autoFocus button onClick={() => handleListItemCreate('Create')}>
+        <ListItem autoFocus button onClick={() => handleListItemDelete(selectedValue.codigo)}>
           <ListItemAvatar>
             <Avatar>
               <CheckIcon color="primary" />
@@ -119,20 +91,31 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-function ModalDelCliente() {
+interface ModalProps {
+  Codigo: number;
+}
+
+function ModalDelCliente<ModalProps>({ codigo }) {
 
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(emails[1]);
+  const [selectedValue, setSelectedValue] = useState();
   const theme = useTheme();
 
   const handleClickOpen = () => {
     setOpen(true);
-  };
-
+    api.get(`/Clientes/GetCliente/${codigo}`)
+      .then(response => {
+        if (response && response.status === 200 && response.data) {
+          console.log(response)
+          setCliente(response.data);
+        }
+      })
+  }
   const handleClose = (value) => {
     setOpen(false);
-    setSelectedValue(value);
   };
+
+  const [cliente, setCliente] = useState<any>();
 
 
   return (
@@ -149,11 +132,13 @@ function ModalDelCliente() {
         >
           <DeleteTwoToneIcon fontSize="small" />
         </IconButton>
-        <SimpleDialog
-          selectedValue={selectedValue}
-          open={open}
-          onClose={handleClose}
-        />
+        {cliente &&
+          <SimpleDialog
+            selectedValue={cliente}
+            open={open}
+            onClose={handleClose}
+          />
+        }
       </Grid>
     </>
   );

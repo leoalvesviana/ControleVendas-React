@@ -84,54 +84,51 @@ function SimpleDialog(props) {
       <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
       <DialogTitle>Editar Cliente</DialogTitle>
       <List sx={{ pt: 0 }}>
-        {selectedValue.clientes.map((cliente) => {
-          return (
-            <><ListItem>
-              <TextField
-                label="Nome Completo"
-                disabled
-                style={{ width: 415 }}
-                value={cliente.nome} />
-            </ListItem><ListItem>
-                <TextField
-                  label="Tratamento"
-                  disabled
-                  style={{ width: 415 }}
-                  value={cliente.tratameno} />
-              </ListItem><ListItem>
-                <TextField
-                  label="Telefone"
-                  disabled
-                  style={{ width: 415 }}
-                  value={cliente.telefone1} />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-                  <AddIcon sx={{ fontSize: 25 }} />
-                </Fab>
-              </ListItem><ListItem>
-                <TextField
-                  label="Email"
-                  disabled
-                  style={{ width: 415 }}
-                  value={cliente.email1} />&nbsp;<Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-                  <AddIcon sx={{ fontSize: 25 }} />
-                </Fab>
-              </ListItem><ListItem>
-                <TextField
-                  label="Observação"
-                  disabled
-                  style={{ width: 415, height: 80 }}
-                  value={cliente.observacao} />
-              </ListItem><ListItem autoFocus button onClick={() => handleListEdit(selectedValue.cliente.codigo)}>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <CheckIcon color="primary" />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary="Confirmar" />
-                </ListItem>
-              </ListItem></>
-          );
-        })}
+        return (
+        <><ListItem>
+          <TextField
+            label="Nome Completo"
+            disabled
+            style={{ width: 415 }}
+          />
+        </ListItem><ListItem>
+            <TextField
+              label="Tratamento"
+              disabled
+              style={{ width: 415 }}
+            />
+          </ListItem><ListItem>
+            <TextField
+              label="Telefone"
+              disabled
+              style={{ width: 415 }}
+            />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
+              <AddIcon sx={{ fontSize: 25 }} />
+            </Fab>
+          </ListItem><ListItem>
+            <TextField
+              label="Email"
+              disabled
+              style={{ width: 415 }}
+            />&nbsp;<Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
+              <AddIcon sx={{ fontSize: 25 }} />
+            </Fab>
+          </ListItem><ListItem>
+            <TextField
+              label="Observação"
+              disabled
+              style={{ width: 415, height: 80 }}
+            />
+          </ListItem><ListItem autoFocus button onClick={() => handleListEdit('')}>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <CheckIcon color="primary" />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Confirmar" />
+            </ListItem>
+          </ListItem></>
       </List>
     </Dialog>
   );

@@ -37,20 +37,11 @@ function SimpleDialog(props) {
   const handleListItemDelete = (value) => {
     api.delete(`/Movimento/ExcluirMovimento/${value}`)
       .then(response => {
-
         if (response.status === 200) {
-
           window.location.reload();
-
         }
-
       }).catch(error => {
-
-
-
       });
-
-
   };
 
   return (

@@ -13,12 +13,11 @@ import {
 import { styled } from '@mui/material/styles';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
-import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import StoreIcon from '@mui/icons-material/Store';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import api from 'src/service/api';
 import React, { useEffect, useState } from 'react';
+import { MovimentacaoFinanceira } from 'src/models/Types';
 
 
 interface Cliente {
@@ -86,7 +85,7 @@ function Wallets() {
 
   const [clienteList, setClienteList] = useState<Cliente[]>([]);
   const [ProdutoList, setProdutoList] = useState<Produto[]>([]);
-
+  const [MoviList, setMoviList] = useState<MovimentacaoFinanceira[]>([]);
 
   useEffect(() => {
     api.get('/Clientes/GetClientes').then(response => {
@@ -103,24 +102,26 @@ function Wallets() {
     });
   }, []);
 
+  useEffect(() => {
+    api.get('/Movimento/GetMovimento').then(response => {
+      setMoviList(response.data);
+      console.log(response);
+    });
+  }, []);
+
+
   return (
     <>
-      <Box
+      {/* <Box
         display="flex"
         alignItems="center"
         justifyContent="space-between"
         sx={{ pb: 3 }}
       >
         <Typography variant="h3">Início</Typography>
-        <Button
-          size="small"
-          variant="outlined"
-          startIcon={<AddTwoToneIcon fontSize="small" />}
-        >
-        </Button>
-      </Box>
+      </Box> */}
       <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={3} item>
+        <Grid xs={12} sm={8} md={4} item>
           <Card sx={{ px: 1 }}>
             <CardContent>
               <SupervisedUserCircleIcon sx={{ fontSize: 50 }} color="primary" />
@@ -128,37 +129,11 @@ function Wallets() {
                 Clientes
               </Typography>
               <Typography variant="h5" noWrap>
-                {clienteList.length}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card sx={{ px: 1 }}>
-            <CardContent>
-              <StoreIcon sx={{ fontSize: 50 }} color="secondary" />
-              <Typography variant="h5" noWrap>
-                Produtos
-              </Typography>
-              <Typography variant="h5" noWrap>
-                {ProdutoList.length}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card sx={{ px: 1 }}>
-            <CardContent>
-              <CompareArrowsIcon sx={{ fontSize: 50 }} color="success" />
-              <Typography variant="h5" noWrap>
-                Movimentações
-              </Typography>
-              <Typography variant="h5" noWrap>
 
               </Typography>
               <Box sx={{ pt: 3 }}>
                 <Typography variant="h3" gutterBottom noWrap>
-
+                  {clienteList.length}
                 </Typography>
                 <Typography variant="subtitle2" noWrap>
 
@@ -167,7 +142,48 @@ function Wallets() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid xs={12} sm={6} md={3} item>
+        <Grid xs={12} sm={6} md={4} item>
+          <Card sx={{ px: 1 }}>
+            <CardContent>
+              <StoreIcon sx={{ fontSize: 50 }} color="secondary" />
+              <Typography variant="h5" noWrap>
+                Produtos
+              </Typography>
+              <Typography variant="h5" noWrap>
+
+              </Typography>
+              <Box sx={{ pt: 3 }}>
+                <Typography variant="h3" gutterBottom noWrap>
+                  {ProdutoList.length}
+                </Typography>
+                <Typography variant="subtitle2" noWrap>
+
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid xs={12} sm={6} md={4} item>
+          <Card sx={{ px: 1 }}>
+            <CardContent>
+              <CompareArrowsIcon sx={{ fontSize: 50 }} color="success" />
+              <Typography variant="h5" noWrap>
+                Movimentações
+              </Typography>
+              <Typography variant="h5" noWrap>
+              </Typography>
+              <Box sx={{ pt: 3 }}>
+                <Typography variant="h3" gutterBottom noWrap>
+                  {MoviList.length}
+                </Typography>
+                <Typography variant="subtitle2" noWrap>
+
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid xs={12} sm={6} md={4} item>
           <Tooltip arrow title="Click to add a new wallet">
             <CardAddAction>
               <CardActionArea sx={{ px: 1 }}>
