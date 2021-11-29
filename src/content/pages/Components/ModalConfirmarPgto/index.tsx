@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useTheme, IconButton } from '@mui/material';
+import { useTheme, IconButton, Checkbox } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -16,6 +16,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import api from 'src/service/api';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -33,17 +34,45 @@ function SimpleDialog(props) {
   const handleListItemClick = (value) => {
     onClose(value);
   };
+  const [checkbox, setCheckbox] = useState(false);
 
   const handleListItemCreate = (value) => {
-    onClose(value);
-    return (
-      <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert variant="outlined" severity="success">
-          This is a success alert — check it out!
-        </Alert>
-      </Stack>
-    );
+    if(checkbox === true){
+      var data = new Date;
+      let day = data.getDate();
+      let month = data.getMonth();
+      let year = data.getFullYear();
+      let dataParam = `${year}-${month+1}-${day}`;
+      console.log(dataParam)
+      api.get(`/Movimento/ConfirmarPagamento/${value}`,{
+        params: {
+          Data: dataParam
+        }
+      })
+        .then(response => {
+
+      if (response.status === 200) {
+
+        window.location.reload();
+
+      }
+    })
+  }else{
+      api.get(`/Movimento/ConfirmarPagamento/${value}`)
+      .then(response => {
+
+      if (response.status === 200) {
+
+        window.location.reload();
+
+      }
+    })
+  }
   };
+
+  const handleCheckboxChange = () => {
+    setCheckbox(!checkbox)
+  }
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -53,17 +82,24 @@ function SimpleDialog(props) {
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
-            name="novaData"
-            label="Nova Data"
-            InputLabelProps={{ shrink: true, required: true }}
-            type="date"
-            defaultValue="Nova Data"
-            style={{ width: 415 }}
+          disabled 
+          label="N° da compra"
+          style={{ width: 415 }}
+          value={selectedValue}
           />
+        </ListItem>
+        <ListItem>
+        <Checkbox
+            aria-label="Deseja alterar a data de compra para hoje?"
+            color="primary"
+            checked={checkbox}
+            onClick={handleCheckboxChange}
+            title="Alterar para data de hoje?"
+        />
         </ListItem>
 
 
-        <ListItem autoFocus button onClick={() => handleListItemCreate('Create')}>
+        <ListItem autoFocus button onClick={() => handleListItemCreate(selectedValue)}>
           <ListItemAvatar>
             <Avatar>
               <CheckIcon color="primary" />
@@ -82,7 +118,11 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-function ModalDelProduto() {
+interface ModalProps {
+  Numcompra: number;
+}
+
+function ModalConfirmarPgto<ModalProps>({NumCompra}) {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
@@ -116,7 +156,7 @@ function ModalDelProduto() {
           <AttachMoneyTwoToneIcon fontSize="small" />
         </IconButton>
         <SimpleDialog
-          selectedValue={selectedValue}
+          selectedValue={NumCompra}
           open={open}
           onClose={handleClose}
         />
@@ -125,4 +165,4 @@ function ModalDelProduto() {
   );
 }
 
-export default ModalDelProduto;
+export default ModalConfirmarPgto;

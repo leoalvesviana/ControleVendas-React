@@ -20,6 +20,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import AddIcon from '@mui/icons-material/Add';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -32,8 +33,20 @@ function SimpleDialog(props) {
   };
 
 
-  async function handleListEdit(value) {
-    await api.put('/Clientes/AtualizarCliente').then(response => {
+  async function handleSubmit() {
+    const { codigo, nome, tratameno, data, telefone1, email1, observacao, status } = formData;
+
+    const dados = {
+      codigo,
+      nome,
+      tratameno,
+      data,
+      telefone1,
+      email1,
+      observacao,
+      status
+    };
+    await api.put('/Clientes/AtualizarCliente', dados).then(response => {
       if (response.status === 200) {
         window.location.reload();
       }
@@ -42,41 +55,22 @@ function SimpleDialog(props) {
     });;
   }
 
+  const [formData, setFormData] = useState({
+    codigo: selectedValue.codigo,
+    nome: selectedValue.nome,
+    tratameno: selectedValue.tratameno,
+    data: selectedValue.data,
+    telefone1: selectedValue.telefone1,
+    email1: selectedValue.email1,
+    observacao: selectedValue.observacao,
+    status: selectedValue.status,
+  });
 
-
-  // async function handleSubmit() {
-  //   const { nome, tratameno, telefone1, email1, observacao } = formData;
-
-  //   const data = {
-  //     nome,
-  //     tratameno,
-  //     telefone1,
-  //     email1,
-  //     observacao,
-  //   };
-  //   await api.put('/Clientes/AtualizarCliente', data).then(response => {
-  //     if (response.status === 200) {
-  //       window.location.reload();
-  //     }
-  //   }).catch(error => {
-
-  //   });;
-  // }
-
-  // const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-  //   console.log(event.target.name, event.target.value);
-  //   const { name, value } = event.target;
-  //   setFormData({ ...formData, [name]: value });
-  // }
-
-  // const [formData, setFormData] = useState({
-  //   nome: '',
-  //   tratameno: '',
-  //   telefone1: '',
-  //   email1: '',
-  //   observacao: '',
-  // });
-
+  const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    console.log(event.target.name, event.target.value);
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  }
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -84,51 +78,64 @@ function SimpleDialog(props) {
       <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
       <DialogTitle>Editar Cliente</DialogTitle>
       <List sx={{ pt: 0 }}>
-        return (
-        <><ListItem>
+        <ListItem>
           <TextField
             label="Nome Completo"
-            disabled
+            name="nome"
             style={{ width: 415 }}
+            value={formData.nome}
+            onChange={handleFieldChange}
+          />&nbsp;
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Tratamento"
+            name="tratameno"
+            style={{ width: 415 }}
+            value={formData.tratameno}
+            onChange={handleFieldChange}
           />
-        </ListItem><ListItem>
-            <TextField
-              label="Tratamento"
-              disabled
-              style={{ width: 415 }}
-            />
-          </ListItem><ListItem>
-            <TextField
-              label="Telefone"
-              disabled
-              style={{ width: 415 }}
-            />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-              <AddIcon sx={{ fontSize: 25 }} />
-            </Fab>
-          </ListItem><ListItem>
-            <TextField
-              label="Email"
-              disabled
-              style={{ width: 415 }}
-            />&nbsp;<Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-              <AddIcon sx={{ fontSize: 25 }} />
-            </Fab>
-          </ListItem><ListItem>
-            <TextField
-              label="Observação"
-              disabled
-              style={{ width: 415, height: 80 }}
-            />
-          </ListItem><ListItem autoFocus button onClick={() => handleListEdit('')}>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <CheckIcon color="primary" />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Confirmar" />
-            </ListItem>
-          </ListItem></>
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Telefone"
+            name="telefone1"
+            style={{ width: 415 }}
+            value={formData.telefone1}
+            onChange={handleFieldChange}
+          />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
+            <AddIcon sx={{ fontSize: 25 }} />
+          </Fab>
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Email"
+            name="email1"
+            style={{ width: 415 }}
+            onChange={handleFieldChange}
+            value={formData.email1}
+          />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
+            <AddIcon sx={{ fontSize: 25 }} />
+          </Fab>
+        </ListItem>
+        <ListItem>
+          <TextField
+            label="Observação"
+            name="observacao"
+            style={{ width: 415, height: 80 }}
+            onChange={handleFieldChange}
+            value={formData.observacao}
+          />
+        </ListItem>
+
+        <ListItem autoFocus button onClick={handleSubmit} >
+          <ListItemAvatar>
+            <Avatar>
+              <CheckIcon color="primary" />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Confirmar" />
+        </ListItem>
       </List>
     </Dialog>
   );
@@ -140,20 +147,25 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-function ModalEditCliente() {
+interface modalProps {
+  codigo: number;
+}
+
+function ModalEditCliente<modalProps>({ codigo }) {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
   const theme = useTheme();
+  const [cliente, setCliente] = useState<any>();
 
   const handleClickOpen = () => {
-    setOpen(true);
-    api.get('/Clientes/GetClientes').then(response => {
-      if (response && response.status === 200 && response.data) {
-        setClienteList(response.data);
-        console.log(response);
-      }
-    });
+    api.get(`/Clientes/GetCliente/${codigo}`)
+      .then(response => {
+        if (response && response.status === 200 && response.data) {
+          setCliente(response.data);
+          setOpen(true);
+        }
+      })
   };
 
   const handleClose = (value) => {
@@ -179,11 +191,13 @@ function ModalEditCliente() {
         >
           <EditTwoToneIcon fontSize="small" />
         </IconButton>
-        <SimpleDialog
-          selectedValue={clienteList}
-          open={open}
-          onClose={handleClose}
-        />
+        {cliente &&
+          <SimpleDialog
+            selectedValue={cliente}
+            open={open}
+            onClose={handleClose}
+          />
+        }
       </Grid>
     </>
   );

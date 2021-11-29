@@ -306,7 +306,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
-                      <ModalEditCliente />
+                      <ModalEditCliente codigo={cliente.codigo} />
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
                       <ModalDelCliente codigo={cliente.codigo} />
