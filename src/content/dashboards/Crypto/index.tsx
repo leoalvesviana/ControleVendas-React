@@ -28,9 +28,9 @@ function DashboardCrypto() {
           <Grid item lg={8} xs={12}>
             <Wallets />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <AccountBalance />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </>

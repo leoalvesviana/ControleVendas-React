@@ -198,10 +198,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
 
   useEffect(() => {
     api.get('/Clientes/GetClientes').then(response => {
-      setClienteList(response.data);
-      console.log(response);
-    });
-  }, []);
+      if (response && response.status === 200 && response.data) {
+        setClienteList(response.data);
+      } else {
+
+      }
+      console.log(response)
+    })
+      .catch(err => {
+        console.log("Error -> ", err)
+      });
+  }, [api]);
 
   return (
     <Card>
