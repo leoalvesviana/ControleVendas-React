@@ -1,13 +1,9 @@
-import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import PageTitle from 'src/components/PageTitle';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import AlertTitle from '@mui/material/AlertTitle';
 import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -18,15 +14,10 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
-import Footer from 'src/components/Footer';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from 'src/service/api';
+import { Link } from 'react-router-dom';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -49,12 +40,6 @@ function SimpleDialog(props) {
     onClose(value);
   };
 
-  const dateNow = () => {
-    const date = Date.now();
-    return (
-      date.toString()
-    );
-  }
 
   async function handleSubmit() {
     const { nome, tratameno, telefone1, email1, observacao } = formData;
@@ -66,7 +51,13 @@ function SimpleDialog(props) {
       email1,
       observacao,
     };
-    await api.post('/Clientes/InserirCliente', data);
+    await api.post('/Clientes/InserirCliente', data).then(response => {
+      if (response.status === 200) {
+        window.location.reload();
+      }
+    }).catch(error => {
+
+    });;
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -87,9 +78,9 @@ function SimpleDialog(props) {
 
 
   return (
-    <Dialog onClose={handleClose} open={open} >
+    <Dialog onClose={handleClose} open={open}>
 
-      <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
+      <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
       <DialogTitle>Cadastrar Cliente</DialogTitle>
       <List sx={{ pt: 0 }} >
         <ListItem>
@@ -99,7 +90,7 @@ function SimpleDialog(props) {
             multiline
             style={{ width: 415 }}
             onChange={handleFieldChange}
-          />&nbsp;
+          />
         </ListItem>
         <ListItem>
           <TextField
@@ -141,17 +132,18 @@ function SimpleDialog(props) {
             onChange={handleFieldChange}
           />
         </ListItem>
-        <ListItem onClick={() => handleListItemCreate('Create')}>
-          <ListItem autoFocus button onClick={handleSubmit} >
-            <ListItemAvatar>
-              <Avatar>
-                <CheckIcon color="primary" />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Cadastrar" />
+        <Link to="/tarefas/clientes">
+          <ListItem onClick={() => handleListItemCreate('Create')}>
+            <ListItem autoFocus button onClick={handleSubmit} >
+              <ListItemAvatar>
+                <Avatar>
+                  <CheckIcon color="primary" />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Cadastrar" />
+            </ListItem>
           </ListItem>
-        </ListItem>
-
+        </Link>
       </List>
     </Dialog>
   );

@@ -1,7 +1,5 @@
 import { FC, ChangeEvent, useState, useEffect } from 'react';
-import { format } from 'date-fns';
 import api from 'src/service/api';
-import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
   Tooltip,
@@ -28,16 +26,11 @@ import {
 
 import Label from 'src/components/Label';
 import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import AttachMoneyTwoToneIcon from '@mui/icons-material/AttachMoneyTwoTone';
-import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone';
 import BulkActions from './BulkActions';
 import * as t from "../../../models/Types"
 import ModalDelMovi from "../../pages/Components/ModalDelMovi/index"
 import ModalDetailCompra from "../../pages/Components/ModalDetailCompra/index"
-import ModalConfirmarPgto from "../../pages/Components/ModalConfirmarPgto/index"
-
+import ModalConfirmarPgto from "../../pages/Components/ModalConfirmarPgto"
 
 
 interface RecentOrdersTableProps {
@@ -191,7 +184,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setMovimentosList(response.data);
-        }else{
+        } else {
 
         }
         console.log(response)
@@ -251,117 +244,104 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
             {movimentosList && movimentosList.movimentacaoFinanceira !== undefined && movimentosList.movimentacaoFinanceira.length > 0 ?
               movimentosList.movimentacaoFinanceira.map((movimento, i) => (
                 <TableRow
-                hover
-                key={movimento.compra.numCompra}
-              >
-                <TableCell>
-                  <Typography
-                    variant="body1"
-                    fontWeight="bold"
-                    color="text.primary"
-                    gutterBottom
-                    noWrap
-                  >
-                    {movimento.cliente.nome}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    variant="body1"
-                    fontWeight="bold"
-                    color="text.primary"
-                    gutterBottom
-                    noWrap
-                  >
-                    {movimento.compra.status}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    variant="body1"
-                    fontWeight="bold"
-                    color="text.primary"
-                    gutterBottom
-                    noWrap
-                  >
-                    {movimento.compra.dataCompra}
-                  </Typography>
-                </TableCell>
-                <TableCell align="right">
-                  <Typography
-                    variant="body1"
-                    fontWeight="bold"
-                    color="text.primary"
-                    gutterBottom
-                    noWrap
-                  >
-                    {movimento.compra.numCompra}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    variant="body1"
-                    fontWeight="bold"
-                    color="text.primary"
-                    gutterBottom
-                    noWrap
-                  >
-                    {movimento.compra.totalItens}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    variant="body1"
-                    fontWeight="bold"
-                    color="text.primary"
-                    gutterBottom
-                    noWrap
-                  >
-                    {movimento.compra.valor}
-                  </Typography>
-                </TableCell>
-                <TableCell align="right">
-                  {movimento.compra.status === "AGUARD PGTO" &&
-                   
-                   <ModalConfirmarPgto
-                   NumCompra={movimento.compra.numCompra}
-                 />
-                  
-                  }
-                  <ModalDetailCompra 
-                     Numcompra={movimento.compra.numCompra}
-                    />
-                  <Tooltip title="Detalhar compra" arrow>
-                    <IconButton
-                      sx={{
-                        '&:hover': { background: theme.colors.primary.lighter },
-                        color: theme.palette.primary.main
-                      }}
-                      color="inherit"
-                      size="small"
+                  hover
+                  key={movimento.compra.numCompra}
+                >
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
                     >
-
-
-                      <AssignmentTwoToneIcon fontSize="small" />
-                    </IconButton>
-                    
-                  </Tooltip>  
-                  
-                  <Tooltip title="Deletar compra" arrow>
-                    <ModalDelMovi 
-                     NumCompra={movimento.compra.numCompra}
+                      {movimento.cliente.nome}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {movimento.compra.status}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {movimento.compra.dataCompra}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {movimento.compra.numCompra}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {movimento.compra.totalItens}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {movimento.compra.valor}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                      {movimento.compra.status === "AGUARD PGTO" &&
+                      
+                      <ModalConfirmarPgto
+                      NumCompra={movimento.compra.numCompra}
                     />
+                      
+                      }
+                    <Tooltip title="Detalhar compra" arrow>
+                      <ModalDetailCompra
+                        Numcompra={movimento.compra.numCompra}
+                      />
 
-                  </Tooltip>    
-                  
+                    </Tooltip>
 
-                </TableCell>
-              </TableRow>
+                    <Tooltip title="Deletar compra" arrow>
+                      <ModalDelMovi
+                        NumCompra={movimento.compra.numCompra}
+                      />
+                    </Tooltip>
+
+
+                  </TableCell>
+                </TableRow>
               )
-          )
-          :
-          <p>Error</p>
-          }
+              )
+              :
+              <p>Error</p>
+            }
           </TableBody>
         </Table>
       </TableContainer>

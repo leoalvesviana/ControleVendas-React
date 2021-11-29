@@ -26,6 +26,8 @@ import { blue } from '@mui/material/colors';
 import Footer from 'src/components/Footer';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import { IconButton, useTheme } from '@mui/material';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -58,7 +60,7 @@ function SimpleDialog(props) {
   return (
     <Dialog onClose={handleClose} open={open}>
 
-      <DialogTitle><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
+      <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
       <DialogTitle>Editar Produto</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem>
@@ -97,6 +99,7 @@ function ModalEditProduto() {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
+  const theme = useTheme();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -111,9 +114,19 @@ function ModalEditProduto() {
   return (
     <>
       <Grid item>
-        <Button sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-          onClick={handleClickOpen}><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
+        <IconButton
+          sx={{
+            '&:hover': {
+              background: theme.colors.primary.lighter
+            },
+            color: theme.palette.primary.main
+          }}
+          color="inherit"
+          size="small"
+          onClick={handleClickOpen}
+        >
+          <EditTwoToneIcon fontSize="small" />
+        </IconButton>
         <SimpleDialog
           selectedValue={selectedValue}
           open={open}
