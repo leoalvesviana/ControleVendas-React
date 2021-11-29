@@ -37,7 +37,7 @@ import BulkActions from './BulkActions';
 
 interface RecentOrdersTableProps {
   className?: string;
-  cryptoOrders: CryptoOrder[];
+  cryptoOrders: Cliente[];
 }
 
 interface Filters {
@@ -49,11 +49,11 @@ interface Cliente {
   nome: string;
   tratameno: string;
   data: Date;
-  telefone1: string;
+  telefone1?: string;
   telefone2?: string;
-  email1: string;
+  email1?: string;
   email2?: string;
-  observacoes: string;
+  observacoes?: string;
   foto?: string;
   status: string;
 }
@@ -80,9 +80,9 @@ const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
 };
 
 const applyFilters = (
-  cryptoOrders: CryptoOrder[],
+  cryptoOrders: Cliente[],
   filters: Filters
-): CryptoOrder[] => {
+): Cliente[] => {
   return cryptoOrders.filter((cryptoOrder) => {
     let matches = true;
 
@@ -95,10 +95,10 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  cryptoOrders: CryptoOrder[],
+  cryptoOrders: Cliente[],
   page: number,
   limit: number
-): CryptoOrder[] => {
+): Cliente[] => {
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
@@ -120,17 +120,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       name: 'All'
     },
     {
-      id: 'completed',
-      name: 'Completed'
+      id: 'AGUARD PGTO',
+      name: 'AGUARD PGTO'
     },
     {
-      id: 'pending',
-      name: 'Pending'
+      id: 'SEM COCMPRA',
+      name: 'SEM COMPRA'
     },
-    {
-      id: 'failed',
-      name: 'Failed'
-    }
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -150,8 +146,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     event: ChangeEvent<HTMLInputElement>
   ): void => {
     setSelectedCryptoOrders(
-      event.target.checked
-        ? cryptoOrders.map((cryptoOrder) => cryptoOrder.id)
+      event.target.name
+        ? cryptoOrders.map((cryptoOrder) => cryptoOrder.nome)
         : []
     );
   };

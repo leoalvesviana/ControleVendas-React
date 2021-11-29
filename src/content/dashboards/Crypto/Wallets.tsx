@@ -112,91 +112,60 @@ function Wallets() {
 
   return (
     <>
-      {/* <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ pb: 3 }}
-      >
-        <Typography variant="h3">Início</Typography>
-      </Box> */}
-      <Grid container spacing={3}>
-        <Grid xs={12} sm={8} md={4} item>
-          <Card sx={{ px: 1 }}>
-            <CardContent>
-              <SupervisedUserCircleIcon sx={{ fontSize: 50 }} color="primary" />
-              <Typography variant="h5" noWrap>
-                Clientes
-              </Typography>
-              <Typography variant="h5" noWrap>
-
-              </Typography>
-              <Box sx={{ pt: 3 }}>
-                <Typography variant="h3" gutterBottom noWrap>
-                  {clienteList.length}
-                </Typography>
-                <Typography variant="subtitle2" noWrap>
-
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={4} item>
-          <Card sx={{ px: 1 }}>
-            <CardContent>
-              <StoreIcon sx={{ fontSize: 50 }} color="secondary" />
-              <Typography variant="h5" noWrap>
-                Produtos
-              </Typography>
-              <Typography variant="h5" noWrap>
-
-              </Typography>
-              <Box sx={{ pt: 3 }}>
-                <Typography variant="h3" gutterBottom noWrap>
-                  {ProdutoList.length}
-                </Typography>
-                <Typography variant="subtitle2" noWrap>
-
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={4} item>
-          <Card sx={{ px: 1 }}>
-            <CardContent>
-              <CompareArrowsIcon sx={{ fontSize: 50 }} color="success" />
-              <Typography variant="h5" noWrap>
-                Movimentações
-              </Typography>
-              <Typography variant="h5" noWrap>
-              </Typography>
-              <Box sx={{ pt: 3 }}>
-                <Typography variant="h3" gutterBottom noWrap>
-                  {MoviList.length}
-                </Typography>
-                <Typography variant="subtitle2" noWrap>
-
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={4} item>
-          <Tooltip arrow title="Click to add a new wallet">
-            <CardAddAction>
-              <CardActionArea sx={{ px: 1 }}>
+      <Card style={{
+        display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center',
+        // , backgroundColor: '#00ffbf'
+      }}>
+        <CardContent style={{ margin: '88px 0 10px 0' }}>
+          <Grid container spacing={3}>
+            <Grid xs={12} sm={8} md={4} item>
+              <Card sx={{ px: 1 }} style={{ backgroundColor: ' #b3ff99', width: '250px' }}>
                 <CardContent>
-                  <AvatarAddWrapper>
-                    <AddTwoToneIcon fontSize="large" />
-                  </AvatarAddWrapper>
+                  <SupervisedUserCircleIcon sx={{ fontSize: 50 }} color="primary" />
+                  <Typography variant="h3" noWrap>
+                    Clientes
+                  </Typography>
+                  <Box sx={{ pt: 3 }}>
+                    <Typography variant="h3" gutterBottom noWrap>
+                      {clienteList.length}
+                    </Typography>
+                  </Box>
                 </CardContent>
-              </CardActionArea>
-            </CardAddAction>
-          </Tooltip>
-        </Grid>
-      </Grid>
+              </Card>
+            </Grid>
+            <Grid xs={12} sm={6} md={4} item>
+              <Card sx={{ px: 1 }} style={{ backgroundColor: '#ffd699', width: '250px' }}>
+                <CardContent>
+                  <StoreIcon sx={{ fontSize: 50 }} color="secondary" />
+                  <Typography variant="h3" noWrap>
+                    Produtos
+                  </Typography>
+                  <Box sx={{ pt: 3 }}>
+                    <Typography variant="h3" gutterBottom noWrap>
+                      {ProdutoList.length}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid xs={12} sm={6} md={4} item>
+              <Card sx={{ px: 1 }} style={{ backgroundColor: ' 	 #99ccff', width: '250px' }}>
+                <CardContent>
+                  <CompareArrowsIcon sx={{ fontSize: 50 }} color="success" />
+                  <Typography variant="h3" noWrap>
+                    Movimentações
+                  </Typography>
+                  <Box sx={{ pt: 3 }}>
+                    <Typography variant="h3" gutterBottom noWrap>
+                      {MoviList.length}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
     </>
   );
 }
