@@ -12,6 +12,11 @@ export interface MovimentacaoFinanceira {
     compra: Compra;
 }
 
+export interface Status{
+    codigo: number;
+    tipo: string;
+}
+
 export interface Cliente {
     codigo: number;
     nome: string;
@@ -33,4 +38,21 @@ export interface Compra{
     dataCompra: Date;
     totalItens: number;
     valor: number;
+}
+
+export interface produto{
+    codigo: number;
+    descricao: string;
+    valor: number;
+}
+
+export interface Pedido{
+    cliente: Cliente;
+    produtos: produto[];
+    numCompra: number;
+    totalItens: number;
+    status: number;
+    totalCompra: number;
+    codItem: number;
+    quantidadeNovoItem: number;
 }

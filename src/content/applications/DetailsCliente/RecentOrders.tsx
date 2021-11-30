@@ -3,7 +3,11 @@ import { CryptoOrder } from 'src/models/crypto_order';
 import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 
-function RecentOrders() {
+interface passarCliente{
+  cliente: any
+}
+
+function RecentOrders<passarCliente>({cliente}) {
 
   const cryptoOrders: CryptoOrder[] = [
     // {
@@ -134,7 +138,7 @@ function RecentOrders() {
 
   return (
     <Card>
-      <RecentOrdersTable cryptoOrders={cryptoOrders} />
+      <RecentOrdersTable cryptoOrders={cryptoOrders} cliente={cliente}/>
     </Card>
   );
 }

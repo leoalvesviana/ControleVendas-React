@@ -26,7 +26,8 @@ import {
   MenuItem,
   Typography,
   useTheme,
-  CardHeader
+  CardHeader,
+  Button
 } from '@mui/material';
 
 import Label from 'src/components/Label';
@@ -34,6 +35,8 @@ import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+
 
 interface RecentOrdersTableProps {
   className?: string;
@@ -210,6 +213,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       });
   }, [api]);
 
+  const navigate = useNavigate();
+
   return (
     <Card>
       {selectedBulkActions && (
@@ -305,12 +310,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
+                  <Button onClick={() => (navigate(`../pedidos`, {state: {codigo: cliente.codigo}}))}></Button>
                     <Tooltip title="Edit Order" arrow>
                       <ModalEditCliente codigo={cliente.codigo} />
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
                       <ModalDelCliente codigo={cliente.codigo} />
                     </Tooltip>
+                    <Button onClick={() => (navigate(`../DetailsCliente/`, {state: {codigo: cliente.codigo}}))}></Button>
                   </TableCell>
                 </TableRow>
               );
@@ -342,3 +349,4 @@ RecentOrdersTable.defaultProps = {
 };
 
 export default RecentOrdersTable;
+

@@ -29,6 +29,7 @@ const Movimentacoes = Loader(lazy(() => import('src/content/applications/Movimen
 const Pedidos = Loader(lazy(() => import('src/content/applications/Pedidos')));
 const UserProfile = Loader(lazy(() => import('src/content/applications/Users/profile')));
 const UserSettings = Loader(lazy(() => import('src/content/applications/Users/settings')));
+const DetailsCliente = Loader(lazy(() => import('src/content/applications/DetailsCliente')));
 
 // Components
 
@@ -143,6 +144,10 @@ const routes: PartialRouteObject[] = [
       {
         path: 'clientes',
         element: <Transactions />
+      },
+      {
+        path: 'DetailsCliente',
+        element: <DetailsCliente />
       },
       ,
       {

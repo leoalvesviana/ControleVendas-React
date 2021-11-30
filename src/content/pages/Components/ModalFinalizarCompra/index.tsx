@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import AlertTitle from '@mui/material/AlertTitle';
-import { Container, Grid, Card, CardHeader, CardContent, Divider, MenuItem } from '@mui/material';
+import { Container, Grid, Card, CardHeader, CardContent, Divider, MenuItem, IconButton, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Fab from '@mui/material/Fab';
@@ -28,9 +28,12 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import api from 'src/service/api';
 import * as t from '../../../../models/Types'
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import { useNavigate } from 'react-router';
 
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
+
 
 function BasicAlerts() {
 
@@ -38,48 +41,41 @@ function BasicAlerts() {
 
 interface dialogProps{
   onClose: () => void;
-  produtos: t.produto[];
   open: boolean;
   body: t.Pedido;
   setApiResponse: Dispatch<SetStateAction<t.Pedido>>
 
 }
 
-var resposta: t.Pedido;
-
 function SimpleDialog(props: dialogProps) {
-  const { onClose, produtos, open, body, setApiResponse } = props;
+  const { onClose, open, body, setApiResponse } = props;
 
   const handleClose = () => {
     onClose();
   };
 
-  const [formData, setFormData] = useState({
-    codigo: 0,
-    quantidade: 0
-  });
-
+  const navigate = useNavigate();
 
    function handleSubmit() {
-    const { codigo, quantidade } = formData;
+
+    const Status = formData.codigo;
 
     let data: t.Pedido;
     data = body;
-    data.codItem = codigo;
-    data.quantidadeNovoItem = Number(quantidade);
-    console.log(data)
-    api.post('/Pedidos/AdicionarItem/', data)
+    data.status = Status;
+    api.post('/Pedidos/FinalizarCompra/', data)
       .then(response => {
         if (response.status === 200){
-          setApiResponse(response.data)
+          setApiResponse(null)
+          navigate(`../clientes/`);
           onClose()
-          
-
         }
-      }).catch(error => {
       });
   }
 
+  const [formData, setFormData] = useState({
+    codigo: 0
+  });
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     console.log(event.target.name, event.target.value);
     const { name, value } = event.target;
@@ -87,6 +83,15 @@ function SimpleDialog(props: dialogProps) {
     console.log(formData);
   }
 
+  const [status, setStatus] = useState<t.Status[]>();
+
+  useEffect(() =>{
+    api.get(`/Status/GetStatuses`).then(response => {
+      if(response && response.status === 200){
+        setStatus(response.data);
+      }
+    })
+  }, [api])
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -94,32 +99,26 @@ function SimpleDialog(props: dialogProps) {
       <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
       <DialogTitle>Adicionar novo item</DialogTitle>
       <List sx={{ pt: 0 }}>
-        <ListItem>
+        
+      <ListItem>
           <TextField
             id=""
             name="codigo"
             select
-            label="Produto"
-            helperText="Selecione o produto"
+            label="Status"
+            helperText="Selecione o status"
             style={{ width: 415 }}
             onChange={handleFieldChange}
           >
-          {produtos && 
-            produtos.map((opcao) => (
-              <MenuItem key={opcao.codigo} value={opcao.codigo}>
-                {opcao.descricao}
-              </MenuItem>
+          {status && 
+            status.map((opcao) => (         
+              (opcao.tipo !== "SEM COMPRA" &&
+                <MenuItem key={opcao.codigo} value={opcao.codigo}>
+                {opcao.tipo}
+              </MenuItem>)
             ))
           }
           </TextField>
-        </ListItem>
-        <ListItem>
-          <TextField
-            name="quantidade"
-            label="Quantidade"
-            style={{ width: 415, height: 80 }}
-            onChange={handleFieldChange}
-          />
         </ListItem>
 
         <ListItem autoFocus button onClick={handleSubmit}>
@@ -140,16 +139,13 @@ interface modalProps{
   changeResponse: Dispatch<SetStateAction<t.Pedido>>
 }
 
-function ModalPedidos({apiResponse, changeResponse}: modalProps) {
+function ModalFinalizarCompra({apiResponse, changeResponse}: modalProps) {
 
   const [open, setOpen] = useState(false);
-  const [produtos, setprodutos] = useState<t.produto[]>();
+  const theme = useTheme();
 
   const handleClickOpen = () => {
-    api.get(`/Itens/GetItens`).then(response => {
-      setOpen(true);
-      setprodutos(response.data);
-    })
+    setOpen(true);
   };
 
   const handleClose = () => {
@@ -159,21 +155,29 @@ function ModalPedidos({apiResponse, changeResponse}: modalProps) {
   return (
     <>
       <Grid item>
-        <Button sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-          onClick={handleClickOpen}><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
+        <IconButton
+            sx={{
+              '&:hover': { background: theme.colors.error.lighter },
+              color: theme.palette.error.main
+            }}
+            color="inherit"
+            size="small"
+            onClick={handleClickOpen}
+          >
+            <DeleteTwoToneIcon fontSize="small" />
+          </IconButton>
+        {apiResponse  &&
         <SimpleDialog
-          produtos={produtos}
-          open={open}
-          onClose={handleClose}
-          body={apiResponse}
-          setApiResponse={changeResponse}
-        />
+            open={open}
+            onClose={handleClose}
+            body={apiResponse}
+            setApiResponse={changeResponse}
+          />
+        }
       </Grid>
     </>
   );
   
 }
 
-export {resposta as ResponseApiWithItens};
-export default ModalPedidos;
+export default ModalFinalizarCompra;
