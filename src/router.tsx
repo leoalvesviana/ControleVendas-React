@@ -30,6 +30,7 @@ const Pedidos = Loader(lazy(() => import('src/content/applications/Pedidos')));
 const UserProfile = Loader(lazy(() => import('src/content/applications/Users/profile')));
 const UserSettings = Loader(lazy(() => import('src/content/applications/Users/settings')));
 const DetailsCliente = Loader(lazy(() => import('src/content/applications/DetailsCliente')));
+const Usuarios = Loader(lazy(() => import('src/content/applications/Usuarios')))
 
 // Components
 
@@ -163,6 +164,10 @@ const routes: PartialRouteObject[] = [
       {
         path: 'pedidos',
         element: <Pedidos />
+      },
+      {
+        path: 'Usuarios',
+        element: <Usuarios />
       },
       {
         path: 'profile',

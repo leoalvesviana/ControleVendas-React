@@ -57,19 +57,15 @@ const menuItems: MenuItems[] = [
         name: 'Pedidos',
         icon: AddShoppingCartIcon,
         link: '/tarefas/pedidos'
-      }
-    ]
-  },
-  {
-    heading: 'Segurança',
-    items: [
+      },
       {
         name: 'Usuários',
         icon: ManageAccountsTwoToneIcon,
-        link: '/seguranca/usuarios'
+        link: '/tarefas/Usuarios'
       }
+      
     ]
-  }
+  },
 ];
 
 export default menuItems;

@@ -56,3 +56,12 @@ export interface Pedido{
     codItem: number;
     quantidadeNovoItem: number;
 }
+
+export interface Usuario{
+    codigo: number;
+    nome: string;
+    login: string;
+    email: string;
+    senha: string;
+    admin: boolean;
+}
