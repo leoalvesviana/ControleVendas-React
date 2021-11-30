@@ -17,12 +17,13 @@ import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from 'src/service/api';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-function BasicAlerts() {
+toast.configure()
 
-}
+
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -37,6 +38,7 @@ function SimpleDialog(props) {
 
   const handleListItemCreate = (value) => {
     onClose(value);
+    // toast.success('Cadastrado com sucesso!!', { autoClose: false })
   };
 
 
@@ -54,10 +56,13 @@ function SimpleDialog(props) {
     };
     await api.post('/Clientes/InserirCliente', data).then(response => {
       if (response.status === 200) {
-        window.location.reload();
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 2000);
+        toast.success('Cliente cadastrado com sucesso!', { autoClose: 2000 });
       }
     }).catch(error => {
-
+      toast.error('Error!', { autoClose: 5000 });
     });;
   }
 
