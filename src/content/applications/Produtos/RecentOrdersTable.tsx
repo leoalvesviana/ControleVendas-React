@@ -1,6 +1,4 @@
 import { FC, ChangeEvent, useState, useEffect } from 'react';
-import { format } from 'date-fns';
-import numeral from 'numeral';
 import ModalEditProduto from '../../pages/Components/ModalEditProduto'
 import ModalDelProduto from '../../pages/Components/ModalDelProduto'
 import PropTypes from 'prop-types';
@@ -11,8 +9,6 @@ import {
   FormControl,
   InputLabel,
   Card,
-  Checkbox,
-  IconButton,
   Table,
   TableBody,
   TableCell,

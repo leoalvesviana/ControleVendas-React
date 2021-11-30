@@ -57,7 +57,6 @@ function HeaderNotifications() {
       <Tooltip arrow title="Notifications">
         <IconButton color="primary" ref={ref} onClick={handleOpen}>
           <NotificationsBadge
-            badgeContent={1}
             anchorOrigin={{
               vertical: 'top',
               horizontal: 'right'

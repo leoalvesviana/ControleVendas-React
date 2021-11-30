@@ -1,20 +1,15 @@
 import { FC, ChangeEvent } from 'react';
 import React, { useEffect, useState } from 'react';
 import api from 'src/service/api';
-import { format } from 'date-fns';
 import ModalEditCliente from 'src/content/pages/Components/ModalEditCliente';
 import ModalDelCliente from 'src/content/pages/Components/ModalDelCliente';
-import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
-  Tooltip,
   Divider,
   Box,
   FormControl,
   InputLabel,
   Card,
-  Checkbox,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -31,8 +26,6 @@ import {
 
 import Label from 'src/components/Label';
 import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 
 interface RecentOrdersTableProps {
