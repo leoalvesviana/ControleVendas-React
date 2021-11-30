@@ -50,21 +50,23 @@ function SimpleDialog(props) {
     onClose(value);
   };
 
-  async function handleSubmit() {
-    const data = {
+   function handleSubmit() {
+    const valor = formData.valor;
 
+    const data = {
+      valor
     };
-    await api.put('/Itens/AtualizarValores', data);
+    api.put('/Itens/AtualizarValores', data.valor);
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.target.value);
-    const value = event.target;
-    setFormData({ ...formData, value });
+    console.log(event.target.value, event.target.value);
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
   }
 
   const [formData, setFormData] = useState({
-
+    valor: 0
   });
 
 
@@ -83,15 +85,13 @@ function SimpleDialog(props) {
           />
         </ListItem>
 
-        <ListItem onClick={() => handleListItemCreate('Create')}>
-          <ListItem autoFocus button onClick={handleSubmit} >
+        <ListItem autoFocus button onClick={handleSubmit} >
             <ListItemAvatar>
               <Avatar>
                 <CheckIcon color="primary" />
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary="Confirmar" />
-          </ListItem>
         </ListItem>
       </List>
     </Dialog>
