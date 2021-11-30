@@ -11,7 +11,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import Fab from '@mui/material/Fab';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -21,9 +20,12 @@ import Dialog from '@mui/material/Dialog';
 import AddIcon from '@mui/icons-material/Add';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
+toast.configure()
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -50,10 +52,13 @@ function SimpleDialog(props) {
     };
     await api.put('/Clientes/AtualizarCliente', dados).then(response => {
       if (response.status === 200) {
-        window.location.reload();
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 2000);
+        toast.success('Cliente Atualizado com sucesso!', { autoClose: 2000 });
       }
     }).catch(error => {
-
+      toast.error('Error!');
     });;
   }
 

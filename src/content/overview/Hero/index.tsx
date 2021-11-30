@@ -12,6 +12,14 @@ import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 import { makeStyles } from '@mui/material/styles';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure()
+
+function alertLogin() {
+  toast.info('Login efetuado com sucesso.', { autoClose: 2000 });
+}
 
 const TypographyH1 = styled(Typography)(
   ({ theme }) => `
@@ -24,15 +32,6 @@ const TypographyH2 = styled(Typography)(
     font-size: ${theme.typography.pxToRem(17)};
 `
 );
-
-// const Container1 = styled(Container)(
-//   ({ theme }) => `
-//     background-color: #836FFF;
-//     text-align: center;
-//     align-items: center;
-//     justify-content: center;
-// `
-// );
 
 const LoginContainer = styled(Box)(
   ({ theme }) => `
@@ -159,6 +158,7 @@ function Hero() {
                   size="large"
                   variant="contained"
                   style={{ width: 470 }}
+                  onClick={alertLogin}
                 >
                   Entrar
                 </Button>

@@ -17,6 +17,10 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import { IconButton, useTheme } from '@mui/material';
 import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from '../../../../service/api'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -44,10 +48,14 @@ function SimpleDialog(props) {
     await api.put('/Itens/AtualizarItem/', data)
       .then(response => {
         if (response.status === 200) {
-          window.location.reload();
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 2000);
+          toast.success('Produto Atualizado com sucesso!', { autoClose: 2000 });
         }
       }).catch(error => {
-      });
+        toast.error('Error!');
+      });;
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {

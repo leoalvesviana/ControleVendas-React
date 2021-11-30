@@ -18,7 +18,7 @@ import api from 'src/service/api';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 toast.configure()

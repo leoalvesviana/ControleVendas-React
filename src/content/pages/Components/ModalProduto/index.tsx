@@ -19,15 +19,12 @@ import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
-
+import 'react-toastify/dist/ReactToastify.css';
 import api from 'src/service/api';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-function BasicAlerts() {
-
-}
+toast.configure()
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;

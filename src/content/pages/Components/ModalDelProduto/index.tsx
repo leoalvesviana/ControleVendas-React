@@ -16,7 +16,10 @@ import Dialog from '@mui/material/Dialog';
 import { IconButton, useTheme } from '@mui/material';
 import api from 'src/service/api';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
+
+
+toast.configure()
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;

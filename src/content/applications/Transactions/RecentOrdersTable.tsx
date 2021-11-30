@@ -300,13 +300,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       {cliente.data}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
-                      <ModalEditCliente codigo={cliente.codigo} />
-                    </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
-                      <ModalDelCliente codigo={cliente.codigo} />
-                    </Tooltip>
+                  <TableCell align="right" style={{ display: 'flex' }}>
+                    <ModalEditCliente codigo={cliente.codigo} />
+                    <ModalDelCliente codigo={cliente.codigo} />
                   </TableCell>
                 </TableRow>
               );

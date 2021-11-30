@@ -313,28 +313,22 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       {movimento.compra.valor}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
-                      {movimento.compra.status === "AGUARD PGTO" &&
-                      
+                  <TableCell align="right" style={{ display: 'flex' }}>
+                    {movimento.compra.status === "AGUARD PGTO" &&
                       <ModalConfirmarPgto
-                      NumCompra={movimento.compra.numCompra}
-                    />
-                      
-                      }
+                        NumCompra={movimento.compra.numCompra}
+                      />
+                    }
                     <Tooltip title="Detalhar compra" arrow>
                       <ModalDetailCompra
                         Numcompra={movimento.compra.numCompra}
                       />
-
                     </Tooltip>
-
                     <Tooltip title="Deletar compra" arrow>
                       <ModalDelMovi
                         NumCompra={movimento.compra.numCompra}
                       />
                     </Tooltip>
-
-
                   </TableCell>
                 </TableRow>
               )

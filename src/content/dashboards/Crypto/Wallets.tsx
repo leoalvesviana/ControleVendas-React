@@ -119,7 +119,7 @@ function Wallets() {
         <CardContent style={{ margin: '88px 0 10px 0' }}>
           <Grid container spacing={3}>
             <Grid xs={12} sm={8} md={4} item>
-              <Card sx={{ px: 1 }} style={{ backgroundColor: ' #b3ff99', width: '250px' }}>
+              <Card sx={{ px: 1 }} style={{ width: '250px' }}>
                 <CardContent>
                   <SupervisedUserCircleIcon sx={{ fontSize: 50 }} color="primary" />
                   <Typography variant="h3" noWrap>
@@ -134,7 +134,7 @@ function Wallets() {
               </Card>
             </Grid>
             <Grid xs={12} sm={6} md={4} item>
-              <Card sx={{ px: 1 }} style={{ backgroundColor: '#ffd699', width: '250px' }}>
+              <Card sx={{ px: 1 }} style={{ width: '250px' }}>
                 <CardContent>
                   <StoreIcon sx={{ fontSize: 50 }} color="secondary" />
                   <Typography variant="h3" noWrap>
@@ -149,7 +149,7 @@ function Wallets() {
               </Card>
             </Grid>
             <Grid xs={12} sm={6} md={4} item>
-              <Card sx={{ px: 1 }} style={{ backgroundColor: ' 	 #99ccff', width: '250px' }}>
+              <Card sx={{ px: 1 }} style={{ backgroundColor: ' 	 ', width: '250px' }}>
                 <CardContent>
                   <CompareArrowsIcon sx={{ fontSize: 50 }} color="success" />
                   <Typography variant="h3" noWrap>

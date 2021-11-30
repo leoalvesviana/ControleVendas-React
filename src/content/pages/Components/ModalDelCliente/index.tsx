@@ -19,9 +19,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
 
-function BasicAlerts() {
-
-}
+toast.configure()
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -52,16 +50,6 @@ function SimpleDialog(props) {
         toast.error('Não foi possível deletar, Cliente possui uma movimentação vinculada.', { autoClose: 6000 });
       });
   };
-
-  // const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-  //   console.log(event.target.name, event.target.value);
-  //   const { name, value } = event.target;
-  //   setFormData({ ...formData, [name]: value });
-  // }
-
-  // const [formData, setFormData] = useState({
-  //   codigo: 0,
-  // });
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -135,6 +123,7 @@ function ModalDelCliente<ModalProps>({ codigo }) {
           color="inherit"
           size="small"
           onClick={handleClickOpen}
+          title="Deletar"
         >
           <DeleteTwoToneIcon fontSize="small" />
         </IconButton>
