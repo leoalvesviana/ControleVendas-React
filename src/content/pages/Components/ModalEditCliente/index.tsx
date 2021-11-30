@@ -11,7 +11,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import Fab from '@mui/material/Fab';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -21,9 +20,12 @@ import Dialog from '@mui/material/Dialog';
 import AddIcon from '@mui/icons-material/Add';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
+toast.configure()
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -34,7 +36,7 @@ function SimpleDialog(props) {
 
 
   async function handleSubmit() {
-    const { codigo, nome, tratameno, data, telefone1, email1, observacao, status } = formData;
+    const { codigo, nome, tratameno, data, telefone1, telefone2, email1, email2, observacao, status } = formData;
 
     const dados = {
       codigo,
@@ -42,16 +44,21 @@ function SimpleDialog(props) {
       tratameno,
       data,
       telefone1,
+      telefone2,
       email1,
+      email2,
       observacao,
       status
     };
     await api.put('/Clientes/AtualizarCliente', dados).then(response => {
       if (response.status === 200) {
-        window.location.reload();
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 2000);
+        toast.success('Cliente Atualizado com sucesso!', { autoClose: 2000 });
       }
     }).catch(error => {
-
+      toast.error('Error!');
     });;
   }
 
@@ -61,7 +68,9 @@ function SimpleDialog(props) {
     tratameno: selectedValue.tratameno,
     data: selectedValue.data,
     telefone1: selectedValue.telefone1,
+    telefone2: selectedValue.telefone2,
     email1: selectedValue.email1,
+    email2: selectedValue.email2,
     observacao: selectedValue.observacao,
     status: selectedValue.status,
   });
@@ -76,7 +85,7 @@ function SimpleDialog(props) {
     <Dialog onClose={handleClose} open={open}>
 
       <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
-      <DialogTitle>Editar Cliente</DialogTitle>
+      <DialogTitle style={{ fontSize: 20 }}>Editar Cliente</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
@@ -86,8 +95,6 @@ function SimpleDialog(props) {
             value={formData.nome}
             onChange={handleFieldChange}
           />&nbsp;
-        </ListItem>
-        <ListItem>
           <TextField
             label="Tratamento"
             name="tratameno"
@@ -103,9 +110,14 @@ function SimpleDialog(props) {
             style={{ width: 415 }}
             value={formData.telefone1}
             onChange={handleFieldChange}
-          />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-            <AddIcon sx={{ fontSize: 25 }} />
-          </Fab>
+          />&nbsp;
+          <TextField
+            label="Telefone 2"
+            name="telefone2"
+            style={{ width: 415 }}
+            value={formData.telefone2}
+            onChange={handleFieldChange}
+          />
         </ListItem>
         <ListItem>
           <TextField
@@ -114,15 +126,20 @@ function SimpleDialog(props) {
             style={{ width: 415 }}
             onChange={handleFieldChange}
             value={formData.email1}
-          />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-            <AddIcon sx={{ fontSize: 25 }} />
-          </Fab>
+          />&nbsp;
+          <TextField
+            label="Email 2"
+            name="email2"
+            style={{ width: 415 }}
+            onChange={handleFieldChange}
+            value={formData.email2}
+          />
         </ListItem>
         <ListItem>
           <TextField
             label="Observação"
             name="observacao"
-            style={{ width: 415, height: 80 }}
+            style={{ width: 550, height: 80 }}
             onChange={handleFieldChange}
             value={formData.observacao}
           />

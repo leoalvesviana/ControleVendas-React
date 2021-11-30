@@ -1,4 +1,4 @@
-export interface MovimentacaoFinanceiraPage  {
+export interface MovimentacaoFinanceiraPage {
 
     movimentacaoFinanceira: MovimentacaoFinanceira[];
     numeroCompras: number;
@@ -20,19 +20,19 @@ export interface Status{
 export interface Cliente {
     codigo: number;
     nome: string;
-    tratamento: string;
+    tratameno: string;
     data: Date;
     telefone1?: string;
     telefone2?: string;
     email1?: string;
     email2?: string;
     observacoes?: string;
-    foto: string;
+    foto?: string;
     status: string;
 
 }
 
-export interface Compra{
+export interface Compra {
     numCompra: number;
     status: string;
     dataCompra: Date;

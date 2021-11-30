@@ -15,9 +15,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { IconButton, useTheme } from '@mui/material';
 import api from 'src/service/api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+toast.configure()
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
+
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -31,9 +37,13 @@ function SimpleDialog(props) {
     api.delete(`/Itens/ExcluirItem/${value}`)
       .then(response => {
         if (response.status === 200) {
-          window.location.reload();
+          toast.success('Produto deletado!!', { autoClose: 1000 });
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 1000);
         }
       }).catch(error => {
+        toast.error('Não foi possível deletar, Produto possui uma movimentação vinculada.', { autoClose: 6000 });
       });
   };
 

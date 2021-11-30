@@ -4,26 +4,25 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Grid, Icon } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import Fab from '@mui/material/Fab';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import AddIcon from '@mui/icons-material/Add';
 import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from 'src/service/api';
 import { Link } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-function BasicAlerts() {
+toast.configure()
 
-}
+
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -38,25 +37,31 @@ function SimpleDialog(props) {
 
   const handleListItemCreate = (value) => {
     onClose(value);
+    // toast.success('Cadastrado com sucesso!!', { autoClose: false })
   };
 
 
   async function handleSubmit() {
-    const { nome, tratameno, telefone1, email1, observacao } = formData;
+    const { nome, tratameno, telefone1, telefone2, email1, email2, observacao } = formData;
 
     const data = {
       nome,
       tratameno,
       telefone1,
+      telefone2,
       email1,
+      email2,
       observacao,
     };
     await api.post('/Clientes/InserirCliente', data).then(response => {
       if (response.status === 200) {
-        window.location.reload();
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 2000);
+        toast.success('Cliente cadastrado com sucesso!', { autoClose: 2000 });
       }
     }).catch(error => {
-
+      toast.error('Error!', { autoClose: 5000 });
     });;
   }
 
@@ -70,7 +75,9 @@ function SimpleDialog(props) {
     nome: '',
     tratameno: '',
     telefone1: '',
+    telefone2: '',
     email1: '',
+    email2: '',
     observacao: '',
   });
 
@@ -80,8 +87,8 @@ function SimpleDialog(props) {
   return (
     <Dialog onClose={handleClose} open={open}>
 
-      <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
-      <DialogTitle>Cadastrar Cliente</DialogTitle>
+      <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
+      <DialogTitle style={{ fontSize: 20 }}>Cadastrar Cliente</DialogTitle>
       <List sx={{ pt: 0 }} >
         <ListItem>
           <TextField
@@ -90,9 +97,7 @@ function SimpleDialog(props) {
             multiline
             style={{ width: 415 }}
             onChange={handleFieldChange}
-          />
-        </ListItem>
-        <ListItem>
+          />&nbsp;
           <TextField
             label="Tratamento"
             name="tratameno"
@@ -108,9 +113,14 @@ function SimpleDialog(props) {
             style={{ width: 415 }}
             multiline
             onChange={handleFieldChange}
-          />&nbsp; <Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-            <AddIcon sx={{ fontSize: 25 }} />
-          </Fab>
+          />&nbsp;
+          <TextField
+            label="Telefone 2 (Opcional)"
+            name="telefone2"
+            style={{ width: 415 }}
+            multiline
+            onChange={handleFieldChange}
+          />
         </ListItem>
         <ListItem>
           <TextField
@@ -119,16 +129,21 @@ function SimpleDialog(props) {
             style={{ width: 415 }}
             multiline
             onChange={handleFieldChange}
-          />&nbsp;<Fab style={{ width: 35, height: 30 }} color="secondary" aria-label="add">
-            <AddIcon sx={{ fontSize: 25 }} />
-          </Fab>
+          />&nbsp;
+          <TextField
+            label="Email 2 (Opcional)"
+            name="email2"
+            style={{ width: 415 }}
+            multiline
+            onChange={handleFieldChange}
+          />
         </ListItem>
         <ListItem>
           <TextField
             label="Observação"
             name="observacao"
             multiline
-            style={{ width: 415, height: 80 }}
+            style={{ width: 550, height: 80 }}
             onChange={handleFieldChange}
           />
         </ListItem>

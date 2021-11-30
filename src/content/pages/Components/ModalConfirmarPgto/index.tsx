@@ -8,21 +8,20 @@ import AttachMoneyTwoToneIcon from '@mui/icons-material/AttachMoneyTwoTone';
 import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
+import Label from 'src/components/Label';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import api from 'src/service/api';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-function BasicAlerts() {
-
-}
+toast.configure()
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -37,37 +36,38 @@ function SimpleDialog(props) {
   const [checkbox, setCheckbox] = useState(false);
 
   const handleListItemCreate = (value) => {
-    if(checkbox === true){
+    if (checkbox === true) {
       var data = new Date;
       let day = data.getDate();
       let month = data.getMonth();
       let year = data.getFullYear();
-      let dataParam = `${year}-${month+1}-${day}`;
+      let dataParam = `${year}-${month + 1}-${day}`;
       console.log(dataParam)
-      api.get(`/Movimento/ConfirmarPagamento/${value}`,{
+      api.get(`/Movimento/ConfirmarPagamento/${value}`, {
         params: {
           Data: dataParam
         }
       })
         .then(response => {
+          if (response.status === 200) {
+            toast.success('Pagamento confirmado!!', { autoClose: 1000 });
+            setTimeout(function refreshing() {
+              window.location.reload();
+            }, 1000);
+          }
+        })
 
-      if (response.status === 200) {
-
-        window.location.reload();
-
-      }
-    })
-  }else{
+    } else {
       api.get(`/Movimento/ConfirmarPagamento/${value}`)
-      .then(response => {
-
-      if (response.status === 200) {
-
-        window.location.reload();
-
-      }
-    })
-  }
+        .then(response => {
+          if (response.status === 200) {
+            toast.success('Pagamento confirmado!!', { autoClose: 1000 });
+            setTimeout(function refreshing() {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+    }
   };
 
   const handleCheckboxChange = () => {
@@ -82,20 +82,20 @@ function SimpleDialog(props) {
       <List sx={{ pt: 0 }}>
         <ListItem>
           <TextField
-          disabled 
-          label="N° da compra"
-          style={{ width: 415 }}
-          value={selectedValue}
+            disabled
+            label="N° da compra"
+            style={{ width: 415 }}
+            value={selectedValue}
           />
         </ListItem>
         <ListItem>
-        <Checkbox
+          <Checkbox
             aria-label="Deseja alterar a data de compra para hoje?"
             color="primary"
             checked={checkbox}
             onClick={handleCheckboxChange}
-            title="Alterar para data de hoje?"
-        />
+          />&nbsp;
+          <Label>Deseja alterar a data de compra para hoje?</Label>
         </ListItem>
 
 
@@ -122,7 +122,7 @@ interface ModalProps {
   Numcompra: number;
 }
 
-function ModalConfirmarPgto<ModalProps>({NumCompra}) {
+function ModalConfirmarPgto<ModalProps>({ NumCompra }) {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
@@ -135,7 +135,6 @@ function ModalConfirmarPgto<ModalProps>({NumCompra}) {
   const handleClose = (value) => {
     setOpen(false);
     setSelectedValue(value);
-    window.location.reload();
   };
 
 

@@ -18,14 +18,13 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import api from 'src/service/api';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-function BasicAlerts() {
-
-}
+toast.configure()
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -59,11 +58,14 @@ function SimpleDialog(props) {
       valor: Number(valor)
     }).then(response => {
       if (response.status === 200) {
-        window.location.reload();
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 2000);
+        toast.success('Produto cadastrado com sucesso!', { autoClose: 2000 });
       }
     }).catch(error => {
-
-    });
+      toast.error('Error!', { autoClose: 5000 });
+    });;
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {

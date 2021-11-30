@@ -16,12 +16,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import api from 'src/service/api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-function BasicAlerts() {
-
-}
+toast.configure()
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -38,9 +38,13 @@ function SimpleDialog(props) {
     api.delete(`/Movimento/ExcluirMovimento/${value}`)
       .then(response => {
         if (response.status === 200) {
-          window.location.reload();
+          toast.success('Movimentação deletada com sucesso!!', { autoClose: 1000 });
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 1000);
         }
       }).catch(error => {
+        toast.error('Error!', { autoClose: 1000 });
       });
   };
 

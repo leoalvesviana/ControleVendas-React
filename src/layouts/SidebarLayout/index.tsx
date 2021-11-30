@@ -27,6 +27,10 @@ const MainContent = styled(Box)(
         margin-top: ${theme.header.height};
         flex: 1 1 auto;
         overflow: auto;
+
+        @media (max-width: ${theme.breakpoints.values.sm}px) {
+          overflow: auto;
+      }
 `
 );
 

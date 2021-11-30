@@ -1,20 +1,18 @@
 import { FC, ChangeEvent } from 'react';
 import React, { useEffect, useState } from 'react';
 import api from 'src/service/api';
-import { format } from 'date-fns';
 import ModalEditCliente from 'src/content/pages/Components/ModalEditCliente';
 import ModalDelCliente from 'src/content/pages/Components/ModalDelCliente';
-import numeral from 'numeral';
+import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import PropTypes from 'prop-types';
 import {
-  Tooltip,
   Divider,
   Box,
   FormControl,
   InputLabel,
+  Tooltip,
   Card,
-  Checkbox,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -27,20 +25,19 @@ import {
   Typography,
   useTheme,
   CardHeader,
-  Button
+  Button,
+  IconButton
 } from '@mui/material';
 
 import Label from 'src/components/Label';
 import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 
 interface RecentOrdersTableProps {
   className?: string;
-  cryptoOrders: CryptoOrder[];
+  cryptoOrders: Cliente[];
 }
 
 interface Filters {
@@ -52,11 +49,11 @@ interface Cliente {
   nome: string;
   tratameno: string;
   data: Date;
-  telefone1: string;
+  telefone1?: string;
   telefone2?: string;
-  email1: string;
+  email1?: string;
   email2?: string;
-  observacoes: string;
+  observacoes?: string;
   foto?: string;
   status: string;
 }
@@ -83,9 +80,9 @@ const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
 };
 
 const applyFilters = (
-  cryptoOrders: CryptoOrder[],
+  cryptoOrders: Cliente[],
   filters: Filters
-): CryptoOrder[] => {
+): Cliente[] => {
   return cryptoOrders.filter((cryptoOrder) => {
     let matches = true;
 
@@ -98,10 +95,10 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  cryptoOrders: CryptoOrder[],
+  cryptoOrders: Cliente[],
   page: number,
   limit: number
-): CryptoOrder[] => {
+): Cliente[] => {
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
@@ -123,17 +120,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       name: 'All'
     },
     {
-      id: 'completed',
-      name: 'Completed'
+      id: 'AGUARD PGTO',
+      name: 'AGUARD PGTO'
     },
     {
-      id: 'pending',
-      name: 'Pending'
+      id: 'SEM COCMPRA',
+      name: 'SEM COMPRA'
     },
-    {
-      id: 'failed',
-      name: 'Failed'
-    }
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -153,8 +146,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     event: ChangeEvent<HTMLInputElement>
   ): void => {
     setSelectedCryptoOrders(
-      event.target.checked
-        ? cryptoOrders.map((cryptoOrder) => cryptoOrder.id)
+      event.target.name
+        ? cryptoOrders.map((cryptoOrder) => cryptoOrder.nome)
         : []
     );
   };
@@ -309,15 +302,15 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       {cliente.data}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
-                  <Button onClick={() => (navigate(`../pedidos`, {state: {codigo: cliente.codigo}}))}></Button>
+                  <TableCell align="right" style={{ display: 'flex' }}>
+                    <IconButton color="inherit" size="small" onClick={() => (navigate(`../pedidos`, { state: { codigo: cliente.codigo } }))}><AddShoppingCartIcon fontSize="small" /></IconButton>
                     <Tooltip title="Edit Order" arrow>
                       <ModalEditCliente codigo={cliente.codigo} />
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
                       <ModalDelCliente codigo={cliente.codigo} />
                     </Tooltip>
-                    <Button onClick={() => (navigate(`../DetailsCliente/`, {state: {codigo: cliente.codigo}}))}></Button>
+                    <IconButton color="inherit" size="small" onClick={() => (navigate(`../DetailsCliente/`, { state: { codigo: cliente.codigo } }))}><AssignmentTwoToneIcon fontSize="small" /></IconButton>
                   </TableCell>
                 </TableRow>
               );

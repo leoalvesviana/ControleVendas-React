@@ -1,17 +1,17 @@
 import { Typography, Button, Grid } from '@mui/material';
-import ModalPedidos, {ResponseApiWithItens} from 'src/content/pages/Components/ModalPedidos';
+import ModalPedidos, { ResponseApiWithItens } from 'src/content/pages/Components/ModalPedidos';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react"
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import api from 'src/service/api';
 import * as t from '../../../models/Types'
 
-interface Headerprops{
+interface Headerprops {
   codigo: number;
   body: t.Pedido;
   changeResponse: Dispatch<SetStateAction<t.Pedido>>
 }
 
-const PageHeader: React.FC<Headerprops> = ({body, codigo,changeResponse}) => {
+const PageHeader: React.FC<Headerprops> = ({ body, codigo, changeResponse }) => {
 
   const user =
   {
@@ -28,7 +28,8 @@ const PageHeader: React.FC<Headerprops> = ({body, codigo,changeResponse}) => {
       if (response && response.status === 200 && response.data) {
         setCliente(response.data);
         body.cliente = response.data;
-      }})
+      }
+    })
 
   }, [])
 
@@ -47,13 +48,13 @@ const PageHeader: React.FC<Headerprops> = ({body, codigo,changeResponse}) => {
           Cliente:
         </Typography>
         <Typography variant="subtitle2">
-          Nome: { cliente && cliente.nome}
-          <br/>
-          Email: { cliente && cliente.email1}
+          Nome: {cliente && cliente.nome}
+          <br />
+          Email: {cliente && cliente.email1}
         </Typography>
       </Grid>
       <Grid item>
-        <ModalPedidos apiResponse={body} changeResponse={changeResponse}/>
+        <ModalPedidos apiResponse={body} changeResponse={changeResponse} />
       </Grid>
     </Grid>
   );
