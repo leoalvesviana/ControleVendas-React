@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import api from 'src/service/api';
 import ModalEditCliente from 'src/content/pages/Components/ModalEditCliente';
 import ModalDelCliente from 'src/content/pages/Components/ModalDelCliente';
+import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import PropTypes from 'prop-types';
 import {
   Divider,
@@ -23,7 +25,8 @@ import {
   Typography,
   useTheme,
   CardHeader,
-  Button
+  Button,
+  IconButton
 } from '@mui/material';
 
 import Label from 'src/components/Label';
@@ -299,15 +302,15 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       {cliente.data}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
-                    <Button onClick={() => (navigate(`../pedidos`, { state: { codigo: cliente.codigo } }))}></Button>
+                  <TableCell align="right" style={{ display: 'flex' }}>
+                    <IconButton color="inherit" size="small" onClick={() => (navigate(`../pedidos`, { state: { codigo: cliente.codigo } }))}><AddShoppingCartIcon fontSize="small" /></IconButton>
                     <Tooltip title="Edit Order" arrow>
                       <ModalEditCliente codigo={cliente.codigo} />
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
                       <ModalDelCliente codigo={cliente.codigo} />
                     </Tooltip>
-                    <Button onClick={() => (navigate(`../DetailsCliente/`, { state: { codigo: cliente.codigo } }))}></Button>
+                    <IconButton color="inherit" size="small" onClick={() => (navigate(`../DetailsCliente/`, { state: { codigo: cliente.codigo } }))}><AssignmentTwoToneIcon fontSize="small" /></IconButton>
                   </TableCell>
                 </TableRow>
               );

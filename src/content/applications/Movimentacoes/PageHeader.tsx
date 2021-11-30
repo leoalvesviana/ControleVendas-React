@@ -21,24 +21,6 @@ function PageHeader() {
               Tabela de movimentações.
             </Typography>
           </Grid>
-          <Grid item>
-            <Grid item>
-              <Button
-                sx={{ mt: { xs: 2, md: 0 } }}
-                variant="contained"
-              > Mês atual
-              </Button>&nbsp;
-              <Button
-                sx={{ mt: { xs: 2, md: 0 } }}
-                variant="contained"
-              > Dia atual
-              </Button>&nbsp;
-              <Button
-                sx={{ mt: { xs: 2, md: 0 } }}
-                variant="contained"
-              >Exibir Todos</Button>
-            </Grid>
-          </Grid>
         </Grid >
       </CardContent>
     </Card>
