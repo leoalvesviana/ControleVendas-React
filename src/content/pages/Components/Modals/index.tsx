@@ -18,6 +18,7 @@ import api from 'src/service/api';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Label from 'src/components/Label';
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 toast.configure()
@@ -44,9 +45,10 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
     // toast.success('Cadastrado com sucesso!!', { autoClose: false })
   };
 
+  const [errorField, setErrorField] = useState<any>("primary");
 
   async function handleSubmit() {
-    const { nome, tratameno, telefone1, telefone2, email1, email2, observacao } = formData;
+    const { nome, tratameno, telefone1, telefone2, email1, email2, observacoes } = formData;
 
     const data = {
       nome,
@@ -55,22 +57,38 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
       telefone2,
       email1,
       email2,
-      observacao,
+      observacoes,
     };
-    await api.post('/Clientes/InserirCliente', data).then(response => {
-      if (response.status === 200) {
-        api.get('/Clientes/GetClientes')
-        .then(response => {
-          if (response && response.status === 200 && response.data) {
-            setClientes(response.data);
-            onClose()
-          }
+
+    if (nome === "" || telefone1 === "" || tratameno === "" || email1 === "") {
+      toast.error("Os campos 'nome', 'telefone', 'tratamento' e 'email' devem ser preenchido.",
+        {
+          position: "top-center",
+          autoClose: false,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
         });
-        toast.success('Cliente cadastrado com sucesso!', { autoClose: 2000 });
-      }
-    }).catch(error => {
-      toast.error('Error!', { autoClose: 5000 });
-    });;
+    } else {
+      await api.post('/Clientes/InserirCliente', data).then(response => {
+        if (response.status === 200) {
+          api.get('/Clientes/GetClientes')
+          .then(response => {
+            if (response && response.status === 200 && response.data) {
+              setClientes(response.data);
+              onClose()
+            }
+          });
+          toast.success('Cliente cadastrado com sucesso!', { autoClose: 2000 });
+          console.log(data);
+        }
+      }).catch(error => {
+        toast.error('Error!', { autoClose: 5000 });
+      });;
+    }
+
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -86,8 +104,9 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
     telefone2: '',
     email1: '',
     email2: '',
-    observacao: '',
+    observacoes: '',
   });
+
 
 
 
@@ -106,6 +125,7 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             multiline
             style={{ width: 415 }}
             onChange={handleFieldChange}
+            required={true}
           />&nbsp;
           <TextField
             label="Tratamento"
@@ -113,6 +133,7 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             multiline
             style={{ width: 415 }}
             onChange={handleFieldChange}
+            required={true}
           />
         </ListItem>
         <ListItem>
@@ -122,6 +143,7 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             style={{ width: 415 }}
             multiline
             onChange={handleFieldChange}
+            required={true}
           />&nbsp;
           <TextField
             label="Telefone 2 (Opcional)"
@@ -138,6 +160,7 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             style={{ width: 415 }}
             multiline
             onChange={handleFieldChange}
+            required={true}
           />&nbsp;
           <TextField
             label="Email 2 (Opcional)"
@@ -150,22 +173,20 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
         <ListItem>
           <TextField
             label="Observação"
-            name="observacao"
+            name="observacoes"
             multiline
             style={{ width: 550, height: 80 }}
             onChange={handleFieldChange}
           />
         </ListItem>
-        <Link to="/tarefas/clientes">
-          <ListItem autoFocus button onClick={handleSubmit} >
-            <ListItemAvatar>
-              <Avatar>
-                <CheckIcon color="primary" />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Cadastrar" />
-          </ListItem>
-        </Link>
+        <ListItem autoFocus button onClick={handleSubmit} >
+          <ListItemAvatar>
+            <Avatar>
+              <CheckIcon color="primary" />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Cadastrar" />
+        </ListItem>
       </List>
     </Dialog>
   );

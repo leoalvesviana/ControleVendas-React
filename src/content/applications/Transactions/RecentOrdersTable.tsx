@@ -291,14 +291,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, setClient
                     </Typography>
                   </TableCell>
                   <TableCell align="right" style={{ display: 'flex' }}>
-                    <IconButton color="inherit" size="small" onClick={() => (navigate(`../pedidos`, { state: { codigo: cliente.codigo } }))}><AddShoppingCartIcon fontSize="small" /></IconButton>
+                    <IconButton color="success" size="small" onClick={() => (navigate(`../pedidos`, { state: { codigo: cliente.codigo } }))}><AddShoppingCartIcon fontSize="small" /></IconButton>
                     <Tooltip title="Edit Order" arrow>
                       <ModalEditCliente codigo={cliente.codigo} setClientes={setClienteList}/>
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
                       <ModalDelCliente Codigo={cliente.codigo} setClientes={setClienteList} />
                     </Tooltip>
-                    <IconButton color="inherit" size="small" onClick={() => (navigate(`../DetailsCliente/`, { state: { codigo: cliente.codigo } }))}><AssignmentTwoToneIcon fontSize="small" /></IconButton>
+                    <IconButton color="primary" size="small" onClick={() => (navigate(`../DetailsCliente/`, { state: { codigo: cliente.codigo } }))}><AssignmentTwoToneIcon fontSize="small" /></IconButton>
                   </TableCell>
                 </TableRow>
               );

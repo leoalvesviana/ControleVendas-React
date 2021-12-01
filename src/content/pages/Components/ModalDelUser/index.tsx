@@ -27,7 +27,7 @@ function BasicAlerts() {
 
 }
 
-interface DialogProps{
+interface DialogProps {
   onClose: () => void;
   open: boolean;
   setUser: Dispatch<SetStateAction<t.Usuario[]>>
@@ -46,7 +46,7 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
     await api.delete(`/Usuario/Excluir/${Codigo}`).then(response => {
       if (response.status === 200) {
         api.get(`/Usuario/ObterTodos`).then(response => {
-          if(response.status === 200){
+          if (response.status === 200) {
             setUser(response.data)
             onClose();
           }
@@ -81,27 +81,27 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
             value={user.login}
           />
         </ListItem>
-        <Link style={{textDecoration: 'none'}} to="/tarefas/Usuarios">
-            <ListItem autoFocus button onClick={handleSubmit} >
-              <ListItemAvatar>
-                <Avatar>
-                  <CheckIcon color="primary" />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Remover" />
-            </ListItem>
+        <Link style={{ textDecoration: 'none' }} to="/tarefas/Usuarios">
+          <ListItem autoFocus button onClick={handleSubmit} >
+            <ListItemAvatar>
+              <Avatar>
+                <CheckIcon color="primary" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Remover" />
+          </ListItem>
         </Link>
       </List>
     </Dialog>
   );
 }
 
-interface ModalProps{
+interface ModalProps {
   changeUsuarios: Dispatch<SetStateAction<t.Usuario[]>>
   codigo: number;
 }
 
-const ModalDelUser: React.FC<ModalProps> = ({changeUsuarios, codigo}) => {
+const ModalDelUser: React.FC<ModalProps> = ({ changeUsuarios, codigo }) => {
 
   const [open, setOpen] = useState(false);
   const theme = useTheme();
@@ -118,7 +118,7 @@ const ModalDelUser: React.FC<ModalProps> = ({changeUsuarios, codigo}) => {
 
   useEffect(() => {
     api.get(`/Usuario/Obter/${codigo}`).then(response => {
-      if(response.status === 200){
+      if (response.status === 200) {
         setUsuario(response.data)
       }
     })
@@ -126,28 +126,28 @@ const ModalDelUser: React.FC<ModalProps> = ({changeUsuarios, codigo}) => {
 
   return (
     <>
-      <Grid item>
+      <Grid item height="42px">
         <IconButton
-            sx={{
-              '&:hover': {
-                background: theme.colors.error.lighter
-              },
-              color: theme.palette.error.main
-            }}
-            color="inherit"
-            size="small"
-            onClick={handleClickOpen}
-          >
-            <DeleteTwoToneIcon fontSize="small" />
-          </IconButton>
+          sx={{
+            '&:hover': {
+              background: theme.colors.error.lighter
+            },
+            color: theme.palette.error.main
+          }}
+          color="inherit"
+          size="small"
+          onClick={handleClickOpen}
+        >
+          <DeleteTwoToneIcon fontSize="small" />
+        </IconButton>
         {user &&
           <SimpleDialog
-          open={open}
-          onClose={handleClose}
-          setUser={changeUsuarios}
-          Codigo={codigo}
-          user={user}
-        />
+            open={open}
+            onClose={handleClose}
+            setUser={changeUsuarios}
+            Codigo={codigo}
+            user={user}
+          />
         }
       </Grid>
     </>

@@ -59,23 +59,37 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
       descricao,
       valor
     };
-    await api.post('/Itens/InserirItem', {
-      descricao: data.descricao,
-      valor: Number(valor)
-    }).then(response => {
-      if (response.status === 200) {
-        api.get('/Itens/GetItens')
+
+    if (descricao === "" || valor === 0) {
+      toast.error("Os campos 'Descrição' e 'Valor' devem ser preenchidos.",
+        {
+          position: "top-center",
+          autoClose: false,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+    } else {
+      await api.post('/Itens/InserirItem', {
+        descricao: data.descricao,
+        valor: Number(valor)
+      }).then(response => {
+        if (response.status === 200) {
+          api.get('/Itens/GetItens')
           .then(response => {
             if (response && response.status === 200 && response.data) {
               setProdutos(response.data);
               onClose()
             }
           });
-        toast.success('Produto cadastrado com sucesso!', { autoClose: 2000 });
-      }
-    }).catch(error => {
-      toast.error('Error!', { autoClose: 5000 });
-    });;
+          toast.success('Produto cadastrado com sucesso!', { autoClose: 2000 });
+        }
+      }).catch(error => {
+        toast.error('Error!', { autoClose: 5000 });
+      });;
+    }
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -99,6 +113,7 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             style={{ width: 415 }}
             multiline
             onChange={handleFieldChange}
+            required={true}
           />
         </ListItem>
         <ListItem>
@@ -108,6 +123,7 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             name="valor"
             style={{ width: 415, height: 80 }}
             onChange={handleFieldChange}
+            required={true}
           />
         </ListItem>
         <ListItem autoFocus button onClick={handleSubmit}>
