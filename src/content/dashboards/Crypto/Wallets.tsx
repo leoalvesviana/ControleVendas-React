@@ -40,46 +40,7 @@ interface Produto {
   valor: number;
 }
 
-const AvatarWrapper = styled(Avatar)(
-  ({ theme }) => `
-        background: transparent;
-        margin-left: -${theme.spacing(0.5)};
-        margin-bottom: ${theme.spacing(1)};
-        margin-top: ${theme.spacing(2)};
-`
-);
 
-const AvatarAddWrapper = styled(Avatar)(
-  ({ theme }) => `
-        background: ${theme.colors.alpha.black[5]};
-        color: ${theme.colors.primary.main};
-        width: ${theme.spacing(8)};
-        height: ${theme.spacing(8)};
-`
-);
-
-const CardAddAction = styled(Card)(
-  ({ theme }) => `
-        border: ${theme.colors.primary.main} dashed 1px;
-        height: 100%;
-        color: ${theme.colors.primary.main};
-        
-        .MuiCardActionArea-root {
-          height: 100%;
-          justify-content: center;
-          align-items: center;
-          display: flex;
-        }
-        
-        .MuiTouchRipple-root {
-          opacity: .2;
-        }
-        
-        &:hover {
-          border-color: ${theme.colors.alpha.black[100]};
-        }
-`
-);
 
 function Wallets() {
 
@@ -109,16 +70,16 @@ function Wallets() {
     });
   }, []);
 
-
   return (
     <>
       <Card style={{
-        display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center',
-        // , backgroundColor: '#00ffbf'
+        display: 'flex', height: '100vh', justifyContent: 'center',
+        backgroundImage: "url(" + "https://i.pinimg.com/originals/39/1e/7b/391e7ba4cb2c0752bf007c7bfb4ea143.png" + ")",
+        backgroundSize: 'cover'
       }}>
-        <CardContent style={{ margin: '88px 0 10px 0' }}>
+        <CardContent style={{ marginTop: '30px' }}>
           <Grid container spacing={3}>
-            <Grid xs={12} sm={8} md={4} item>
+            <Grid item>
               <Card sx={{ px: 1 }} style={{ width: '250px' }}>
                 <CardContent>
                   <SupervisedUserCircleIcon sx={{ fontSize: 50 }} color="primary" />
@@ -133,7 +94,7 @@ function Wallets() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid xs={12} sm={6} md={4} item>
+            <Grid item>
               <Card sx={{ px: 1 }} style={{ width: '250px' }}>
                 <CardContent>
                   <StoreIcon sx={{ fontSize: 50 }} color="secondary" />
@@ -148,7 +109,7 @@ function Wallets() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid xs={12} sm={6} md={4} item>
+            <Grid item>
               <Card sx={{ px: 1 }} style={{ backgroundColor: ' 	 ', width: '250px' }}>
                 <CardContent>
                   <CompareArrowsIcon sx={{ fontSize: 50 }} color="success" />
