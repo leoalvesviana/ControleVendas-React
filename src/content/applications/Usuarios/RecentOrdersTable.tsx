@@ -100,7 +100,7 @@ const applyPagination = (
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders , usuarios, setUsuarios}) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, usuarios, setUsuarios }) => {
 
   const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>(
     []
@@ -283,20 +283,20 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders , usuarios
                         gutterBottom
                         noWrap
                       >
-                        {usuario.admin ? 
-                        <CheckIcon/>
-                        :
-                        <ClearIcon/>  
-                      }
+                        {usuario.admin ?
+                          <CheckIcon fontSize="small" />
+                          :
+                          <ClearIcon fontSize="small" />
+                        }
                       </Typography>
                     </TableCell>
-                    <TableCell>
-                    <Tooltip title="Editar" arrow>
-                      <ModalEditUser codigo={usuario.codigo} changeUsuarios={setUsuarios}/>
-                    </Tooltip>
-                    <Tooltip title="Remover" arrow>
-                      <ModalDelUser codigo={usuario.codigo} changeUsuarios={setUsuarios}/>
-                    </Tooltip>
+                    <TableCell align="right" style={{ display: 'flex' }}>
+                      <Tooltip title="Editar" arrow>
+                        <ModalEditUser codigo={usuario.codigo} changeUsuarios={setUsuarios} />
+                      </Tooltip>
+                      <Tooltip title="Remover" arrow>
+                        <ModalDelUser codigo={usuario.codigo} changeUsuarios={setUsuarios} />
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 );
