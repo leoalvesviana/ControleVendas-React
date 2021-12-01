@@ -7,25 +7,20 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Container, Grid, Card, CardHeader, CardContent, Divider, ListItem, Checkbox } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import Fab from '@mui/material/Fab';
 import List from '@mui/material/List';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import AddIcon from '@mui/icons-material/Add';
 import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from 'src/service/api';
 import { Link } from 'react-router-dom';
-import * as t from '../../../../models/Types'
+import * as t from '../../../../models/Types';
+import Label from 'src/components/Label';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-function BasicAlerts() {
-
-}
-
-interface DialogProps{
+interface DialogProps {
   onClose: () => void;
   open: boolean;
   setUser: Dispatch<SetStateAction<t.Usuario[]>>
@@ -51,7 +46,7 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
     await api.post('/Usuario/Inserir', data).then(response => {
       if (response.status === 200) {
         api.get(`/Usuario/ObterTodos`).then(response => {
-          if(response.status === 200){
+          if (response.status === 200) {
             setUser(response.data)
             onClose();
           }
@@ -132,29 +127,28 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
             aria-label="Admin"
             color="primary"
             onClick={handleCheckboxChange}
-            title="Alterar para data de hoje?"
-        />
+          /><Label>Administrador</Label>
         </ListItem>
         <Link to="/tarefas/Usuarios">
-            <ListItem autoFocus button onClick={handleSubmit} >
-              <ListItemAvatar>
-                <Avatar>
-                  <CheckIcon color="primary" />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Cadastrar" />
-            </ListItem>
+          <ListItem autoFocus button onClick={handleSubmit} >
+            <ListItemAvatar>
+              <Avatar>
+                <CheckIcon color="primary" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Cadastrar" />
+          </ListItem>
         </Link>
       </List>
     </Dialog>
   );
 }
 
-interface ModalProps{
+interface ModalProps {
   changeUsuarios: Dispatch<SetStateAction<t.Usuario[]>>
 }
 
-const ModalCreateUser: React.FC<ModalProps> = ({changeUsuarios}) => {
+const ModalCreateUser: React.FC<ModalProps> = ({ changeUsuarios }) => {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
