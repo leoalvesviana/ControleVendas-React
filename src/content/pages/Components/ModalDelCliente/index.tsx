@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import * as t from "../../../../models/Types"
+import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import api from 'src/service/api';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { IconButton, useTheme } from '@mui/material';
@@ -21,19 +22,26 @@ import 'react-toastify/dist/ReactToastify.css'
 
 toast.configure()
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
+interface SimpleDialogProps{
+  onClose: () => void;
+  setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
+  selectedValue: t.Cliente;
+  open: boolean;
+}
+
+const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
+  const { onClose, selectedValue, open, setClientes } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
-  const handleListItemClick = (value) => {
-    onClose(value);
+  const handleListItemClick = () => {
+    onClose();
   };
 
-  const handleListItemCreate = (value) => {
-    onClose(value);
+  const handleListItemCreate = () => {
+    onClose();
   };
 
 
@@ -42,9 +50,13 @@ function SimpleDialog(props) {
       .then(response => {
         if (response.status === 200) {
           toast.success('Cliente deletado!!', { autoClose: 1000 });
-          setTimeout(function refreshing() {
-            window.location.reload();
-          }, 1000);
+          api.get('/Clientes/GetClientes')
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            setClientes(response.data);
+            onClose()
+          }
+        });
         }
       }).catch(error => {
         toast.error('Não foi possível deletar, Cliente possui uma movimentação vinculada.', { autoClose: 6000 });
@@ -79,17 +91,13 @@ function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
-
 interface ModalProps {
   Codigo: number;
+  setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
+
 }
 
-function ModalDelCliente<ModalProps>({ codigo }) {
+const ModalDelCliente: React.FC<ModalProps> = ({ Codigo, setClientes }) => {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState();
@@ -97,15 +105,14 @@ function ModalDelCliente<ModalProps>({ codigo }) {
 
   const handleClickOpen = () => {
     setOpen(true);
-    api.get(`/Clientes/GetCliente/${codigo}`)
+    api.get(`/Clientes/GetCliente/${Codigo}`)
       .then(response => {
         if (response && response.status === 200 && response.data) {
-          console.log(response)
           setCliente(response.data);
         }
       })
   }
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
   };
 
@@ -129,6 +136,7 @@ function ModalDelCliente<ModalProps>({ codigo }) {
         </IconButton>
         {cliente &&
           <SimpleDialog
+            setClientes={setClientes}
             selectedValue={cliente}
             open={open}
             onClose={handleClose}

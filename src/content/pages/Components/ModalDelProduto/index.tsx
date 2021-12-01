@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import * as t from "../../../../models/Types"
+import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
@@ -21,16 +22,23 @@ import 'react-toastify/dist/ReactToastify.css';
 
 toast.configure()
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
+interface SimpleDialogProps{
+  onClose: () => void;
+  setProdutos: Dispatch<SetStateAction<t.produto>>;
+  selectedValue: t.produto;
+  open: boolean;
+}
+
+const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
+  const { onClose, selectedValue, open, setProdutos} = props;
 
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
-  const handleListItemClick = (value) => {
-    onClose(value);
+  const handleListItemClick = () => {
+    onClose();
   };
 
   const handleListItemDelete = (value) => {
@@ -38,9 +46,12 @@ function SimpleDialog(props) {
       .then(response => {
         if (response.status === 200) {
           toast.success('Produto deletado!!', { autoClose: 1000 });
-          setTimeout(function refreshing() {
-            window.location.reload();
-          }, 1000);
+          api.get('/Itens/GetItens')
+          .then(response => {
+            if (response && response.status === 200 && response.data) {
+              setProdutos(response.data);
+            }
+          });
         }
       }).catch(error => {
         toast.error('Não foi possível deletar, Produto possui uma movimentação vinculada.', { autoClose: 6000 });
@@ -75,17 +86,12 @@ function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
-
 interface ModalProps {
   Codigo: number;
+  setProdutos: Dispatch<SetStateAction<t.produto>>;
 }
 
-function ModalDelProduto<ModalProps>({ Codigo }) {
+function ModalDelProduto<ModalProps>({ Codigo, setProdutos }) {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState();
@@ -96,16 +102,15 @@ function ModalDelProduto<ModalProps>({ Codigo }) {
     api.get(`/Itens/GetItem/${Codigo}`)
       .then(response => {
         if (response && response.status === 200 && response.data) {
-          console.log(response)
           setItem(response.data);
         }
       })
   }
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
   };
 
-  const [item, setItem] = useState<any>();
+  const [item, setItem] = useState<t.produto>();
 
   return (
     <>
@@ -123,6 +128,7 @@ function ModalDelProduto<ModalProps>({ Codigo }) {
         </IconButton>
         {item &&
           <SimpleDialog
+            setProdutos={setProdutos}
             selectedValue={item}
             open={open}
             onClose={handleClose}

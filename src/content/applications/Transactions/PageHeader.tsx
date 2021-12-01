@@ -1,8 +1,14 @@
 import { Typography, Button, Grid, Card, CardContent } from '@mui/material';
 import Modals from 'src/content/pages/Components/Modals';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import * as t from '../../../models/Types'
+import { Dispatch, SetStateAction } from 'react';
 
-function PageHeader() {
+interface Props{
+  setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
+}
+
+const PageHeader: React.FC<Props> = ({setClientes}) => {
 
   const user =
   {
@@ -22,7 +28,7 @@ function PageHeader() {
             </Typography>
           </Grid>
           <Grid item>
-            <Modals />
+            <Modals setClientes={setClientes}/>
           </Grid>
         </Grid>
       </CardContent>

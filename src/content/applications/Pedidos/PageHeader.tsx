@@ -1,5 +1,5 @@
 import { Typography, Button, Grid, Card, CardContent } from '@mui/material';
-import ModalPedidos, { ResponseApiWithItens } from 'src/content/pages/Components/ModalPedidos';
+import ModalPedidos from 'src/content/pages/Components/ModalPedidos';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import api from 'src/service/api';
@@ -18,8 +18,6 @@ const PageHeader: React.FC<Headerprops> = ({ body, codigo, changeResponse }) => 
     name: 'Catherine Pike',
     avatar: '/static/images/avatars/1.jpg'
   };
-
-  console.log(ResponseApiWithItens)
 
   const [cliente, setCliente] = useState<t.Cliente>();
 

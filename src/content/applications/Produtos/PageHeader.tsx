@@ -2,8 +2,14 @@ import { Typography, Button, Grid, Card, CardContent } from '@mui/material';
 import ModalProduto from '../../pages/Components/ModalProduto';
 import ModalAltValoresProduto from '../../pages/Components/ModalAltValoresProduto';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import * as t from "../../../models/Types"
+import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
 
-function PageHeader() {
+interface Props{
+  setProdutos: Dispatch<SetStateAction<t.produto[]>>;
+}
+
+const PageHeader: React.FC<Props> = ({setProdutos}) => {
 
   const user =
   {
@@ -23,7 +29,7 @@ function PageHeader() {
             </Typography>
           </Grid>
           <Grid item>
-            <Button><ModalProduto /></Button>
+            <Button><ModalProduto setProdutos={setProdutos}/></Button>
           </Grid>
         </Grid>
       </CardContent>

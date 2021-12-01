@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import * as t from "../../../../models/Types"
+import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
@@ -13,7 +14,6 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from 'src/service/api';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -22,21 +22,25 @@ const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 toast.configure()
 
+interface SimpleDialogProps{
+  onClose: () => void;
+  setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
+  open: boolean;
+}
 
-
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
+const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
+  const { onClose, open, setClientes } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
-  const handleListItemClick = (value) => {
-    onClose(value);
+  const handleListItemClick = () => {
+    onClose();
   };
 
-  const handleListItemCreate = (value) => {
-    onClose(value);
+  const handleListItemCreate = () => {
+    onClose();
     // toast.success('Cadastrado com sucesso!!', { autoClose: false })
   };
 
@@ -55,9 +59,13 @@ function SimpleDialog(props) {
     };
     await api.post('/Clientes/InserirCliente', data).then(response => {
       if (response.status === 200) {
-        setTimeout(function refreshing() {
-          window.location.reload();
-        }, 2000);
+        api.get('/Clientes/GetClientes')
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            setClientes(response.data);
+            onClose()
+          }
+        });
         toast.success('Cliente cadastrado com sucesso!', { autoClose: 2000 });
       }
     }).catch(error => {
@@ -149,15 +157,13 @@ function SimpleDialog(props) {
           />
         </ListItem>
         <Link to="/tarefas/clientes">
-          <ListItem onClick={() => handleListItemCreate('Create')}>
-            <ListItem autoFocus button onClick={handleSubmit} >
-              <ListItemAvatar>
-                <Avatar>
-                  <CheckIcon color="primary" />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Cadastrar" />
-            </ListItem>
+          <ListItem autoFocus button onClick={handleSubmit} >
+            <ListItemAvatar>
+              <Avatar>
+                <CheckIcon color="primary" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Cadastrar" />
           </ListItem>
         </Link>
       </List>
@@ -165,24 +171,20 @@ function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
+interface ModalProps {
+  setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
+}
 
-function Modals() {
+const Modals: React.FC<ModalProps> = ({setClientes}) => {
 
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(emails[1]);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
-    setSelectedValue(value);
   };
 
 
@@ -193,7 +195,7 @@ function Modals() {
           variant="contained"
           onClick={handleClickOpen}><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
         <SimpleDialog
-          selectedValue={selectedValue}
+          setClientes={setClientes}
           open={open}
           onClose={handleClose}
         />
