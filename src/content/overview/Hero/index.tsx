@@ -6,7 +6,7 @@ import {
   Typography
 } from '@mui/material';
 
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
@@ -14,11 +14,17 @@ import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 import { makeStyles } from '@mui/material/styles';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ChangeEvent, useState } from 'react';
+import api from 'src/service/api';
 
 toast.configure()
 
 function alertLogin() {
   toast.info('Login efetuado com sucesso.', { autoClose: 2000 });
+}
+
+function alertError() {
+  toast.error('usuario ou senha inválidos.', { autoClose: 2000 });
 }
 
 const TypographyH1 = styled(Typography)(
@@ -107,7 +113,40 @@ const TsAvatar = styled(Box)(
 );
 
 
+
 function Hero() {
+
+  const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  }
+
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    nomeUsuario: '',
+    senha: ''
+  });
+
+  const Handlesubmit = () => {
+
+    const {nomeUsuario, senha} = formData;
+
+    const data = {
+      nomeUsuario,
+      senha
+    }
+
+    api.post(`/Login/Logar`, data).then(response => {
+      if(response.status === 200){
+        alertLogin();
+        navigate("/dashboards/home")
+      }
+      else{
+        alertError();
+      }
+    })
+  }
 
   return (
     <Container sx={{ textAlign: 'center' }}>
@@ -123,7 +162,7 @@ function Hero() {
                 <AccountCircleIcon />
               </Grid>
               <Grid item>
-                <TextField id="input-with-icon-grid" label="Usuário" />
+                <TextField id="input-with-icon-grid" name="nomeUsuario" label="Usuário" onChange={handleFieldChange}/>
               </Grid>
             </Grid>
             <Grid sx={{ mt: 2 }} container spacing={1} alignItems="flex-end" justifyContent="center">
@@ -134,8 +173,10 @@ function Hero() {
                 <TextField
                   id="outlined-password-input"
                   label="Senha"
+                  name="senha"
                   type="password"
                   autoComplete="current-password"
+                  onChange={handleFieldChange}
                 />
               </Grid>
             </Grid>
@@ -153,12 +194,10 @@ function Hero() {
 
               <Grid item>
                 <Button
-                  component={RouterLink}
-                  to="/dashboards/home"
                   size="large"
                   variant="contained"
                   style={{ width: 470 }}
-                  onClick={alertLogin}
+                  onClick={Handlesubmit}
                 >
                   Entrar
                 </Button>

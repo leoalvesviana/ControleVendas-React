@@ -54,11 +54,6 @@ const menuItems: MenuItems[] = [
         link: '/tarefas/movimentacoes'
       },
       {
-        name: 'Pedidos',
-        icon: AddShoppingCartIcon,
-        link: '/tarefas/pedidos'
-      },
-      {
         name: 'Usuários',
         icon: ManageAccountsTwoToneIcon,
         link: '/tarefas/Usuarios'
