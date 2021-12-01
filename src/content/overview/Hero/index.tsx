@@ -14,7 +14,7 @@ import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 import { makeStyles } from '@mui/material/styles';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import api from 'src/service/api';
 
 toast.configure()
@@ -112,9 +112,11 @@ const TsAvatar = styled(Box)(
 `
 );
 
+interface initialPageProps{
+  setLogin: Dispatch<SetStateAction<boolean>>
+}
 
-
-function Hero() {
+const Hero: React.FC<initialPageProps> = ({setLogin}) => {
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -136,10 +138,12 @@ function Hero() {
       nomeUsuario,
       senha
     }
+    
 
     api.post(`/Login/Logar`, data).then(response => {
       if(response.status === 200){
         alertLogin();
+        setLogin(true)
         navigate("/dashboards/home")
       }
       else{
