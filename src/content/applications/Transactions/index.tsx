@@ -3,11 +3,25 @@ import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import RecentOrders from './RecentOrders';
+import { useEffect, useState } from 'react';
+import api from 'src/service/api';
+import * as t from "../../../models/Types"
 
 
 
 
 function ApplicationsTransactions() {
+
+
+  const [clienteList, setClienteList] = useState<t.Cliente[]>([]);
+
+  useEffect(() => {
+    api.get('/Clientes/GetClientes').then(response => {
+      if (response && response.status === 200 && response.data) {
+        setClienteList(response.data);
+      }
+    })
+  }, [api]);
 
   return (
     <>
@@ -15,7 +29,7 @@ function ApplicationsTransactions() {
         <title>Clientes</title>
       </Helmet>
       <PageTitleWrapper>
-        <PageHeader />
+        <PageHeader setClientes={setClienteList}/>
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -26,7 +40,7 @@ function ApplicationsTransactions() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <RecentOrders />
+            <RecentOrders setClientes={setClienteList} clientes={clienteList} />
           </Grid>
         </Grid>
       </Container>

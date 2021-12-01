@@ -175,5 +175,4 @@ function ModalPedidos({apiResponse, changeResponse}: modalProps) {
   
 }
 
-export {resposta as ResponseApiWithItens};
 export default ModalPedidos;

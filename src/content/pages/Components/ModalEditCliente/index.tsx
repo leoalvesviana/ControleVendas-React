@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import {
   IconButton,
   useTheme,
@@ -19,7 +18,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import AddIcon from '@mui/icons-material/Add';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
+import * as t from "../../../../models/Types"
+import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -27,16 +27,23 @@ const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 toast.configure()
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
+interface SimpleDialogProps{
+  onClose: () => void;
+  setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
+  selectedValue: t.Cliente;
+  open: boolean;
+}
+
+const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
+  const { onClose, selectedValue, open, setClientes } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
 
   async function handleSubmit() {
-    const { codigo, nome, tratameno, data, telefone1, telefone2, email1, email2, observacao, status } = formData;
+    const { codigo, nome, tratameno, data, telefone1, telefone2, email1, email2, observacoes, status } = formData;
 
     const dados = {
       codigo,
@@ -47,14 +54,18 @@ function SimpleDialog(props) {
       telefone2,
       email1,
       email2,
-      observacao,
+      observacoes,
       status
     };
     await api.put('/Clientes/AtualizarCliente', dados).then(response => {
       if (response.status === 200) {
-        setTimeout(function refreshing() {
-          window.location.reload();
-        }, 2000);
+        api.get('/Clientes/GetClientes')
+        .then(response => {
+          if (response && response.status === 200 && response.data) {
+            setClientes(response.data);
+            onClose()
+          }
+        });
         toast.success('Cliente Atualizado com sucesso!', { autoClose: 2000 });
       }
     }).catch(error => {
@@ -71,7 +82,7 @@ function SimpleDialog(props) {
     telefone2: selectedValue.telefone2,
     email1: selectedValue.email1,
     email2: selectedValue.email2,
-    observacao: selectedValue.observacao,
+    observacoes: selectedValue.observacoes,
     status: selectedValue.status,
   });
 
@@ -138,10 +149,10 @@ function SimpleDialog(props) {
         <ListItem>
           <TextField
             label="Observação"
-            name="observacao"
+            name="observacoes"
             style={{ width: 550, height: 80 }}
             onChange={handleFieldChange}
-            value={formData.observacao}
+            value={formData.observacoes}
           />
         </ListItem>
 
@@ -158,22 +169,18 @@ function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
-
-interface modalProps {
+interface ModalProps {
   codigo: number;
+  setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
+
 }
 
-function ModalEditCliente<modalProps>({ codigo }) {
+function ModalEditCliente<modalProps>({ codigo, setClientes }) {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
   const theme = useTheme();
-  const [cliente, setCliente] = useState<any>();
+  const [cliente, setCliente] = useState<t.Cliente>();
 
   const handleClickOpen = () => {
     api.get(`/Clientes/GetCliente/${codigo}`)
@@ -185,9 +192,8 @@ function ModalEditCliente<modalProps>({ codigo }) {
       })
   };
 
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
-    setSelectedValue(value);
   };
 
   const [clienteList, setClienteList] = useState<any>([]);
@@ -210,6 +216,7 @@ function ModalEditCliente<modalProps>({ codigo }) {
         </IconButton>
         {cliente &&
           <SimpleDialog
+            setClientes={setClientes}
             selectedValue={cliente}
             open={open}
             onClose={handleClose}

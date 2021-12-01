@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import * as t from "../../../../models/Types"
+import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -15,18 +16,24 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import { IconButton, useTheme } from '@mui/material';
-import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from '../../../../service/api'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
 toast.configure()
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
+interface SimpleDialogProps{
+  onClose: () => void;
+  setProdutos: Dispatch<SetStateAction<t.produto>>;
+  selectedValue: t.produto;
+  open: boolean;
+}
+
+const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
+  const { onClose, selectedValue, open, setProdutos } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
 
@@ -48,9 +55,13 @@ function SimpleDialog(props) {
     await api.put('/Itens/AtualizarItem/', data)
       .then(response => {
         if (response.status === 200) {
-          setTimeout(function refreshing() {
-            window.location.reload();
-          }, 2000);
+          api.get('/Itens/GetItens')
+          .then(response => {
+            if (response && response.status === 200 && response.data) {
+              setProdutos(response.data);
+              onClose()
+            }
+          });
           toast.success('Produto Atualizado com sucesso!', { autoClose: 2000 });
         }
       }).catch(error => {
@@ -103,17 +114,12 @@ function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
-
 interface ModalProps {
   Codigo: number;
+  setProdutos: Dispatch<SetStateAction<t.produto>>;
 }
 
-function ModalEditProduto<ModalProps>({ Codigo }) {
+function ModalEditProduto<ModalProps>({ Codigo, setProdutos }) {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState();
@@ -124,17 +130,15 @@ function ModalEditProduto<ModalProps>({ Codigo }) {
     api.get(`/Itens/GetItem/${Codigo}`)
       .then(response => {
         if (response && response.status === 200 && response.data) {
-          console.log(response)
           setItem(response.data);
         }
       })
   }
 
-  const [item, setItem] = useState<any>();
+  const [item, setItem] = useState<t.produto>();
 
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
-    setSelectedValue(value);
   };
 
 
@@ -156,6 +160,7 @@ function ModalEditProduto<ModalProps>({ Codigo }) {
         </IconButton>
         {item &&
           <SimpleDialog
+            setProdutos={setProdutos}
             selectedValue={item}
             open={open}
             onClose={handleClose}

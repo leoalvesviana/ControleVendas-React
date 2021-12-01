@@ -1,4 +1,5 @@
-import { FC, ChangeEvent, useState, useEffect } from 'react';
+import * as t from "../../../models/Types"
+import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import ModalEditProduto from '../../pages/Components/ModalEditProduto'
 import ModalDelProduto from '../../pages/Components/ModalDelProduto'
 import PropTypes from 'prop-types';
@@ -33,6 +34,8 @@ import api from '../../../service/api';
 interface RecentOrdersTableProps {
   className?: string;
   cryptoOrders: CryptoOrder[];
+  setProdutoList: Dispatch<SetStateAction<t.produto[]>>;
+  ProdutoList: t.produto[];
 }
 
 interface Filters {
@@ -89,7 +92,7 @@ const applyPagination = (
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, ProdutoList, setProdutoList }) => {
 
   const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>(
     []
@@ -180,20 +183,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     selectedCryptoOrders.length === cryptoOrders.length;
   const theme = useTheme();
 
-  const [ProdutoList, setProdutoList] = useState<Produto[]>([]);
-
-
-
-  useEffect(() => {
-
-    api.get('/Itens/GetItens').then(response => {
-      setProdutoList(response.data);
-      console.log(response);
-
-    });
-
-  }, []);
-
 
   return (
     <Card>
@@ -267,10 +256,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   </TableCell>
                   <TableCell align="right" style={{ display: 'flex' }}>
                     <Tooltip title="Edit Order" arrow>
-                      <ModalEditProduto Codigo={item.codigo} />
+                      <ModalEditProduto Codigo={item.codigo} setProdutos={setProdutoList}/>
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
-                      <ModalDelProduto Codigo={item.codigo} />
+                      <ModalDelProduto Codigo={item.codigo} setProdutos={setProdutoList}/>
                     </Tooltip>
                   </TableCell>
                 </TableRow>

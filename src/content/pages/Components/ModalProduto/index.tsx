@@ -1,7 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import PageTitle from 'src/components/PageTitle';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
@@ -21,24 +19,32 @@ import Dialog from '@mui/material/Dialog';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from 'src/service/api';
+import * as t from "../../../../models/Types"
+import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 toast.configure()
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
+interface SimpleDialogProps{
+  onClose: () => void;
+  setProdutos: Dispatch<SetStateAction<t.produto[]>>;
+  open: boolean;
+}
+
+const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
+  const { onClose, setProdutos, open } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
-  const handleListItemClick = (value) => {
-    onClose(value);
+  const handleListItemClick = () => {
+    onClose();
   };
 
-  const handleListItemCreate = (value) => {
-    onClose(value);
+  const handleListItemCreate = () => {
+    onClose();
   };
 
   const [formData, setFormData] = useState({
@@ -71,9 +77,13 @@ function SimpleDialog(props) {
         valor: Number(valor)
       }).then(response => {
         if (response.status === 200) {
-          setTimeout(function refreshing() {
-            window.location.reload();
-          }, 2000);
+          api.get('/Itens/GetItens')
+          .then(response => {
+            if (response && response.status === 200 && response.data) {
+              setProdutos(response.data);
+              onClose()
+            }
+          });
           toast.success('Produto cadastrado com sucesso!', { autoClose: 2000 });
         }
       }).catch(error => {
@@ -129,13 +139,11 @@ function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
+interface ModalProps {
+  setProdutos: Dispatch<SetStateAction<t.produto[]>>;
+}
 
-function ModalProduto() {
+const ModalProduto: React.FC<ModalProps> = ({setProdutos}) => {
 
   const [open, setOpen] = useState(false);
 
@@ -143,7 +151,7 @@ function ModalProduto() {
     setOpen(true);
   };
 
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
 
   };
@@ -156,6 +164,7 @@ function ModalProduto() {
           variant="contained"
           onClick={handleClickOpen}><AddTwoToneIcon sx={{ fontSize: 25 }} /></Button>
         <SimpleDialog
+          setProdutos={setProdutos}
           open={open}
           onClose={handleClose}
         />

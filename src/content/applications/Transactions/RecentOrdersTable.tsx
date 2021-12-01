@@ -1,5 +1,6 @@
-import { FC, ChangeEvent } from 'react';
-import React, { useEffect, useState } from 'react';
+import * as t from '../../../models/Types'
+import { Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useState, FC, ChangeEvent } from 'react';
 import api from 'src/service/api';
 import ModalEditCliente from 'src/content/pages/Components/ModalEditCliente';
 import ModalDelCliente from 'src/content/pages/Components/ModalDelCliente';
@@ -38,6 +39,8 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 interface RecentOrdersTableProps {
   className?: string;
   cryptoOrders: Cliente[];
+  setClienteList: Dispatch<SetStateAction<t.Cliente[]>>;
+  clienteList: t.Cliente[];
 }
 
 interface Filters {
@@ -102,7 +105,7 @@ const applyPagination = (
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, setClienteList, clienteList }) => {
 
   const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>(
     []
@@ -188,23 +191,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const selectedAllCryptoOrders =
     selectedCryptoOrders.length === cryptoOrders.length;
   const theme = useTheme();
-
-
-  const [clienteList, setClienteList] = useState<Cliente[]>([]);
-
-  useEffect(() => {
-    api.get('/Clientes/GetClientes').then(response => {
-      if (response && response.status === 200 && response.data) {
-        setClienteList(response.data);
-      } else {
-
-      }
-      console.log(response)
-    })
-      .catch(err => {
-        console.log("Error -> ", err)
-      });
-  }, [api]);
 
   const navigate = useNavigate();
 
@@ -307,10 +293,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   <TableCell align="right" style={{ display: 'flex' }}>
                     <IconButton color="success" size="small" onClick={() => (navigate(`../pedidos`, { state: { codigo: cliente.codigo } }))}><AddShoppingCartIcon fontSize="small" /></IconButton>
                     <Tooltip title="Edit Order" arrow>
-                      <ModalEditCliente codigo={cliente.codigo} />
+                      <ModalEditCliente codigo={cliente.codigo} setClientes={setClienteList}/>
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
-                      <ModalDelCliente codigo={cliente.codigo} />
+                      <ModalDelCliente Codigo={cliente.codigo} setClientes={setClienteList} />
                     </Tooltip>
                     <IconButton color="primary" size="small" onClick={() => (navigate(`../DetailsCliente/`, { state: { codigo: cliente.codigo } }))}><AssignmentTwoToneIcon fontSize="small" /></IconButton>
                   </TableCell>

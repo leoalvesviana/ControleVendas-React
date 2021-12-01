@@ -5,26 +5,20 @@ import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 import React, { useState } from 'react';
 import api from 'src/service/api';
+import * as t from '../../../models/Types'
+import { Dispatch, SetStateAction } from 'react';
 
-function RecentOrders() {
+interface Props{
+  setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
+  clientes: t.Cliente[];
+}
 
-  const [clienteOrders, setClienteOrders] = useState<Cliente[]>([]);
+const RecentOrders: React.FC<Props> = ({setClientes, clientes}) => {
 
-  api.get('/Clientes/GetClientes').then(response => {
-    if (response && response.status === 200 && response.data) {
-      setClienteOrders(response.data);
-    } else {
-
-    }
-    console.log(response)
-  })
-    .catch(err => {
-      console.log("Error -> ", err)
-    });
 
   return (
     <Card>
-      <RecentOrdersTable cryptoOrders={clienteOrders} />
+      <RecentOrdersTable cryptoOrders={clientes} setClienteList={setClientes} clienteList={clientes} />
     </Card>
   );
 }
