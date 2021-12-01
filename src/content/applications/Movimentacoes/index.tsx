@@ -3,10 +3,26 @@ import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
+import * as t from "../../../models/Types"
+
 
 import RecentOrders from './RecentOrders';
+import { useEffect, useState } from 'react';
+import api from 'src/service/api';
 
 function ApplicationsTransactions() {
+
+  const [movimentos, setMovimento] = useState<t.MovimentacaoFinanceiraPage>();
+
+  useEffect(() => {
+    api.get('/Movimento/IndexMovimento')
+      .then(response => {
+        if (response && response.status === 200 && response.data) {
+          setMovimento(response.data);
+        }
+      });
+  }, [api]);
+
   return (
     <>
       <Helmet>
@@ -24,7 +40,7 @@ function ApplicationsTransactions() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <RecentOrders />
+            <RecentOrders setMovimentos={setMovimento} movimentosList={movimentos} />
           </Grid>
         </Grid>
       </Container>

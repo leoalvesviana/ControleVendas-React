@@ -1,4 +1,4 @@
-import { FC, ChangeEvent, useState, useEffect } from 'react';
+import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import api from 'src/service/api';
 import PropTypes from 'prop-types';
 import {
@@ -34,6 +34,8 @@ import ModalConfirmarPgto from "../../pages/Components/ModalConfirmarPgto"
 interface RecentOrdersTableProps {
   className?: string;
   cryptoOrders: CryptoOrder[];
+  setMovimentos: Dispatch<SetStateAction<t.MovimentacaoFinanceiraPage>>;
+  movimentosList: t.MovimentacaoFinanceiraPage;
 }
 
 interface Filters {
@@ -84,7 +86,7 @@ const applyPagination = (
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, movimentosList, setMovimentos }) => {
 
   const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>(
     []
@@ -174,23 +176,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const selectedAllCryptoOrders =
     selectedCryptoOrders.length === cryptoOrders.length;
   const theme = useTheme();
-
-  const [movimentosList, setMovimentosList] = useState<t.MovimentacaoFinanceiraPage>();
-
-  useEffect(() => {
-    api.get('/Movimento/IndexMovimento')
-      .then(response => {
-        if (response && response.status === 200 && response.data) {
-          setMovimentosList(response.data);
-        } else {
-
-        }
-        console.log(response)
-      })
-      .catch(err => {
-        console.log("Error -> ", err)
-      });
-  }, [api]);
 
 
   return (
@@ -320,11 +305,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                     <Tooltip title="Deletar compra" arrow>
                       <ModalDelMovi
                         NumCompra={movimento.compra.numCompra}
+                        setMovimentos={setMovimentos}
                       />
                     </Tooltip>
                     {movimento.compra.status === "AGUARD PGTO" &&
                       <ModalConfirmarPgto
                         NumCompra={movimento.compra.numCompra}
+                        setMovimentos={setMovimentos}
                       />
                     }
                   </TableCell>

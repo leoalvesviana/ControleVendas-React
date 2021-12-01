@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useTheme, IconButton, Checkbox } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
@@ -18,20 +18,28 @@ import Dialog from '@mui/material/Dialog';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from 'src/service/api';
+import * as t from "../../../../models/Types"
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 toast.configure()
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
+interface SimpleDialogProps{
+  onClose: () => void;
+  open: boolean;
+  selectedValue: number
+  setMovimentos: Dispatch<SetStateAction<t.MovimentacaoFinanceiraPage>>;
+}
+
+const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
+  const { onClose, selectedValue, open, setMovimentos } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
-  const handleListItemClick = (value) => {
-    onClose(value);
+  const handleListItemClick = () => {
+    onClose();
   };
   const [checkbox, setCheckbox] = useState(false);
 
@@ -51,9 +59,11 @@ function SimpleDialog(props) {
         .then(response => {
           if (response.status === 200) {
             toast.success('Pagamento confirmado!!', { autoClose: 1000 });
-            setTimeout(function refreshing() {
-              window.location.reload();
-            }, 1000);
+            api.get(`/Movimento/IndexMovimento`).then(response => {
+              if(response.status === 200){
+                setMovimentos(response.data);
+              }
+            })
           }
         })
 
@@ -62,9 +72,11 @@ function SimpleDialog(props) {
         .then(response => {
           if (response.status === 200) {
             toast.success('Pagamento confirmado!!', { autoClose: 1000 });
-            setTimeout(function refreshing() {
-              window.location.reload();
-            }, 1000);
+            api.get(`/Movimento/IndexMovimento`).then(response => {
+              if(response.status === 200){
+                setMovimentos(response.data);
+              }
+            })
           }
         })
     }
@@ -112,17 +124,13 @@ function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
-
 interface ModalProps {
   Numcompra: number;
+  setMovimentos: Dispatch<SetStateAction<t.MovimentacaoFinanceiraPage>>;
 }
 
-function ModalConfirmarPgto<ModalProps>({ NumCompra }) {
+
+function ModalConfirmarPgto<ModalProps>({ NumCompra, setMovimentos }) {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
@@ -132,9 +140,8 @@ function ModalConfirmarPgto<ModalProps>({ NumCompra }) {
     setOpen(true);
   };
 
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
-    setSelectedValue(value);
   };
 
 
@@ -155,6 +162,7 @@ function ModalConfirmarPgto<ModalProps>({ NumCompra }) {
           <AttachMoneyTwoToneIcon fontSize="small" />
         </IconButton>
         <SimpleDialog
+          setMovimentos={setMovimentos}
           selectedValue={NumCompra}
           open={open}
           onClose={handleClose}

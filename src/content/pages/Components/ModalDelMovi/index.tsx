@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import * as t from "../../../../models/Types"
+import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -23,15 +24,22 @@ const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 toast.configure()
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
+interface SimpleDialogProps{
+  onClose: () => void;
+  open: boolean;
+  selectedValue: t.MovimentacaoFinanceira
+  setMovimentos: Dispatch<SetStateAction<t.MovimentacaoFinanceiraPage>>;
+}
+
+const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
+  const { onClose, selectedValue, open, setMovimentos } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
   const handleListItemClick = (value) => {
-    onClose(value);
+    onClose();
   };
 
   const handleListItemDelete = (value) => {
@@ -39,9 +47,11 @@ function SimpleDialog(props) {
       .then(response => {
         if (response.status === 200) {
           toast.success('Movimentação deletada com sucesso!!', { autoClose: 1000 });
-          setTimeout(function refreshing() {
-            window.location.reload();
-          }, 1000);
+          api.get(`/Movimento/IndexMovimento`).then(response => {
+            if(response.status === 200){
+              setMovimentos(response.data);
+            }
+          })
         }
       }).catch(error => {
         toast.error('Error!', { autoClose: 1000 });
@@ -92,17 +102,13 @@ function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
 
 interface ModalProps {
   Numcompra: number;
+  setMovimentos: Dispatch<SetStateAction<t.MovimentacaoFinanceiraPage>>;
 }
 
-function ModalDelMovi<ModalProps>({ NumCompra }) {
+function ModalDelMovi<ModalProps>({ NumCompra, setMovimentos }) {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
@@ -119,14 +125,11 @@ function ModalDelMovi<ModalProps>({ NumCompra }) {
       })
   }
 
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
   };
 
   const [movimento, setMovimento] = useState<any>();
-
-
-
 
   return (
     <>
@@ -144,6 +147,7 @@ function ModalDelMovi<ModalProps>({ NumCompra }) {
         </IconButton>
         {movimento &&
           <SimpleDialog
+            setMovimentos={setMovimentos}
             selectedValue={movimento}
             open={open}
             onClose={handleClose}

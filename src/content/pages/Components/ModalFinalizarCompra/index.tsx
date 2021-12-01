@@ -45,7 +45,6 @@ function SimpleDialog(props: dialogProps) {
   function handleSubmit() {
 
     const Status = formData.codigo;
-
     let data: t.Pedido;
     data = body;
     data.status = Status;
