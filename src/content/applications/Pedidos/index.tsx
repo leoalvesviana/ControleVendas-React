@@ -1,10 +1,12 @@
 import { Helmet } from 'react-helmet-async';
 import PageHeader from './PageHeader';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Grid, Container, Button } from '@mui/material';
-import Footer from 'src/components/Footer';
+import { Grid, Container, Button, Card, CardContent } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router';
-
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemText from '@mui/material/ListItemText';
+import Avatar from '@mui/material/Avatar';
+import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import RecentOrders from './RecentOrders';
 import { useEffect, useState } from 'react';
 import api from 'src/service/api';
@@ -13,7 +15,7 @@ import ModalFinalizarCompra from 'src/content/pages/Components/ModalFinalizarCom
 
 function ApplicationsTransactions() {
   const parametros = useLocation();
-  const info:any = parametros.state;
+  const info: any = parametros.state;
   const codigo: number = info.codigo;
 
   const [apiResponse, setApiResponse] = useState<t.Pedido>();
@@ -31,23 +33,23 @@ function ApplicationsTransactions() {
 
   const Cancelar = (numCompra: number) => {
     api.delete(`/NumCompra/ExcluirNumCompra/${numCompra}`).then(response => {
-      if(response && response.status == 200){
+      if (response && response.status == 200) {
         navigate(`../clientes/`);
       }
     })
   }
-  
 
-  
+
+
   return (
     <>
       <Helmet>
         <title>Pedidos</title>
       </Helmet>
       <PageTitleWrapper>
-      {apiResponse &&
-        <PageHeader body={apiResponse} codigo={codigo} changeResponse={setApiResponse}/>
-      }        
+        {apiResponse &&
+          <PageHeader body={apiResponse} codigo={codigo} changeResponse={setApiResponse} />
+        }
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -59,12 +61,21 @@ function ApplicationsTransactions() {
         >
           <Grid item xs={12}>
             {apiResponse &&
-              <RecentOrders body={apiResponse} changeResponse={setApiResponse}/>
-            }            
+              <RecentOrders body={apiResponse} changeResponse={setApiResponse} />
+            }
           </Grid>
         </Grid>
-        <Button onClick={() => Cancelar(apiResponse.numCompra)}>Cancelar</Button>
-        <ModalFinalizarCompra apiResponse={apiResponse} changeResponse={setApiResponse}/>
+        <Card style={{ marginTop: '15px' }}>
+          <CardContent style={{ display: 'flex' }}>
+            <Button color="error" onClick={() => Cancelar(apiResponse.numCompra)}>
+              <ListItemAvatar >
+                <CancelTwoToneIcon sx={{ mt: 1 }} color="error" />
+              </ListItemAvatar>
+              <ListItemText primary="Cancelar" />
+            </Button>
+            <ModalFinalizarCompra apiResponse={apiResponse} changeResponse={setApiResponse} />
+          </CardContent>
+        </Card>
       </Container>
     </>
   );

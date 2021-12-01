@@ -253,7 +253,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
           </TableHead>
           <TableBody>
             {clienteList.map((cliente) => {
+
               return (
+
                 <TableRow
                   hover
                   key={cliente.codigo}
@@ -299,7 +301,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cliente.data}
+                      {(new Date(cliente.data)).toLocaleDateString('pt-BR')}
                     </Typography>
                   </TableCell>
                   <TableCell align="right" style={{ display: 'flex' }}>

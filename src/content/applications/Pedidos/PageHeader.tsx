@@ -1,4 +1,4 @@
-import { Typography, Button, Grid } from '@mui/material';
+import { Typography, Button, Grid, Card, CardContent } from '@mui/material';
 import ModalPedidos, { ResponseApiWithItens } from 'src/content/pages/Components/ModalPedidos';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
@@ -34,29 +34,33 @@ const PageHeader: React.FC<Headerprops> = ({ body, codigo, changeResponse }) => 
   }, [])
 
   return (
-    <Grid container justifyContent="space-between" alignItems="center">
-      <Grid item>
-        <Typography variant="h3" component="h3" gutterBottom>
-          Pedidos
-        </Typography>
-        <Typography variant="subtitle2">
-          Realizar um pedido.
-        </Typography>
-      </Grid>
-      <Grid item>
-        <Typography variant="h3" component="h3" gutterBottom>
-          Cliente:
-        </Typography>
-        <Typography variant="subtitle2">
-          Nome: {cliente && cliente.nome}
-          <br />
-          Email: {cliente && cliente.email1}
-        </Typography>
-      </Grid>
-      <Grid item>
-        <ModalPedidos apiResponse={body} changeResponse={changeResponse} />
-      </Grid>
-    </Grid>
+    <Card>
+      <CardContent>
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Grid item>
+            <Typography variant="h3" component="h3" gutterBottom>
+              Pedidos
+            </Typography>
+            <Typography variant="subtitle2">
+              Realizar um pedido.
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant="h3" component="h3" gutterBottom>
+              Cliente:
+            </Typography>
+            <Typography variant="subtitle2">
+              Nome: {cliente && cliente.nome}
+              <br />
+              Email: {cliente && cliente.email1}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <ModalPedidos apiResponse={body} changeResponse={changeResponse} />
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 }
 

@@ -24,7 +24,6 @@ function PageHeader() {
           </Grid>
           <Grid item>
             <Button><ModalProduto /></Button>
-            <Button><ModalAltValoresProduto /></Button>
           </Grid>
         </Grid>
       </CardContent>

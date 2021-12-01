@@ -231,7 +231,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
             <TableRow>
               <TableCell>Nome</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>Data_Compra</TableCell>
+              <TableCell>Data da compra</TableCell>
               <TableCell>N° da compra</TableCell>
               <TableCell>Total Itens</TableCell>
               <TableCell>Valor</TableCell>
@@ -275,7 +275,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {movimento.compra.dataCompra}
+                      {(new Date(movimento.compra.dataCompra)).toLocaleDateString('pt-BR')}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -312,11 +312,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                     </Typography>
                   </TableCell>
                   <TableCell align="right" style={{ display: 'flex' }}>
-                    {movimento.compra.status === "AGUARD PGTO" &&
-                      <ModalConfirmarPgto
-                        NumCompra={movimento.compra.numCompra}
-                      />
-                    }
                     <Tooltip title="Detalhar compra" arrow>
                       <ModalDetailCompra
                         Numcompra={movimento.compra.numCompra}
@@ -327,6 +322,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         NumCompra={movimento.compra.numCompra}
                       />
                     </Tooltip>
+                    {movimento.compra.status === "AGUARD PGTO" &&
+                      <ModalConfirmarPgto
+                        NumCompra={movimento.compra.numCompra}
+                      />
+                    }
                   </TableCell>
                 </TableRow>
               )

@@ -1,45 +1,31 @@
-import { Helmet } from 'react-helmet-async';
-import PropTypes from 'prop-types';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
-
-import PageTitle from 'src/components/PageTitle';
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import AlertTitle from '@mui/material/AlertTitle';
 import { Container, Grid, Card, CardHeader, CardContent, Divider, MenuItem, IconButton, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import Fab from '@mui/material/Fab';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Label from 'src/components/Label';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
-import Footer from 'src/components/Footer';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 import api from 'src/service/api';
 import * as t from '../../../../models/Types'
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
-
-function BasicAlerts() {
-
-}
-
-interface dialogProps{
+interface dialogProps {
   onClose: () => void;
   open: boolean;
   body: t.Pedido;
@@ -56,7 +42,7 @@ function SimpleDialog(props: dialogProps) {
 
   const navigate = useNavigate();
 
-   function handleSubmit() {
+  function handleSubmit() {
 
     const Status = formData.codigo;
 
@@ -65,7 +51,10 @@ function SimpleDialog(props: dialogProps) {
     data.status = Status;
     api.post('/Pedidos/FinalizarCompra/', data)
       .then(response => {
-        if (response.status === 200){
+        if (response.status === 200) {
+          setTimeout(function alertCompra() {
+            toast.success('A compra foi finalizada!', { autoClose: 2000 });
+          }, 100);
           setApiResponse(null)
           navigate(`../clientes/`);
           onClose()
@@ -85,9 +74,9 @@ function SimpleDialog(props: dialogProps) {
 
   const [status, setStatus] = useState<t.Status[]>();
 
-  useEffect(() =>{
+  useEffect(() => {
     api.get(`/Status/GetStatuses`).then(response => {
-      if(response && response.status === 200){
+      if (response && response.status === 200) {
         setStatus(response.data);
       }
     })
@@ -97,10 +86,10 @@ function SimpleDialog(props: dialogProps) {
     <Dialog onClose={handleClose} open={open}>
 
       <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
-      <DialogTitle>Adicionar novo item</DialogTitle>
+      <DialogTitle>Finalizar compra</DialogTitle>
       <List sx={{ pt: 0 }}>
-        
-      <ListItem>
+
+        <ListItem>
           <TextField
             id=""
             name="codigo"
@@ -110,14 +99,14 @@ function SimpleDialog(props: dialogProps) {
             style={{ width: 415 }}
             onChange={handleFieldChange}
           >
-          {status && 
-            status.map((opcao) => (         
-              (opcao.tipo !== "SEM COMPRA" &&
-                <MenuItem key={opcao.codigo} value={opcao.codigo}>
-                {opcao.tipo}
-              </MenuItem>)
-            ))
-          }
+            {status &&
+              status.map((opcao) => (
+                (opcao.tipo !== "SEM COMPRA" &&
+                  <MenuItem key={opcao.codigo} value={opcao.codigo}>
+                    {opcao.tipo}
+                  </MenuItem>)
+              ))
+            }
           </TextField>
         </ListItem>
 
@@ -134,12 +123,12 @@ function SimpleDialog(props: dialogProps) {
   );
 }
 
-interface modalProps{
+interface modalProps {
   apiResponse: t.Pedido;
   changeResponse: Dispatch<SetStateAction<t.Pedido>>
 }
 
-function ModalFinalizarCompra({apiResponse, changeResponse}: modalProps) {
+function ModalFinalizarCompra({ apiResponse, changeResponse }: modalProps) {
 
   const [open, setOpen] = useState(false);
   const theme = useTheme();
@@ -156,18 +145,20 @@ function ModalFinalizarCompra({apiResponse, changeResponse}: modalProps) {
     <>
       <Grid item>
         <IconButton
-            sx={{
-              '&:hover': { background: theme.colors.error.lighter },
-              color: theme.palette.error.main
-            }}
-            color="inherit"
-            size="small"
-            onClick={handleClickOpen}
-          >
-            <DeleteTwoToneIcon fontSize="small" />
-          </IconButton>
-        {apiResponse  &&
-        <SimpleDialog
+          sx={{
+            '&:hover': { background: theme.colors.success.lighter }
+          }}
+          color="success"
+          size="small"
+          onClick={handleClickOpen}
+        >
+          <ListItemAvatar >
+            <CheckCircleTwoToneIcon sx={{ mt: 1 }} color="success" />
+          </ListItemAvatar>
+          <ListItemText sx={{ mr: 2 }} primary="Finalizar compra" />
+        </IconButton>
+        {apiResponse &&
+          <SimpleDialog
             open={open}
             onClose={handleClose}
             body={apiResponse}
@@ -177,7 +168,7 @@ function ModalFinalizarCompra({apiResponse, changeResponse}: modalProps) {
       </Grid>
     </>
   );
-  
+
 }
 
 export default ModalFinalizarCompra;
