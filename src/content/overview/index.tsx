@@ -15,20 +15,18 @@ const OverviewWrapper = styled(Box)(
 `
 );
 
-interface initialPageProps{
+interface initialPageProps {
   setLogin: Dispatch<SetStateAction<boolean>>
 }
 
-const Overview: React.FC<initialPageProps> = ({setLogin}) => {
+const Overview: React.FC<initialPageProps> = ({ setLogin }) => {
 
   return (
     <OverviewWrapper >
       <Helmet>
         <title>Login</title>
       </Helmet>
-      <Container maxWidth="lg">
-        <Hero setLogin={setLogin}/>
-      </Container>
+      <Hero setLogin={setLogin} />
     </OverviewWrapper>
   );
 }

@@ -58,65 +58,14 @@ const LoginContainer = styled(Box)(
 `
 );
 
-const LabelWrapper = styled(Box)(
-  ({ theme }) => `
-    background-color: ${theme.colors.success.main};
-    color: ${theme.palette.success.contrastText};
-    font-weight: bold;
-    border-radius: 30px;
-    text-transform: uppercase;
-    display: inline-block;
-    font-size: ${theme.typography.pxToRem(11)};
-    padding: ${theme.spacing(.5)} ${theme.spacing(1.5)};
-    margin-bottom: ${theme.spacing(2)};
-`
-);
 
-const MuiAvatar = styled(Box)(
-  ({ theme }) => `
-    width: ${theme.spacing(8)};
-    height: ${theme.spacing(8)};
-    border-radius: ${theme.general.borderRadius};
-    background-color: #e5f7ff;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto ${theme.spacing(2)};
 
-    img {
-      width: 60%;
-      height: 60%;
-      display: block;
-    }
-`
-);
 
-const TsAvatar = styled(Box)(
-  ({ theme }) => `
-    width: ${theme.spacing(8)};
-    height: ${theme.spacing(8)};
-    border-radius: ${theme.general.borderRadius};
-    background-color: #dfebf6;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto ${theme.spacing(2)};
-
-    img {
-      width: 60%;
-      height: 60%;
-      display: block;
-    }
-`
-);
-
-interface initialPageProps{
+interface initialPageProps {
   setLogin: Dispatch<SetStateAction<boolean>>
 }
 
-const Hero: React.FC<initialPageProps> = ({setLogin}) => {
+const Hero: React.FC<initialPageProps> = ({ setLogin }) => {
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -132,31 +81,35 @@ const Hero: React.FC<initialPageProps> = ({setLogin}) => {
 
   const Handlesubmit = () => {
 
-    const {nomeUsuario, senha} = formData;
+    const { nomeUsuario, senha } = formData;
 
     const data = {
       nomeUsuario,
       senha
     }
-    
+
 
     api.post(`/Login/Logar`, data).then(response => {
-      if(response.status === 200){
+      if (response.status === 200) {
         alertLogin();
         setLogin(true)
         navigate("/dashboards/home")
       }
-      else{
+      else {
         alertError();
       }
     })
   }
 
   return (
-    <Container sx={{ textAlign: 'center' }}>
-      <Grid spacing={{ xs: 6, md: 10 }} justifyContent="center" alignItems="center" container>
+    <Container style={{
+      textAlign: 'center', backgroundColor: 'white', width: '100vw', height: '100vh', margin: 0, maxWidth: '100%',
+      backgroundImage: "url(" + "https://www.pinclipart.com/picdir/big/125-1254871_grey-wave-png-clipart.png" + ")"
+      , backgroundSize: 'cover'
+    }}>
+      <Grid justifyContent="center" alignItems="center" container >
         <Grid item md={10} lg={8} mx="auto">
-          <LoginContainer>
+          <LoginContainer >
             <TypographyH1 sx={{ mb: 2 }} variant="h3">
               Login
             </TypographyH1>
@@ -166,7 +119,7 @@ const Hero: React.FC<initialPageProps> = ({setLogin}) => {
                 <AccountCircleIcon />
               </Grid>
               <Grid item>
-                <TextField id="input-with-icon-grid" name="nomeUsuario" label="Usuário" onChange={handleFieldChange}/>
+                <TextField id="input-with-icon-grid" name="nomeUsuario" label="Usuário" onChange={handleFieldChange} />
               </Grid>
             </Grid>
             <Grid sx={{ mt: 2 }} container spacing={1} alignItems="flex-end" justifyContent="center">
@@ -190,12 +143,8 @@ const Hero: React.FC<initialPageProps> = ({setLogin}) => {
               color="text.secondary"
               fontWeight="normal"
             >
-
             </TypographyH2>
-
-
             <Grid container spacing={3} mt={5}>
-
               <Grid item>
                 <Button
                   size="large"
@@ -205,15 +154,10 @@ const Hero: React.FC<initialPageProps> = ({setLogin}) => {
                 >
                   Entrar
                 </Button>
-
               </Grid>
               <Grid item md={6}>
-
-
               </Grid>
-
             </Grid>
-
           </LoginContainer>
 
 
