@@ -18,6 +18,7 @@ import api from 'src/service/api';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Label from 'src/components/Label';
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 toast.configure()
@@ -40,6 +41,7 @@ function SimpleDialog(props) {
     // toast.success('Cadastrado com sucesso!!', { autoClose: false })
   };
 
+  const [errorField, setErrorField] = useState<any>("primary");
 
   async function handleSubmit() {
     const { nome, tratameno, telefone1, telefone2, email1, email2, observacao } = formData;
@@ -53,16 +55,32 @@ function SimpleDialog(props) {
       email2,
       observacao,
     };
-    await api.post('/Clientes/InserirCliente', data).then(response => {
-      if (response.status === 200) {
-        setTimeout(function refreshing() {
-          window.location.reload();
-        }, 2000);
-        toast.success('Cliente cadastrado com sucesso!', { autoClose: 2000 });
-      }
-    }).catch(error => {
-      toast.error('Error!', { autoClose: 5000 });
-    });;
+
+    if (nome === "" || telefone1 === "" || tratameno === "" || email1 === "") {
+      toast.error("Os campos 'nome', 'telefone', 'tratamento' e 'email' devem ser preenchido.",
+        {
+          position: "top-center",
+          autoClose: false,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+    } else {
+      await api.post('/Clientes/InserirCliente', data).then(response => {
+        if (response.status === 200) {
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 2000);
+          toast.success('Cliente cadastrado com sucesso!', { autoClose: 2000 });
+          console.log(data);
+        }
+      }).catch(error => {
+        toast.error('Error!', { autoClose: 5000 });
+      });;
+    }
+
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -85,6 +103,7 @@ function SimpleDialog(props) {
 
 
 
+
   return (
     <Dialog onClose={handleClose} open={open}>
 
@@ -98,6 +117,7 @@ function SimpleDialog(props) {
             multiline
             style={{ width: 415 }}
             onChange={handleFieldChange}
+            required={true}
           />&nbsp;
           <TextField
             label="Tratamento"
@@ -105,6 +125,7 @@ function SimpleDialog(props) {
             multiline
             style={{ width: 415 }}
             onChange={handleFieldChange}
+            required={true}
           />
         </ListItem>
         <ListItem>
@@ -114,6 +135,7 @@ function SimpleDialog(props) {
             style={{ width: 415 }}
             multiline
             onChange={handleFieldChange}
+            required={true}
           />&nbsp;
           <TextField
             label="Telefone 2 (Opcional)"
@@ -130,6 +152,7 @@ function SimpleDialog(props) {
             style={{ width: 415 }}
             multiline
             onChange={handleFieldChange}
+            required={true}
           />&nbsp;
           <TextField
             label="Email 2 (Opcional)"
@@ -148,18 +171,14 @@ function SimpleDialog(props) {
             onChange={handleFieldChange}
           />
         </ListItem>
-        <Link to="/tarefas/clientes">
-          <ListItem onClick={() => handleListItemCreate('Create')}>
-            <ListItem autoFocus button onClick={handleSubmit} >
-              <ListItemAvatar>
-                <Avatar>
-                  <CheckIcon color="primary" />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Cadastrar" />
-            </ListItem>
-          </ListItem>
-        </Link>
+        <ListItem autoFocus button onClick={handleSubmit} >
+          <ListItemAvatar>
+            <Avatar>
+              <CheckIcon color="primary" />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Cadastrar" />
+        </ListItem>
       </List>
     </Dialog>
   );

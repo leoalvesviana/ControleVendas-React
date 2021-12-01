@@ -53,19 +53,33 @@ function SimpleDialog(props) {
       descricao,
       valor
     };
-    await api.post('/Itens/InserirItem', {
-      descricao: data.descricao,
-      valor: Number(valor)
-    }).then(response => {
-      if (response.status === 200) {
-        setTimeout(function refreshing() {
-          window.location.reload();
-        }, 2000);
-        toast.success('Produto cadastrado com sucesso!', { autoClose: 2000 });
-      }
-    }).catch(error => {
-      toast.error('Error!', { autoClose: 5000 });
-    });;
+
+    if (descricao === "" || valor === 0) {
+      toast.error("Os campos 'Descrição' e 'Valor' devem ser preenchidos.",
+        {
+          position: "top-center",
+          autoClose: false,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+    } else {
+      await api.post('/Itens/InserirItem', {
+        descricao: data.descricao,
+        valor: Number(valor)
+      }).then(response => {
+        if (response.status === 200) {
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 2000);
+          toast.success('Produto cadastrado com sucesso!', { autoClose: 2000 });
+        }
+      }).catch(error => {
+        toast.error('Error!', { autoClose: 5000 });
+      });;
+    }
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -89,6 +103,7 @@ function SimpleDialog(props) {
             style={{ width: 415 }}
             multiline
             onChange={handleFieldChange}
+            required={true}
           />
         </ListItem>
         <ListItem>
@@ -98,17 +113,16 @@ function SimpleDialog(props) {
             name="valor"
             style={{ width: 415, height: 80 }}
             onChange={handleFieldChange}
+            required={true}
           />
         </ListItem>
-        <ListItem onClick={() => handleListItemCreate('Create')}>
-          <ListItem autoFocus button onClick={handleSubmit}>
-            <ListItemAvatar>
-              <Avatar>
-                <CheckIcon color="primary" />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Cadastrar" />
-          </ListItem>
+        <ListItem autoFocus button onClick={handleSubmit}>
+          <ListItemAvatar>
+            <Avatar>
+              <CheckIcon color="primary" />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Cadastrar" />
         </ListItem>
       </List>
     </Dialog>

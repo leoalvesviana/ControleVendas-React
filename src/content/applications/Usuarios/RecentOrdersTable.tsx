@@ -4,10 +4,12 @@ import api from 'src/service/api';
 import { format } from 'date-fns';
 import ModalEditCliente from 'src/content/pages/Components/ModalEditCliente';
 import ModalDelCliente from 'src/content/pages/Components/ModalDelCliente';
+import AdminPanelSettingsTwoToneIcon from '@mui/icons-material/AdminPanelSettingsTwoTone';
 import numeral from 'numeral';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import PropTypes from 'prop-types';
+import GppBadTwoToneIcon from '@mui/icons-material/GppBadTwoTone';
 import {
   Tooltip,
   Divider,
@@ -278,15 +280,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, usuarios,
                     <TableCell>
                       <Typography
                         variant="body1"
-                        fontWeight="bold"
                         color="text.primary"
                         gutterBottom
                         noWrap
                       >
                         {usuario.admin ?
-                          <CheckIcon fontSize="small" />
+                          <IconButton><AdminPanelSettingsTwoToneIcon color="success" fontSize="small" /></IconButton>
                           :
-                          <ClearIcon fontSize="small" />
+                          <IconButton><GppBadTwoToneIcon color="error" fontSize="small" /></IconButton>
                         }
                       </Typography>
                     </TableCell>

@@ -14,9 +14,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from 'src/service/api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import * as t from '../../../../models/Types';
 import Label from 'src/components/Label';
+
+toast.configure()
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -43,16 +47,33 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
       senha,
       admin: checkbox,
     };
-    await api.post('/Usuario/Inserir', data).then(response => {
-      if (response.status === 200) {
-        api.get(`/Usuario/ObterTodos`).then(response => {
-          if (response.status === 200) {
-            setUser(response.data)
-            onClose();
-          }
-        })
-      }
-    });
+    if (nome === "" || login === "" || email === "" || senha === "") {
+      toast.error("Os campos 'Nome', 'Login', 'Email' e 'Senha' devem ser preenchidos.",
+        {
+          position: "top-center",
+          autoClose: false,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+    } else {
+      await api.post('/Usuario/Inserir', data).then(response => {
+        if (response.status === 200) {
+          api.get(`/Usuario/ObterTodos`).then(response => {
+            if (response.status === 200) {
+              setTimeout(function refreshing() {
+                window.location.reload();
+              }, 2000);
+              toast.success('Usuário criado com sucesso!', { autoClose: 2000 });
+              setUser(response.data)
+              onClose();
+            }
+          })
+        }
+      });
+    }
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -129,16 +150,14 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
             onClick={handleCheckboxChange}
           /><Label>Administrador</Label>
         </ListItem>
-        <Link to="/tarefas/Usuarios">
-          <ListItem autoFocus button onClick={handleSubmit} >
-            <ListItemAvatar>
-              <Avatar>
-                <CheckIcon color="primary" />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Cadastrar" />
-          </ListItem>
-        </Link>
+        <ListItem autoFocus button onClick={handleSubmit} >
+          <ListItemAvatar>
+            <Avatar>
+              <CheckIcon color="primary" />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Cadastrar" />
+        </ListItem>
       </List>
     </Dialog>
   );
