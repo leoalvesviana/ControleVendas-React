@@ -50,7 +50,6 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
       let month = data.getMonth();
       let year = data.getFullYear();
       let dataParam = `${year}-${month + 1}-${day}`;
-      console.log(dataParam)
       api.get(`/Movimento/ConfirmarPagamento/${value}`, {
         params: {
           Data: dataParam

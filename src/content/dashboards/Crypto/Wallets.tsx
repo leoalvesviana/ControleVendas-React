@@ -90,7 +90,6 @@ function Wallets() {
   useEffect(() => {
     api.get('/Clientes/GetClientes').then(response => {
       setClienteList(response.data);
-      console.log(response);
     });
   }, []);
 
@@ -98,14 +97,12 @@ function Wallets() {
   useEffect(() => {
     api.get('/Itens/GetItens').then(response => {
       setProdutoList(response.data);
-      console.log(response);
     });
   }, []);
 
   useEffect(() => {
     api.get('/Movimento/GetMovimento').then(response => {
       setMoviList(response.data);
-      console.log(response);
     });
   }, []);
 

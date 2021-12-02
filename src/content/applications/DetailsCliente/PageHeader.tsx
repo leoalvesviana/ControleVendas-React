@@ -17,7 +17,6 @@ function PageHeader<headerprops>({ codigoCli }) {
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setClienteD(response.data);
-          console.log(response.data)
         }
       });
   }, [api])

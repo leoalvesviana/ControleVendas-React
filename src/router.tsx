@@ -248,4 +248,161 @@ const routes: PartialRouteObject[] = [
   },
 ];
 
+const normalUserRotes: PartialRouteObject[] = [
+  {
+    path: '*',
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: '/',
+        element: <SidebarLayout />
+      },
+      {
+        path: 'dashboards',
+        element: (
+          <Navigate
+            to="/dashboards/home"
+            replace
+          />
+        )
+      },
+      {
+        path: 'status',
+        children: [
+          {
+            path: '/',
+            element: (
+              <Navigate
+                to="404"
+                replace
+              />
+            )
+          },
+          {
+            path: '404',
+            element: <Status404 />
+          },
+          {
+            path: '500',
+            element: <Status500 />
+          },
+          {
+            path: 'maintenance',
+            element: <StatusMaintenance />
+          },
+          {
+            path: 'coming-soon',
+            element: <StatusComingSoon />
+          },
+        ]
+      },
+      {
+        path: '*',
+        element: <Status404 />
+      },
+    ]
+  },
+  {
+    path: 'dashboards',
+    element: (
+      <SidebarLayout />
+    ),
+    children: [
+      {
+        path: '/',
+        element: (
+          <Navigate
+            to="/dashboards/home"
+            replace
+          />
+        )
+      },
+      {
+        path: 'home',
+        element: <Crypto />
+      }
+    ]
+  },
+  {
+    path: 'tarefas',
+    element: (
+      <SidebarLayout />
+    ),
+    children: [
+      {
+        path: '/',
+        element: (
+          <Navigate
+            to="/tarefas"
+            replace
+          />
+        )
+      },
+      {
+        path: 'clientes',
+        element: <Transactions />
+      },
+      {
+        path: 'pedidos',
+        element: <Pedidos />
+      }
+    ]
+  },
+  {
+    path: '',
+    element: <BaseLayout />,
+    children: [
+      {
+        path: '/',
+        element: <Overview />
+      },
+      {
+        path: 'overview',
+        element: (
+          <Navigate
+            to="/"
+            replace
+          />
+        )
+      },
+      {
+        path: 'status',
+        children: [
+          {
+            path: '/',
+            element: (
+              <Navigate
+                to="404"
+                replace
+              />
+            )
+          },
+          {
+            path: '404',
+            element: <Status404 />
+          },
+          {
+            path: '500',
+            element: <Status500 />
+          },
+          {
+            path: 'maintenance',
+            element: <StatusMaintenance />
+          },
+          {
+            path: 'coming-soon',
+            element: <StatusComingSoon />
+          },
+        ]
+      },
+      {
+        path: '',
+        element: <Status404 />
+      },
+    ]
+  },
+];
+
+export {normalUserRotes}
+
 export default routes;

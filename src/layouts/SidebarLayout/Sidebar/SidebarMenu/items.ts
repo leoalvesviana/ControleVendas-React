@@ -63,4 +63,31 @@ const menuItems: MenuItems[] = [
   },
 ];
 
+const MenuItensNotAdm: MenuItems[] = [
+  {
+    heading: 'MENU',
+    items: [
+      {
+        name: 'Home',
+        link: '/dashboards/home',
+        icon: HomeIcon
+      }
+    ]
+  },
+  {
+    heading: 'Tarefas',
+    items: [
+
+      {
+        name: 'Clientes',
+        icon: GroupIcon,
+        link: '/tarefas/clientes',
+      }
+      
+    ]
+  },
+]
+
+export {MenuItensNotAdm}
+
 export default menuItems;

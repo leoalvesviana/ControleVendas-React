@@ -65,7 +65,7 @@ interface initialPageProps {
   setLogin: Dispatch<SetStateAction<boolean>>
 }
 
-const Hero: React.FC<initialPageProps> = ({ setLogin }) => {
+const Hero: React.FC<initialPageProps> = () => {
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -92,7 +92,8 @@ const Hero: React.FC<initialPageProps> = ({ setLogin }) => {
     api.post(`/Login/Logar`, data).then(response => {
       if (response.status === 200) {
         alertLogin();
-        setLogin(true)
+        sessionStorage.setItem("Logado", JSON.stringify(response.data))
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(true))
         navigate("/dashboards/home")
       }
       else {

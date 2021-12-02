@@ -2,7 +2,7 @@ import { Typography, Button, Grid, Card, CardContent } from '@mui/material';
 import Modals from 'src/content/pages/Components/Modals';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import * as t from '../../../models/Types'
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 interface Props{
   setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
@@ -10,11 +10,12 @@ interface Props{
 
 const PageHeader: React.FC<Props> = ({setClientes}) => {
 
-  const user =
-  {
-    name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg'
-  };
+  const [user, setUser] = useState<any>();
+
+  useEffect(() => {
+    setUser(JSON.parse(sessionStorage.getItem("Logado")));
+  },[]);
+
   return (
     <Card>
       <CardContent>
@@ -28,7 +29,9 @@ const PageHeader: React.FC<Props> = ({setClientes}) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Modals setClientes={setClientes}/>
+            {user && user.admin === true &&
+              <Modals setClientes={setClientes}/>
+            }
           </Grid>
         </Grid>
       </CardContent>

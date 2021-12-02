@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
@@ -22,6 +22,7 @@ import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import api from 'src/service/api';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -60,9 +61,11 @@ const UserBoxDescription = styled(Typography)(
 
 function HeaderUserbox() {
 
+  let nome = JSON.parse(sessionStorage.getItem("Logado")).nome;
+
   const user =
   {
-    name: '',
+    name: nome,
     avatar: '',
     jobtitle: ''
   };
@@ -77,6 +80,11 @@ function HeaderUserbox() {
   const handleClose = (): void => {
     setOpen(false);
   };
+
+  const deslogar = () => {
+    sessionStorage.clear();
+    sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+  }
 
   return (
     <>
@@ -134,7 +142,7 @@ function HeaderUserbox() {
         <Divider />
         <Box sx={{ m: 1 }}>
           <Link to="/">
-            <Button color="primary" fullWidth>
+            <Button color="primary" fullWidth onClick={deslogar}>
               <LockOpenTwoToneIcon sx={{ mr: 1 }} />
               Sign out
             </Button>

@@ -188,7 +188,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, cliente }
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setClienteD(response.data);
-          console.log(response.data)
         }
       });
   }, [api])

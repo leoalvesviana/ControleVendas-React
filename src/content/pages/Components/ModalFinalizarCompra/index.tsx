@@ -65,10 +65,8 @@ function SimpleDialog(props: dialogProps) {
     codigo: 0
   });
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.target.name, event.target.value);
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
-    console.log(formData);
   }
 
   const [status, setStatus] = useState<t.Status[]>();

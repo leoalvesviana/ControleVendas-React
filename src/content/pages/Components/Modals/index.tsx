@@ -82,7 +82,6 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             }
           });
           toast.success('Cliente cadastrado com sucesso!', { autoClose: 2000 });
-          console.log(data);
         }
       }).catch(error => {
         toast.error('Error!', { autoClose: 5000 });
@@ -92,7 +91,6 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.target.name, event.target.value);
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   }

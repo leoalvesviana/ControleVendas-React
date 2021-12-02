@@ -119,7 +119,6 @@ function ModalDetailCompra<ModalProps>({ Numcompra }) {
     api.get(`/Movimento/DetalhesCompra/${Numcompra}`)
       .then(response => {
         if (response && response.status === 200 && response.data) {
-          console.log(response)
           setMovimento(response.data);
         }
       })

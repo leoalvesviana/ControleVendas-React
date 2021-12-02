@@ -194,6 +194,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, setClient
 
   const navigate = useNavigate();
 
+  const [user, setUser] = useState<any>();
+
+  const userLogado = JSON.parse(sessionStorage.getItem("UsuarioLogado"));
+
+  useEffect(() => {
+    setUser(JSON.parse(sessionStorage.getItem("Logado")));
+  },[]);
+
   return (
     <Card>
       {selectedBulkActions && (
@@ -292,13 +300,15 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, setClient
                   </TableCell>
                   <TableCell align="right" style={{ display: 'flex' }}>
                     <IconButton color="success" size="small" onClick={() => (navigate(`../pedidos`, { state: { codigo: cliente.codigo } }))}><AddShoppingCartIcon fontSize="small" /></IconButton>
-                    <Tooltip title="Edit Order" arrow>
+                    {user && user.admin === true &&
                       <ModalEditCliente codigo={cliente.codigo} setClientes={setClienteList}/>
-                    </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
+                    }
+                    {user && user.admin === true &&
                       <ModalDelCliente Codigo={cliente.codigo} setClientes={setClienteList} />
-                    </Tooltip>
+                    }
+                    {user && user.admin === true &&
                     <IconButton color="primary" size="small" onClick={() => (navigate(`../DetailsCliente/`, { state: { codigo: cliente.codigo } }))}><AssignmentTwoToneIcon fontSize="small" /></IconButton>
+                    }
                   </TableCell>
                 </TableRow>
               );

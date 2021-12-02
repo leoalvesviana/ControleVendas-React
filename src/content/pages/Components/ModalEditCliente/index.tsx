@@ -87,7 +87,6 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
   });
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.target.name, event.target.value);
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   }

@@ -1,8 +1,9 @@
 import { ListSubheader, List } from '@mui/material';
 import { useLocation, matchPath } from 'react-router-dom';
 import SidebarMenuItem from './item';
-import menuItems, { MenuItem } from './items';
+import menuItems, { MenuItem, MenuItensNotAdm } from './items';
 import { styled } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
 
 
 const MenuWrapper = styled(List)(
@@ -194,22 +195,46 @@ const reduceChildRoutes = ({
 function SidebarMenu() {
   const location = useLocation();
 
+  const [userLogado, setUserLogado] = useState<any>();
+
+  const logado = JSON.parse(sessionStorage.getItem("UsuarioLogado"));
+
+  useEffect(() => {
+    setUserLogado(JSON.parse(sessionStorage.getItem("Logado")));
+  },[logado]);
 
   return (
     <>
-      {menuItems.map((section) => (
-        <MenuWrapper
-          key={section.heading}
-          subheader={
-            <ListSubheader component="div" disableSticky>{section.heading}</ListSubheader>
-          }
-        >
-          {renderSidebarMenuItems({
-            items: section.items,
-            path: location.pathname
-          })}
-        </MenuWrapper>
-      ))}
+      {userLogado && userLogado.admin === true &&
+        menuItems.map((section) => (
+          <MenuWrapper
+            key={section.heading}
+            subheader={
+              <ListSubheader component="div" disableSticky>{section.heading}</ListSubheader>
+            }
+          >
+            {renderSidebarMenuItems({
+              items: section.items,
+              path: location.pathname
+            })}
+          </MenuWrapper>
+        ))
+      }
+      {userLogado && userLogado.admin === false &&
+        MenuItensNotAdm.map((section) => (
+          <MenuWrapper
+            key={section.heading}
+            subheader={
+              <ListSubheader component="div" disableSticky>{section.heading}</ListSubheader>
+            }
+          >
+            {renderSidebarMenuItems({
+              items: section.items,
+              path: location.pathname
+            })}
+          </MenuWrapper>
+        ))
+      }
     </>
   );
 }

@@ -67,7 +67,6 @@ function SimpleDialog(props: dialogProps) {
     data = body;
     data.codItem = codigo;
     data.quantidadeNovoItem = Number(quantidade);
-    console.log(data)
     api.post('/Pedidos/AdicionarItem/', data)
       .then(response => {
         if (response.status === 200){
@@ -81,10 +80,8 @@ function SimpleDialog(props: dialogProps) {
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.target.name, event.target.value);
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
-    console.log(formData);
   }
 
 
