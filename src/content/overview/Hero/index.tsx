@@ -94,6 +94,9 @@ const Hero: React.FC<initialPageProps> = () => {
         alertLogin();
         sessionStorage.setItem("Logado", JSON.stringify(response.data))
         sessionStorage.setItem("UsuarioLogado", JSON.stringify(true))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 0.5);
         navigate("/dashboards/home")
       }
       else {

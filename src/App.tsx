@@ -19,7 +19,9 @@ const App = () => {
 
   const [usuario, setUser] = useState<any>();
 
-  
+  const navigate = useNavigate();
+
+
 
   useEffect(() => {
     setUser(JSON.parse(sessionStorage.getItem("Logado")));
