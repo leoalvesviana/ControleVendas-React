@@ -142,7 +142,7 @@ function HeaderUserbox() {
         <Divider />
         <Box sx={{ m: 1 }}>
           <Link to="/" style={{ textDecoration: 'none' }}>
-            <Button color="primary" fullWidth>
+            <Button color="primary" fullWidth onClick={deslogar}>
               <LockOpenTwoToneIcon sx={{ mr: 1 }} />
               Sign out
             </Button>

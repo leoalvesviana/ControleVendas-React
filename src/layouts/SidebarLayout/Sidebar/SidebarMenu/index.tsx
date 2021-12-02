@@ -197,11 +197,9 @@ function SidebarMenu() {
 
   const [userLogado, setUserLogado] = useState<any>();
 
-  const logado = JSON.parse(sessionStorage.getItem("UsuarioLogado"));
-
   useEffect(() => {
     setUserLogado(JSON.parse(sessionStorage.getItem("Logado")));
-  },[logado]);
+  },[]);
 
   return (
     <>
