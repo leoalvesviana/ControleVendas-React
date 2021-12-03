@@ -128,7 +128,6 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
             required
             style={{ width: 415 }}
             value={formData.senha}
-            multiline
             onChange={handleFieldChange}
           />
         </ListItem>
