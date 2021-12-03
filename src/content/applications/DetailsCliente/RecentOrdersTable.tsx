@@ -239,7 +239,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, cliente }
                         {compra.dataCompra}
                       </Typography>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell >
                       <Typography
                         variant="body1"
                         fontWeight="bold"
@@ -250,7 +250,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, cliente }
                         {compra.totalItens}
                       </Typography>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell >
                       <Typography
                         variant="body1"
                         fontWeight="bold"

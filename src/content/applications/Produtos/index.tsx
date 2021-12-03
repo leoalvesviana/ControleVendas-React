@@ -39,7 +39,7 @@ function ApplicationsTransactions() {
           alignItems="stretch"
           spacing={3}
         >
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{paddingBottom: '20px'}}>
             {produtos &&
               <RecentOrders setProdutos={setProdutos} produtos={produtos}/>
             }
