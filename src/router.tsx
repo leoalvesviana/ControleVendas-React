@@ -1,7 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import { PartialRouteObject } from 'react-router';
-import { Route, BrowserRouter } from 'react-router-dom';
 import SidebarLayout from 'src/layouts/SidebarLayout';
 import BaseLayout from 'src/layouts/BaseLayout';
 
@@ -34,15 +33,6 @@ const Usuarios = Loader(lazy(() => import('src/content/applications/Usuarios')))
 
 // Components
 
-const Buttons = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
-const Modals = Loader(lazy(() => import('src/content/pages/Components/Modals')));
-const Accordions = Loader(lazy(() => import('src/content/pages/Components/Accordions')));
-const Tabs = Loader(lazy(() => import('src/content/pages/Components/Tabs')));
-const Badges = Loader(lazy(() => import('src/content/pages/Components/Badges')));
-const Tooltips = Loader(lazy(() => import('src/content/pages/Components/Tooltips')));
-const Avatars = Loader(lazy(() => import('src/content/pages/Components/Avatars')));
-const Cards = Loader(lazy(() => import('src/content/pages/Components/Cards')));
-const Forms = Loader(lazy(() => import('src/content/pages/Components/Forms')));
 
 // Status
 
@@ -403,6 +393,6 @@ const normalUserRotes: PartialRouteObject[] = [
   },
 ];
 
-export {normalUserRotes}
+export { normalUserRotes }
 
 export default routes;

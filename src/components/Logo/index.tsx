@@ -1,7 +1,13 @@
 import { Box, Hidden, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import AnalyticsTwoToneIcon from '@mui/icons-material/AnalyticsTwoTone';
+import LocalAtmTwoToneIcon from '@mui/icons-material/LocalAtmTwoTone';
+import LocalAtmRoundedIcon from '@mui/icons-material/LocalAtmRounded';
+import PaidTwoToneIcon from '@mui/icons-material/PaidTwoTone';
+import BarChartTwoToneIcon from '@mui/icons-material/BarChartTwoTone';
+import { createTheme } from '@material-ui/core/styles';
+import purple from '@material-ui/core/colors/purple';
+
 
 const LogoWrapper = styled(Link)(
   ({ theme }) => `
@@ -87,6 +93,7 @@ const VersionBadge = styled(Box)(
         text-align: center;
         display: inline-block;
         line-height: 1;
+        height: 1px solid;
         font-size: ${theme.typography.pxToRem(11)};
 `
 );
@@ -102,18 +109,10 @@ function Logo() {
 
 
   return (
-    <LogoWrapper to="/dashboards/home">
-      <LogoSignWrapper>
-        <AnalyticsTwoToneIcon sx={{ fontSize: 50 }} color="success" />
-        {/* <LogoSign>
-          <LogoSignInner />
-        </LogoSign> */}
-      </LogoSignWrapper>
+    <LogoWrapper to="/dashboards/home" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <BarChartTwoToneIcon sx={{ fontSize: 50 }} color="primary" />
       <Hidden smDown>
         <LogoTextWrapper>
-          <Tooltip title="Version 1.1.0" arrow placement="right">
-            <VersionBadge></VersionBadge>
-          </Tooltip>
           <LogoText>Controle de Vendas</LogoText>
         </LogoTextWrapper>
       </Hidden>

@@ -43,40 +43,46 @@ function ApplicationsTransactions() {
 
   return (
     <>
-      <Helmet>
-        <title>Pedidos</title>
-      </Helmet>
-      <PageTitleWrapper>
-        {apiResponse &&
-          <PageHeader body={apiResponse} codigo={codigo} changeResponse={setApiResponse} />
-        }
-      </PageTitleWrapper>
-      <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
-          spacing={3}
-        >
-          <Grid item xs={12} style={{paddingBottom: '20px'}}>
-            {apiResponse &&
-              <RecentOrders body={apiResponse} changeResponse={setApiResponse} />
-            }
+      <Card style={{
+        height: '100vh', justifyContent: 'center',
+        backgroundImage: "url(" + "https://i.pinimg.com/originals/39/1e/7b/391e7ba4cb2c0752bf007c7bfb4ea143.png" + ")",
+        backgroundSize: 'cover'
+      }}>
+        <Helmet>
+          <title>Pedidos</title>
+        </Helmet>
+        <PageTitleWrapper>
+          {apiResponse &&
+            <PageHeader body={apiResponse} codigo={codigo} changeResponse={setApiResponse} />
+          }
+        </PageTitleWrapper>
+        <Container maxWidth="lg">
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="stretch"
+            spacing={3}
+          >
+            <Grid item xs={12} style={{ paddingBottom: '20px' }}>
+              {apiResponse &&
+                <RecentOrders body={apiResponse} changeResponse={setApiResponse} />
+              }
+            </Grid>
           </Grid>
-        </Grid>
-        <Card style={{ marginTop: '15px' }}>
-          <CardContent style={{ display: 'flex' }}>
-            <Button color="error" onClick={() => Cancelar(apiResponse.numCompra)}>
-              <ListItemAvatar >
-                <CancelTwoToneIcon sx={{ mt: 1 }} color="error" />
-              </ListItemAvatar>
-              <ListItemText primary="Cancelar" />
-            </Button>
-            <ModalFinalizarCompra apiResponse={apiResponse} changeResponse={setApiResponse} />
-          </CardContent>
-        </Card>
-      </Container>
+          <Card style={{ marginTop: '15px' }}>
+            <CardContent style={{ display: 'flex' }}>
+              <Button color="error" onClick={() => Cancelar(apiResponse.numCompra)}>
+                <ListItemAvatar >
+                  <CancelTwoToneIcon sx={{ mt: 1 }} color="error" />
+                </ListItemAvatar>
+                <ListItemText primary="Cancelar" />
+              </Button>
+              <ModalFinalizarCompra apiResponse={apiResponse} changeResponse={setApiResponse} />
+            </CardContent>
+          </Card>
+        </Container>
+      </Card>
     </>
   );
 }

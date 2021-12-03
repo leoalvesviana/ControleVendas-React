@@ -1,22 +1,15 @@
 import {
-  Button,
   Card,
   Grid,
   Box,
   CardContent,
-  Typography,
-  Avatar,
-  Tooltip,
-  CardActionArea
+  Typography
 } from '@mui/material';
 import GroupIcon from '@mui/icons-material/Group';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
-import StoreIcon from '@mui/icons-material/Store';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import api from 'src/service/api';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MovimentacaoFinanceira } from 'src/models/Types';
 
 
@@ -79,7 +72,7 @@ function Wallets() {
             <Grid item>
               <Card sx={{ px: 1 }} style={{ width: '250px' }}>
                 <CardContent>
-                  <GroupIcon sx={{ fontSize: 50 }} color="primary" />
+                  <GroupIcon sx={{ fontSize: 30 }} color="primary" />
                   <Typography variant="h3" noWrap>
                     Clientes
                   </Typography>
@@ -94,7 +87,7 @@ function Wallets() {
             <Grid item>
               <Card sx={{ px: 1 }} style={{ width: '250px' }}>
                 <CardContent>
-                  <LocalMallIcon sx={{ fontSize: 50 }} color="secondary" />
+                  <LocalMallIcon sx={{ fontSize: 30 }} color="warning" />
                   <Typography variant="h3" noWrap>
                     Produtos
                   </Typography>
@@ -109,7 +102,7 @@ function Wallets() {
             <Grid item>
               <Card sx={{ px: 1 }} style={{ backgroundColor: ' 	 ', width: '250px' }}>
                 <CardContent>
-                  <AttachMoneyIcon sx={{ fontSize: 50 }} color="success" />
+                  <AttachMoneyIcon sx={{ fontSize: 30 }} color="success" />
                   <Typography variant="h3" noWrap>
                     Movimentações
                   </Typography>

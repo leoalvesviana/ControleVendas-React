@@ -15,7 +15,6 @@ import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import api from 'src/service/api';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Label from 'src/components/Label';
@@ -23,7 +22,7 @@ const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 toast.configure()
 
-interface SimpleDialogProps{
+interface SimpleDialogProps {
   onClose: () => void;
   setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
   open: boolean;
@@ -75,12 +74,12 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
       await api.post('/Clientes/InserirCliente', data).then(response => {
         if (response.status === 200) {
           api.get('/Clientes/GetClientes')
-          .then(response => {
-            if (response && response.status === 200 && response.data) {
-              setClientes(response.data);
-              onClose()
-            }
-          });
+            .then(response => {
+              if (response && response.status === 200 && response.data) {
+                setClientes(response.data);
+                onClose()
+              }
+            });
           toast.success('Cliente cadastrado com sucesso!', { autoClose: 2000 });
         }
       }).catch(error => {
@@ -194,7 +193,7 @@ interface ModalProps {
   setClientes: Dispatch<SetStateAction<t.Cliente[]>>;
 }
 
-const Modals: React.FC<ModalProps> = ({setClientes}) => {
+const Modals: React.FC<ModalProps> = ({ setClientes }) => {
 
   const [open, setOpen] = useState(false);
 

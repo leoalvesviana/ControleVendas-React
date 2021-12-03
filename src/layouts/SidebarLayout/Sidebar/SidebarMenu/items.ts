@@ -4,8 +4,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import GroupIcon from '@mui/icons-material/Group';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import ManageAccountsTwoToneIcon from '@mui/icons-material/ManageAccountsTwoTone';
 
 
@@ -58,7 +56,7 @@ const menuItems: MenuItems[] = [
         icon: ManageAccountsTwoToneIcon,
         link: '/tarefas/Usuarios'
       }
-      
+
     ]
   },
 ];
@@ -83,11 +81,11 @@ const MenuItensNotAdm: MenuItems[] = [
         icon: GroupIcon,
         link: '/tarefas/clientes',
       }
-      
+
     ]
   },
 ]
 
-export {MenuItensNotAdm}
+export { MenuItensNotAdm }
 
 export default menuItems;
