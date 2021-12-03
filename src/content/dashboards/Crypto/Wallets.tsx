@@ -9,9 +9,9 @@ import {
   Tooltip,
   CardActionArea
 } from '@mui/material';
-
-import { styled } from '@mui/material/styles';
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import GroupIcon from '@mui/icons-material/Group';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import StoreIcon from '@mui/icons-material/Store';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
@@ -79,7 +79,7 @@ function Wallets() {
             <Grid item>
               <Card sx={{ px: 1 }} style={{ width: '250px' }}>
                 <CardContent>
-                  <SupervisedUserCircleIcon sx={{ fontSize: 50 }} color="primary" />
+                  <GroupIcon sx={{ fontSize: 50 }} color="primary" />
                   <Typography variant="h3" noWrap>
                     Clientes
                   </Typography>
@@ -94,7 +94,7 @@ function Wallets() {
             <Grid item>
               <Card sx={{ px: 1 }} style={{ width: '250px' }}>
                 <CardContent>
-                  <StoreIcon sx={{ fontSize: 50 }} color="secondary" />
+                  <LocalMallIcon sx={{ fontSize: 50 }} color="secondary" />
                   <Typography variant="h3" noWrap>
                     Produtos
                   </Typography>
@@ -109,7 +109,7 @@ function Wallets() {
             <Grid item>
               <Card sx={{ px: 1 }} style={{ backgroundColor: ' 	 ', width: '250px' }}>
                 <CardContent>
-                  <CompareArrowsIcon sx={{ fontSize: 50 }} color="success" />
+                  <AttachMoneyIcon sx={{ fontSize: 50 }} color="success" />
                   <Typography variant="h3" noWrap>
                     Movimentações
                   </Typography>
