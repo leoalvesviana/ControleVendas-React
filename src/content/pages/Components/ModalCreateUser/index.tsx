@@ -63,9 +63,6 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
         if (response.status === 200) {
           api.get(`/Usuario/ObterTodos`).then(response => {
             if (response.status === 200) {
-              setTimeout(function refreshing() {
-                window.location.reload();
-              }, 2000);
               toast.success('Usuário criado com sucesso!', { autoClose: 2000 });
               setUser(response.data)
               onClose();
