@@ -61,26 +61,6 @@ interface Cliente {
   status: string;
 }
 
-const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
-  const map = {
-    failed: {
-      text: 'Failed',
-      color: 'error'
-    },
-    completed: {
-      text: 'Completed',
-      color: 'success'
-    },
-    pending: {
-      text: 'Pending',
-      color: 'warning'
-    }
-  };
-
-  const { text, color }: any = map[cryptoOrderStatus];
-
-  return <Label color={color}>{text}</Label>;
-};
 
 const applyFilters = (
   cryptoOrders: Cliente[],
@@ -200,7 +180,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, setClient
 
   useEffect(() => {
     setUser(JSON.parse(sessionStorage.getItem("Logado")));
-  },[]);
+  }, []);
 
   return (
     <Card>
@@ -211,25 +191,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, setClient
       )}
       {!selectedBulkActions && (
         <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filters.status || 'all'}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
           title="Lista de clientes"
         />
       )}
@@ -301,13 +262,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, setClient
                   <TableCell align="right" style={{ display: 'flex' }}>
                     <IconButton color="success" size="small" onClick={() => (navigate(`../pedidos`, { state: { codigo: cliente.codigo } }))}><AddShoppingCartIcon fontSize="small" /></IconButton>
                     {user && user.admin === true &&
-                      <ModalEditCliente codigo={cliente.codigo} setClientes={setClienteList}/>
+                      <ModalEditCliente codigo={cliente.codigo} setClientes={setClienteList} />
                     }
                     {user && user.admin === true &&
                       <ModalDelCliente Codigo={cliente.codigo} setClientes={setClienteList} />
                     }
                     {user && user.admin === true &&
-                    <IconButton color="primary" size="small" onClick={() => (navigate(`../DetailsCliente/`, { state: { codigo: cliente.codigo } }))}><AssignmentTwoToneIcon fontSize="small" /></IconButton>
+                      <IconButton color="primary" size="small" onClick={() => (navigate(`../DetailsCliente/`, { state: { codigo: cliente.codigo } }))}><AssignmentTwoToneIcon fontSize="small" /></IconButton>
                     }
                   </TableCell>
                 </TableRow>

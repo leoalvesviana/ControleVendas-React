@@ -90,7 +90,7 @@ const applyPagination = (
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders , body, changeResponse}) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, body, changeResponse }) => {
 
   const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>(
     []
@@ -190,25 +190,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders , body, ch
       )}
       {!selectedBulkActions && (
         <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filters.status || 'all'}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
           title="Lista de itens"
         />
       )}
@@ -254,7 +235,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders , body, ch
                   <TableCell align="center">
                     <Tooltip title="Remover Item" arrow>
                       {body &&
-                        <ModalRemoveItem apiResponse={body} changeResponse={changeResponse} codItem={produto.codigo}/>
+                        <ModalRemoveItem apiResponse={body} changeResponse={changeResponse} codItem={produto.codigo} />
                       }
                     </Tooltip>
                   </TableCell>
