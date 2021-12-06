@@ -12,7 +12,13 @@ import api from 'src/service/api';
 function Usuarios() {
 
   useEffect(() => {
-    api.get(`/Usuario/ObterTodos`).then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+
+    api.get(`/Usuario/ObterTodos`, config).then(response => {
       if (response && response.status === 200 && response.data) {
         setUsuarios(response.data);
       }

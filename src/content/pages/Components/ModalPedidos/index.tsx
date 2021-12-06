@@ -67,7 +67,12 @@ function SimpleDialog(props: dialogProps) {
     data = body;
     data.codItem = codigo;
     data.quantidadeNovoItem = Number(quantidade);
-    api.post('/Pedidos/AdicionarItem/', data)
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.post('/Pedidos/AdicionarItem/', data, config)
       .then(response => {
         if (response.status === 200){
           setApiResponse(response.data)
@@ -143,7 +148,12 @@ function ModalPedidos({apiResponse, changeResponse}: modalProps) {
   const [produtos, setprodutos] = useState<t.produto[]>();
 
   const handleClickOpen = () => {
-    api.get(`/Itens/GetItens`).then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.get(`/Itens/GetItens`, config).then(response => {
       setOpen(true);
       setprodutos(response.data);
     })

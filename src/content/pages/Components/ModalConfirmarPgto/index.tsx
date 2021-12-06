@@ -44,21 +44,33 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
   const [checkbox, setCheckbox] = useState(false);
 
   const handleListItemCreate = (value) => {
+    
+
     if (checkbox === true) {
+      
       var data = new Date;
       let day = data.getDate();
       let month = data.getMonth();
       let year = data.getFullYear();
       let dataParam = `${year}-${month + 1}-${day}`;
-      api.get(`/Movimento/ConfirmarPagamento/${value}`, {
+      let config = {
+        headers: {
+          authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+        },
         params: {
           Data: dataParam
         }
-      })
+      }
+      api.get(`/Movimento/ConfirmarPagamento/${value}`,config)
         .then(response => {
           if (response.status === 200) {
+            let config2 = {
+              headers: {
+                authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+              }
+            }
             toast.success('Pagamento confirmado!!', { autoClose: 1000 });
-            api.get(`/Movimento/IndexMovimento`).then(response => {
+            api.get(`/Movimento/IndexMovimento`,config2).then(response => {
               if(response.status === 200){
                 setMovimentos(response.data);
               }
@@ -67,11 +79,16 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
         })
 
     } else {
-      api.get(`/Movimento/ConfirmarPagamento/${value}`)
+      let config = {
+        headers: {
+          authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+        }
+      }
+      api.get(`/Movimento/ConfirmarPagamento/${value}`, config)
         .then(response => {
           if (response.status === 200) {
             toast.success('Pagamento confirmado!!', { autoClose: 1000 });
-            api.get(`/Movimento/IndexMovimento`).then(response => {
+            api.get(`/Movimento/IndexMovimento`, config).then(response => {
               if(response.status === 200){
                 setMovimentos(response.data);
               }

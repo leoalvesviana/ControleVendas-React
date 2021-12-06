@@ -56,7 +56,12 @@ function SimpleDialog(props) {
     const data = {
       valor
     };
-    api.put('/Itens/AtualizarValores', data.valor);
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.put('/Itens/AtualizarValores', data.valor, config);
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {

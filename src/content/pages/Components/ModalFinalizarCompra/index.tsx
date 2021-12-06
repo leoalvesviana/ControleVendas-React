@@ -48,7 +48,12 @@ function SimpleDialog(props: dialogProps) {
     let data: t.Pedido;
     data = body;
     data.status = Status;
-    api.post('/Pedidos/FinalizarCompra/', data)
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.post('/Pedidos/FinalizarCompra/', data, config)
       .then(response => {
         if (response.status === 200) {
           setTimeout(function alertCompra() {
@@ -72,7 +77,12 @@ function SimpleDialog(props: dialogProps) {
   const [status, setStatus] = useState<t.Status[]>();
 
   useEffect(() => {
-    api.get(`/Status/GetStatuses`).then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.get(`/Status/GetStatuses`, config).then(response => {
       if (response && response.status === 200) {
         setStatus(response.data);
       }

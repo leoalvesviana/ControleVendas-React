@@ -151,7 +151,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, cliente }
   const [clienteD, setClienteD] = useState<any>();
 
   useEffect(() => {
-    api.get(`/Clientes/DetalhesCliente/${cliente}`)
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    
+    api.get(`/Clientes/DetalhesCliente/${cliente}`,config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setClienteD(response.data);

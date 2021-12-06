@@ -43,9 +43,14 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
   };
 
   async function handleSubmit() {
-    await api.delete(`/Usuario/Excluir/${Codigo}`).then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    await api.delete(`/Usuario/Excluir/${Codigo}`, config).then(response => {
       if (response.status === 200) {
-        api.get(`/Usuario/ObterTodos`).then(response => {
+        api.get(`/Usuario/ObterTodos`, config).then(response => {
           if (response.status === 200) {
             setUser(response.data)
             onClose();
@@ -117,7 +122,12 @@ const ModalDelUser: React.FC<ModalProps> = ({ changeUsuarios, codigo }) => {
   const [user, setUsuario] = useState<t.Usuario>();
 
   useEffect(() => {
-    api.get(`/Usuario/Obter/${codigo}`).then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.get(`/Usuario/Obter/${codigo}`, config).then(response => {
       if (response.status === 200) {
         setUsuario(response.data)
       }

@@ -57,9 +57,14 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
       observacoes,
       status
     };
-    await api.put('/Clientes/AtualizarCliente', dados).then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    await api.put('/Clientes/AtualizarCliente', dados, config).then(response => {
       if (response.status === 200) {
-        api.get('/Clientes/GetClientes')
+        api.get('/Clientes/GetClientes', config)
         .then(response => {
           if (response && response.status === 200 && response.data) {
             setClientes(response.data);
@@ -182,7 +187,12 @@ function ModalEditCliente<modalProps>({ codigo, setClientes }) {
   const [cliente, setCliente] = useState<t.Cliente>();
 
   const handleClickOpen = () => {
-    api.get(`/Clientes/GetCliente/${codigo}`)
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.get(`/Clientes/GetCliente/${codigo}`, config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setCliente(response.data);

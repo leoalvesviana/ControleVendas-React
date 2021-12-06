@@ -15,7 +15,14 @@ function ApplicationsTransactions() {
   const [produtos, setProdutos] = useState<t.produto[]>();
 
   useEffect(() => {
-    api.get('/Itens/GetItens')
+
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+
+    api.get('/Itens/GetItens',config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setProdutos(response.data);

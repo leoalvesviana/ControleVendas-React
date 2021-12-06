@@ -115,8 +115,13 @@ function ModalDetailCompra<ModalProps>({ Numcompra }) {
   };
 
   const handleClickOpen = () => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
     setOpen(true);
-    api.get(`/Movimento/DetalhesCompra/${Numcompra}`)
+    api.get(`/Movimento/DetalhesCompra/${Numcompra}`, config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setMovimento(response.data);

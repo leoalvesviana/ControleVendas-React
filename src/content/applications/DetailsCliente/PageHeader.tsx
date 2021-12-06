@@ -13,7 +13,14 @@ function PageHeader<headerprops>({ codigoCli }) {
   const [clienteD, setClienteD] = useState<any>();
 
   useEffect(() => {
-    api.get(`/Clientes/DetalhesCliente/${codigoCli}`)
+
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+
+    api.get(`/Clientes/DetalhesCliente/${codigoCli}`,config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setClienteD(response.data);

@@ -42,11 +42,16 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
   };
 
   const handleListItemDelete = (value) => {
-    api.delete(`/Itens/ExcluirItem/${value}`)
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.delete(`/Itens/ExcluirItem/${value}`, config)
       .then(response => {
         if (response.status === 200) {
           toast.success('Produto deletado!!', { autoClose: 1000 });
-          api.get('/Itens/GetItens')
+          api.get('/Itens/GetItens',config)
           .then(response => {
             if (response && response.status === 200 && response.data) {
               setProdutos(response.data);
@@ -98,8 +103,13 @@ function ModalDelProduto<ModalProps>({ Codigo, setProdutos }) {
   const theme = useTheme();
 
   const handleClickOpen = () => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
     setOpen(true);
-    api.get(`/Itens/GetItem/${Codigo}`)
+    api.get(`/Itens/GetItem/${Codigo}`,config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setItem(response.data);

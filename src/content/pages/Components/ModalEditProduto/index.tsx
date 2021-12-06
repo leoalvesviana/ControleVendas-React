@@ -52,10 +52,15 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
       descricao,
       valor
     };
-    await api.put('/Itens/AtualizarItem/', data)
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    await api.put('/Itens/AtualizarItem/', data, config)
       .then(response => {
         if (response.status === 200) {
-          api.get('/Itens/GetItens')
+          api.get('/Itens/GetItens', config)
           .then(response => {
             if (response && response.status === 200 && response.data) {
               setProdutos(response.data);
@@ -124,8 +129,13 @@ function ModalEditProduto<ModalProps>({ Codigo, setProdutos }) {
   const theme = useTheme();
 
   const handleClickOpen = () => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
     setOpen(true);
-    api.get(`/Itens/GetItem/${Codigo}`)
+    api.get(`/Itens/GetItem/${Codigo}`, config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setItem(response.data);

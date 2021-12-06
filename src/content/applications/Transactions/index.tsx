@@ -16,7 +16,13 @@ function ApplicationsTransactions() {
   const [clienteList, setClienteList] = useState<t.Cliente[]>([]);
 
   useEffect(() => {
-    api.get('/Clientes/GetClientes').then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+
+    api.get('/Clientes/GetClientes',config).then(response => {
       if (response && response.status === 200 && response.data) {
         setClienteList(response.data);
       }

@@ -61,7 +61,12 @@ function SimpleDialog(props: dialogProps) {
     let data: t.Pedido;
     data = body;
     data.codItem = codItem;
-    api.post('/Pedidos/RemoverItem/', data)
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.post('/Pedidos/RemoverItem/', data, config)
       .then(response => {
         if (response.status === 200){
           setApiResponse(response.data)
@@ -75,7 +80,12 @@ function SimpleDialog(props: dialogProps) {
   const [item, setItem] = useState<t.produto>();
 
   useEffect(() =>{
-    api.get(`/Itens/GetItem/${codItem}`).then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.get(`/Itens/GetItem/${codItem}`, config).then(response => {
       if(response && response.status === 200){
         setItem(response.data);
       }

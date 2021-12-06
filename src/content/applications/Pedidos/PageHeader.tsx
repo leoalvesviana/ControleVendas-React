@@ -22,7 +22,13 @@ const PageHeader: React.FC<Headerprops> = ({ body, codigo, changeResponse }) => 
   const [cliente, setCliente] = useState<t.Cliente>();
 
   useEffect(() => {
-    api.get(`/Clientes/GetCliente/${codigo}`).then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+
+    api.get(`/Clientes/GetCliente/${codigo}`, config).then(response => {
       if (response && response.status === 200 && response.data) {
         setCliente(response.data);
         body.cliente = response.data;

@@ -15,7 +15,13 @@ function ApplicationsTransactions() {
   const [movimentos, setMovimento] = useState<t.MovimentacaoFinanceiraPage>();
 
   useEffect(() => {
-    api.get('/Movimento/IndexMovimento')
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+
+    api.get('/Movimento/IndexMovimento',config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setMovimento(response.data);

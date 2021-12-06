@@ -59,9 +59,14 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
           progress: undefined,
         });
     } else {
-      await api.post('/Usuario/Inserir', data).then(response => {
+      let config = {
+        headers: {
+          authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+        }
+      }
+      await api.post('/Usuario/Inserir', data, config).then(response => {
         if (response.status === 200) {
-          api.get(`/Usuario/ObterTodos`).then(response => {
+          api.get(`/Usuario/ObterTodos`, config).then(response => {
             if (response.status === 200) {
               toast.success('Usuário criado com sucesso!', { autoClose: 2000 });
               setUser(response.data)

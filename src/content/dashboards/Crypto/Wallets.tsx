@@ -42,20 +42,39 @@ function Wallets() {
   const [MoviList, setMoviList] = useState<MovimentacaoFinanceira[]>([]);
 
   useEffect(() => {
-    api.get('/Clientes/GetClientes').then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+
+    api.get('/Clientes/GetClientes', config).then(response => {
       setClienteList(response.data);
     });
   }, []);
 
 
   useEffect(() => {
-    api.get('/Itens/GetItens').then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+
+    api.get('/Itens/GetItens', config).then(response => {
       setProdutoList(response.data);
     });
   }, []);
 
   useEffect(() => {
-    api.get('/Movimento/GetMovimento').then(response => {
+
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+
+    api.get('/Movimento/GetMovimento', config).then(response => {
       setMoviList(response.data);
     });
   }, []);

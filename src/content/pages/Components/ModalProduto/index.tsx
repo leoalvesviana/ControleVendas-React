@@ -72,12 +72,17 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
           progress: undefined,
         });
     } else {
+      let config = {
+        headers: {
+          authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+        }
+      }
       await api.post('/Itens/InserirItem', {
         descricao: data.descricao,
         valor: Number(valor)
-      }).then(response => {
+      }, config).then(response => {
         if (response.status === 200) {
-          api.get('/Itens/GetItens')
+          api.get('/Itens/GetItens', config)
           .then(response => {
             if (response && response.status === 200 && response.data) {
               setProdutos(response.data);

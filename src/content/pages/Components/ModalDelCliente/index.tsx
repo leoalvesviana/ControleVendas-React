@@ -46,11 +46,16 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
 
 
   const handleListItemDelete = (value) => {
-    api.delete(`/Clientes/ExcluirCliente/${value}`)
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.delete(`/Clientes/ExcluirCliente/${value}`, config)
       .then(response => {
         if (response.status === 200) {
           toast.success('Cliente deletado!!', { autoClose: 1000 });
-          api.get('/Clientes/GetClientes')
+          api.get('/Clientes/GetClientes', config)
         .then(response => {
           if (response && response.status === 200 && response.data) {
             setClientes(response.data);
@@ -104,8 +109,13 @@ const ModalDelCliente: React.FC<ModalProps> = ({ Codigo, setClientes }) => {
   const theme = useTheme();
 
   const handleClickOpen = () => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
     setOpen(true);
-    api.get(`/Clientes/GetCliente/${Codigo}`)
+    api.get(`/Clientes/GetCliente/${Codigo}`, config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setCliente(response.data);

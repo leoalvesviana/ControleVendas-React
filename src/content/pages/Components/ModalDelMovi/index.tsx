@@ -43,11 +43,16 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
   };
 
   const handleListItemDelete = (value) => {
-    api.delete(`/Movimento/ExcluirMovimento/${value}`)
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.delete(`/Movimento/ExcluirMovimento/${value}`,config)
       .then(response => {
         if (response.status === 200) {
           toast.success('Movimentação deletada com sucesso!!', { autoClose: 1000 });
-          api.get(`/Movimento/IndexMovimento`).then(response => {
+          api.get(`/Movimento/IndexMovimento`,config).then(response => {
             if(response.status === 200){
               setMovimentos(response.data);
             }
@@ -115,8 +120,13 @@ function ModalDelMovi<ModalProps>({ NumCompra, setMovimentos }) {
   const theme = useTheme();
 
   const handleClickOpen = () => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
     setOpen(true);
-    api.get(`/Movimento/GetCompra/${NumCompra}`)
+    api.get(`/Movimento/GetCompra/${NumCompra}`, config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           setMovimento(response.data);

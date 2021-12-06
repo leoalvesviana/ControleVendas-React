@@ -21,7 +21,13 @@ function ApplicationsTransactions() {
   const [apiResponse, setApiResponse] = useState<t.Pedido>();
   const navigate = useNavigate();
   useEffect(() => {
-    api.get(`/Pedidos/AdicionarCompra/${codigo}`)
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+
+    api.get(`/Pedidos/AdicionarCompra/${codigo}`,config)
       .then(response => {
         if (response && response.status === 200 && response.data) {
           response.data.produtos = [];
