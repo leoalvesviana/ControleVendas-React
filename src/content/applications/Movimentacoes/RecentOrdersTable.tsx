@@ -282,7 +282,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, movimento
               )
               )
               :
-              <p>Error</p>
+              <p></p>
             }
           </TableBody>
         </Table>
