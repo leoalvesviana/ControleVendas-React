@@ -90,14 +90,14 @@ const Hero: React.FC<initialPageProps> = () => {
 
 
     api.post(`/Login/Logar`, data).then(response => {
-      if (response.status === 200) {    
+      if (response.status === 200) {
         sessionStorage.setItem("Logado", JSON.stringify(response.data))
         sessionStorage.setItem("UsuarioLogado", JSON.stringify(true))
         setTimeout(function refreshing() {
           window.location.replace("/dashboards/home")
         }, 700);
         alertLogin();
-        
+
       }
       else {
         alertError();

@@ -66,7 +66,7 @@ function HeaderUserbox() {
   const user =
   {
     name: nome,
-    avatar: '',
+    avatar: 'https://www.globaltec.com.br/wp-content/uploads/2021/01/laptop-user-1-1179329.png',
     jobtitle: ''
   };
 
@@ -88,7 +88,7 @@ function HeaderUserbox() {
 
   return (
     <>
-      <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
+      <UserBoxButton color="primary" ref={ref} onClick={handleOpen}>
         <Avatar variant="rounded" alt={user.name} src={user.avatar} />
         <Hidden mdDown>
           <UserBoxText>

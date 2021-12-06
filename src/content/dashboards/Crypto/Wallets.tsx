@@ -63,11 +63,9 @@ function Wallets() {
   return (
     <>
       <Card style={{
-        display: 'flex', height: '100vh', justifyContent: 'center',
-        backgroundImage: "url(" + "https://i.pinimg.com/originals/39/1e/7b/391e7ba4cb2c0752bf007c7bfb4ea143.png" + ")",
-        backgroundSize: 'cover'
+        display: 'flex', justifyContent: 'center', backgroundColor: 'transparent', boxShadow: 'none'
       }}>
-        <CardContent style={{ marginTop: '30px' }}>
+        <CardContent style={{ marginTop: '30px', height: '100%' }}>
           <Grid container spacing={3}>
             <Grid item>
               <Card sx={{ px: 1 }} style={{ width: '250px' }}>
