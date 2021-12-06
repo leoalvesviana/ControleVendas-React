@@ -215,7 +215,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, ProdutoLi
                       {item.valor}&nbsp;R$
                     </Typography>
                   </TableCell>
-                  <TableCell align="right" style={{ display: 'flex' }}>
+                  <TableCell align="right" style={{ display: 'flex', height: '60px' }}>
                     <Tooltip title="Edit Order" arrow>
                       <ModalEditProduto Codigo={item.codigo} setProdutos={setProdutoList} />
                     </Tooltip>
