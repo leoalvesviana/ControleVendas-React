@@ -259,7 +259,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, setClient
                       {(new Date(cliente.data)).toLocaleDateString('pt-BR')}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right" style={{ display: 'flex' }}>
+                  <TableCell align="right" style={{ display: 'flex', height: '60px' }}>
                     <IconButton color="success" size="small" onClick={() => (navigate(`../pedidos`, { state: { codigo: cliente.codigo } }))}><AddShoppingCartIcon fontSize="small" /></IconButton>
                     {user && user.admin === true &&
                       <ModalEditCliente codigo={cliente.codigo} setClientes={setClienteList} />

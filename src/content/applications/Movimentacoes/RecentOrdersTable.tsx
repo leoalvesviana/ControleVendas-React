@@ -259,7 +259,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, movimento
                       {movimento.compra.valor}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right" style={{ display: 'flex' }}>
+                  <TableCell align="right" style={{ display: 'flex', height: '60px' }}>
                     <Tooltip title="Detalhar compra" arrow>
                       <ModalDetailCompra
                         Numcompra={movimento.compra.numCompra}

@@ -254,7 +254,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, usuarios,
                         }
                       </Typography>
                     </TableCell>
-                    <TableCell align="right" style={{ display: 'flex' }}>
+                    <TableCell align="right" style={{ display: 'flex', height: '75px' }}>
                       <Tooltip title="Editar" arrow>
                         <ModalEditUser codigo={usuario.codigo} changeUsuarios={setUsuarios} />
                       </Tooltip>
