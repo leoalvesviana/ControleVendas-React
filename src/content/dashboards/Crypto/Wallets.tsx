@@ -70,7 +70,7 @@ function Wallets() {
             <Grid item>
               <Card sx={{ px: 1 }} style={{ width: '250px' }}>
                 <CardContent>
-                  <GroupIcon sx={{ fontSize: 30 }} color="primary" />
+                  <GroupIcon sx={{ fontSize: 30 }} color="info" />
                   <Typography variant="h3" noWrap>
                     Clientes
                   </Typography>
@@ -85,7 +85,7 @@ function Wallets() {
             <Grid item>
               <Card sx={{ px: 1 }} style={{ width: '250px' }}>
                 <CardContent>
-                  <LocalMallIcon sx={{ fontSize: 30 }} color="warning" />
+                  <LocalMallIcon sx={{ fontSize: 30 }} color="secondary" />
                   <Typography variant="h3" noWrap>
                     Produtos
                   </Typography>
