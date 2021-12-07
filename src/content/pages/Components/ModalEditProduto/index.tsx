@@ -50,14 +50,14 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
     const data = {
       codigo,
       descricao,
-      valor
+      valor: parseFloat(valor.toString())
     };
     let config = {
       headers: {
         authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
       }
     }
-    await api.put('/Itens/AtualizarItem/', data, config)
+    await api.put('/Itens/AtualizarItem', data, config)
       .then(response => {
         if (response.status === 200) {
           api.get('/Itens/GetItens', config)
@@ -73,7 +73,7 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             setTimeout(function refreshing() {
               window.location.reload();
             }, 500);
-        });
+          });
           toast.success('Produto Atualizado com sucesso!', { autoClose: 2000 });
         }
       }).catch(error => {

@@ -46,11 +46,17 @@ function ApplicationsTransactions() {
 
 
   const Cancelar = (numCompra: number) => {
-    api.delete(`/NumCompra/ExcluirNumCompra/${numCompra}`).then(response => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.delete(`/NumCompra/ExcluirNumCompra/${numCompra}`, config).then(response => {
       if (response && response.status == 200) {
         navigate(`../clientes/`);
       }
     }).catch(error => {
+      alert("meu ovo")
       toast.warn('Sessão expirada', { autoClose: 1000 });
       sessionStorage.clear();
       sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))

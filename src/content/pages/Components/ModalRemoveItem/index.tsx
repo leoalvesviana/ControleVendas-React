@@ -111,7 +111,7 @@ function SimpleDialog(props: dialogProps) {
     <Dialog onClose={handleClose} open={open}>
 
       <DialogTitle style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="outlined" color="error" onClick={handleClose}><CloseIcon sx={{ fontSize: 25 }} /></Button></DialogTitle>
-      <DialogTitle>Adicionar novo item</DialogTitle>
+      <DialogTitle>Remover item</DialogTitle>
       <List sx={{ pt: 0 }}>
         
         <ListItem>
