@@ -56,11 +56,23 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             if (response && response.status === 200 && response.data) {
               setProdutos(response.data);
             }
-          });
+          }).catch(error => {
+            toast.warn('Sessão expirada', { autoClose: 1000 });
+            sessionStorage.clear();
+            sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+            setTimeout(function refreshing() {
+              window.location.reload();
+            }, 500);
+        });
         }
       }).catch(error => {
-        toast.error('Não foi possível deletar, Produto possui uma movimentação vinculada.', { autoClose: 6000 });
-      });
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    });
   };
 
   return (
@@ -114,7 +126,14 @@ function ModalDelProduto<ModalProps>({ Codigo, setProdutos }) {
         if (response && response.status === 200 && response.data) {
           setItem(response.data);
         }
-      })
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    })
   }
   const handleClose = () => {
     setOpen(false);

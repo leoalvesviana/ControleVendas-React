@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import api from 'src/service/api';
 import * as t from '../../../models/Types'
 import ModalFinalizarCompra from 'src/content/pages/Components/ModalFinalizarCompra';
+import { toast } from 'react-toastify';
 
 function ApplicationsTransactions() {
   const parametros = useLocation();
@@ -33,7 +34,14 @@ function ApplicationsTransactions() {
           response.data.produtos = [];
           setApiResponse(response.data)
         }
-      });
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    });
   }, [api])
 
 
@@ -42,7 +50,14 @@ function ApplicationsTransactions() {
       if (response && response.status == 200) {
         navigate(`../clientes/`);
       }
-    })
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  })
   }
 
 

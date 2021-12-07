@@ -18,6 +18,7 @@ import { ChangeEvent } from 'react-transition-group/node_modules/@types/react';
 import api from 'src/service/api';
 import { Link } from 'react-router-dom';
 import * as t from '../../../../models/Types'
+import { toast } from 'react-toastify';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -63,9 +64,23 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
             setUser(response.data)
             onClose();
           }
-        })
+        }).catch(error => {
+          toast.warn('Sessão expirada', { autoClose: 1000 });
+          sessionStorage.clear();
+          sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 500);
+      })
       }
-    });
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  });
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -192,7 +207,14 @@ const ModalEditUser: React.FC<ModalProps> = ({changeUsuarios, codigo}) => {
       if(response.status === 200){
         setUsuario(response.data)
       }
-    })
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  })
   }, [api])
 
   return (

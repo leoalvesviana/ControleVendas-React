@@ -28,6 +28,7 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import api from 'src/service/api';
 import * as t from '../../../../models/Types'
+import { toast } from 'react-toastify';
 
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
@@ -81,7 +82,13 @@ function SimpleDialog(props: dialogProps) {
 
         }
       }).catch(error => {
-      });
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    });
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -156,7 +163,14 @@ function ModalPedidos({apiResponse, changeResponse}: modalProps) {
     api.get(`/Itens/GetItens`, config).then(response => {
       setOpen(true);
       setprodutos(response.data);
-    })
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  })
   };
 
   const handleClose = () => {

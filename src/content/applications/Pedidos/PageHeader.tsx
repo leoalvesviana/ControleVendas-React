@@ -4,6 +4,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import api from 'src/service/api';
 import * as t from '../../../models/Types'
+import { toast } from 'react-toastify';
 
 interface Headerprops {
   codigo: number;
@@ -33,7 +34,14 @@ const PageHeader: React.FC<Headerprops> = ({ body, codigo, changeResponse }) => 
         setCliente(response.data);
         body.cliente = response.data;
       }
-    })
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  })
 
   }, [])
 

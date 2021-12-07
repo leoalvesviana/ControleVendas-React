@@ -61,11 +61,23 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             setClientes(response.data);
             onClose()
           }
-        });
+        }).catch(error => {
+          toast.warn('Sessão expirada', { autoClose: 1000 });
+          sessionStorage.clear();
+          sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 500);
+      });
         }
       }).catch(error => {
-        toast.error('Não foi possível deletar, Cliente possui uma movimentação vinculada.', { autoClose: 6000 });
-      });
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    });
   };
 
   return (
@@ -120,7 +132,14 @@ const ModalDelCliente: React.FC<ModalProps> = ({ Codigo, setClientes }) => {
         if (response && response.status === 200 && response.data) {
           setCliente(response.data);
         }
-      })
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    })
   }
   const handleClose = () => {
     setOpen(false);

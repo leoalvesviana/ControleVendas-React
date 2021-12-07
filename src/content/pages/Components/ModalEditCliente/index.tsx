@@ -70,12 +70,24 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             setClientes(response.data);
             onClose()
           }
-        });
+        }).catch(error => {
+          toast.warn('Sessão expirada', { autoClose: 1000 });
+          sessionStorage.clear();
+          sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 500);
+      });
         toast.success('Cliente Atualizado com sucesso!', { autoClose: 2000 });
       }
     }).catch(error => {
-      toast.error('Error!');
-    });;
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  });
   }
 
   const [formData, setFormData] = useState({
@@ -198,7 +210,14 @@ function ModalEditCliente<modalProps>({ codigo, setClientes }) {
           setCliente(response.data);
           setOpen(true);
         }
-      })
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    })
   };
 
   const handleClose = () => {

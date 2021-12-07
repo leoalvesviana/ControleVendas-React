@@ -74,9 +74,23 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
               if(response.status === 200){
                 setMovimentos(response.data);
               }
-            })
+            }).catch(error => {
+              toast.warn('Sessão expirada', { autoClose: 1000 });
+              sessionStorage.clear();
+              sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+              setTimeout(function refreshing() {
+                window.location.reload();
+              }, 500);
+          })
           }
-        })
+        }).catch(error => {
+           toast.warn('Sessão expirada', { autoClose: 1000 });
+          sessionStorage.clear();
+          sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 500);
+      })
 
     } else {
       let config = {
@@ -92,9 +106,23 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
               if(response.status === 200){
                 setMovimentos(response.data);
               }
-            })
+            }).catch(error => {
+              toast.warn('Sessão expirada', { autoClose: 1000 });
+              sessionStorage.clear();
+              sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+              setTimeout(function refreshing() {
+                window.location.reload();
+              }, 500);
+          })
           }
-        })
+        }).catch(error => {
+          toast.warn('Sessão expirada', { autoClose: 1000 });
+          sessionStorage.clear();
+          sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 500);
+      })
     }
   };
 

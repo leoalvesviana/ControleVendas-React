@@ -66,12 +66,24 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
               setProdutos(response.data);
               onClose()
             }
-          });
+          }).catch(error => {
+            toast.warn('Sessão expirada', { autoClose: 1000 });
+            sessionStorage.clear();
+            sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+            setTimeout(function refreshing() {
+              window.location.reload();
+            }, 500);
+        });
           toast.success('Produto Atualizado com sucesso!', { autoClose: 2000 });
         }
       }).catch(error => {
-        toast.error('Error!');
-      });;
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    });
   }
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -140,7 +152,14 @@ function ModalEditProduto<ModalProps>({ Codigo, setProdutos }) {
         if (response && response.status === 200 && response.data) {
           setItem(response.data);
         }
-      })
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    })
   }
 
   const [item, setItem] = useState<t.produto>();

@@ -21,6 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import api from 'src/service/api';
 import * as t from "../../../../models/Types"
 import { FC, ChangeEvent, useState, useEffect, Dispatch, SetStateAction } from 'react';
+import axios from 'axios';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -81,22 +82,37 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
         descricao: data.descricao,
         valor: Number(valor)
       }, config).then(response => {
-        if (response.status === 200) {
+        console.log("Console do response Post", response)
+        if (response && response.status === 200) {
+          toast.success('Produto cadastrado com sucesso!', { autoClose: 2000 });
           api.get('/Itens/GetItens', config)
           .then(response => {
             if (response && response.status === 200 && response.data) {
               setProdutos(response.data);
               onClose()
             }
+          }).catch((error) => {
+            toast.warn('Sessão expirada', { autoClose: 1000 });
+            sessionStorage.clear();
+            sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+            setTimeout(function refreshing() {
+              window.location.reload();
+            }, 500);
           });
-          toast.success('Produto cadastrado com sucesso!', { autoClose: 2000 });
         }
       }).catch(error => {
-        toast.error('Error!', { autoClose: 5000 });
-      });;
+          toast.warn('Sessão expirada', { autoClose: 1000 });
+          sessionStorage.clear();
+          sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+          setTimeout(function refreshing() {
+            window.location.reload();
+          }, 500);
+      });
     }
   }
 
+  
+  
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });

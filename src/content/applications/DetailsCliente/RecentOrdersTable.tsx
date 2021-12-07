@@ -21,6 +21,7 @@ import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
 import BulkActions from './BulkActions';
 import api from 'src/service/api';
 import ModalDetailCompra from 'src/content/pages/Components/ModalDetailCompra';
+import { toast } from 'react-toastify';
 
 
 interface RecentOrdersTableProps {
@@ -162,7 +163,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, cliente }
         if (response && response.status === 200 && response.data) {
           setClienteD(response.data);
         }
-      });
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    });
   }, [api])
 
   return (

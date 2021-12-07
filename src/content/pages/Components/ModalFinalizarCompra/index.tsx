@@ -63,7 +63,14 @@ function SimpleDialog(props: dialogProps) {
           navigate(`../clientes/`);
           onClose()
         }
-      });
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    });
   }
 
   const [formData, setFormData] = useState({
@@ -86,7 +93,14 @@ function SimpleDialog(props: dialogProps) {
       if (response && response.status === 200) {
         setStatus(response.data);
       }
-    })
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  })
   }, [api])
 
   return (

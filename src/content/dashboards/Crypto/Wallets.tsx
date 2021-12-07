@@ -11,6 +11,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import api from 'src/service/api';
 import { useEffect, useState } from 'react';
 import { MovimentacaoFinanceira } from 'src/models/Types';
+import { toast } from 'react-toastify';
 
 
 interface Cliente {
@@ -50,7 +51,14 @@ function Wallets() {
 
     api.get('/Clientes/GetClientes', config).then(response => {
       setClienteList(response.data);
-    });
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  });
   }, []);
 
 
@@ -63,7 +71,14 @@ function Wallets() {
 
     api.get('/Itens/GetItens', config).then(response => {
       setProdutoList(response.data);
-    });
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  });
   }, []);
 
   useEffect(() => {
@@ -76,7 +91,14 @@ function Wallets() {
 
     api.get('/Movimento/GetMovimento', config).then(response => {
       setMoviList(response.data);
-    });
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  });
   }, []);
 
   return (

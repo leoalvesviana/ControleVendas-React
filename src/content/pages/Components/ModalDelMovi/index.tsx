@@ -56,11 +56,23 @@ const SimpleDialog: React.FC<SimpleDialogProps> = (props) => {
             if(response.status === 200){
               setMovimentos(response.data);
             }
-          })
+          }).catch(error => {
+            toast.warn('Sessão expirada', { autoClose: 1000 });
+            sessionStorage.clear();
+            sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+            setTimeout(function refreshing() {
+              window.location.reload();
+            }, 500);
+        })
         }
       }).catch(error => {
-        toast.error('Error!', { autoClose: 1000 });
-      });
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    });
   };
 
   return (
@@ -131,7 +143,14 @@ function ModalDelMovi<ModalProps>({ NumCompra, setMovimentos }) {
         if (response && response.status === 200 && response.data) {
           setMovimento(response.data);
         }
-      })
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    })
   }
 
   const handleClose = () => {

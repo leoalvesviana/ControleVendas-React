@@ -72,9 +72,23 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
               setUser(response.data)
               onClose();
             }
-          })
+          }).catch(error => {
+            toast.warn('Sessão expirada', { autoClose: 1000 });
+            sessionStorage.clear();
+            sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+            setTimeout(function refreshing() {
+              window.location.reload();
+            }, 500);
+        })
         }
-      });
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    });
     }
   }
 

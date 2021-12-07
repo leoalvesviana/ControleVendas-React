@@ -3,6 +3,7 @@ import Modals from 'src/content/pages/Components/Modals';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import { useEffect, useState } from 'react';
 import api from 'src/service/api';
+import { toast } from 'react-toastify';
 
 interface headerprops {
   codigoCli: number;
@@ -25,7 +26,14 @@ function PageHeader<headerprops>({ codigoCli }) {
         if (response && response.status === 200 && response.data) {
           setClienteD(response.data);
         }
-      });
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);  
+    });
   }, [api])
 
   const user =

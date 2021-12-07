@@ -19,6 +19,7 @@ import api from 'src/service/api';
 import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone';
 import { textAlign } from '@mui/system';
 import { FormatAlignJustify } from '@mui/icons-material';
+import { toast } from 'react-toastify';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -126,7 +127,14 @@ function ModalDetailCompra<ModalProps>({ Numcompra }) {
         if (response && response.status === 200 && response.data) {
           setMovimento(response.data);
         }
-      })
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    })
   }
   const [movimento, setMovimento] = useState<any>();
 

@@ -6,6 +6,7 @@ import RecentOrders from './RecentOrders';
 import React, { useEffect, useState } from 'react';
 import * as t from "../../../models/Types"
 import api from 'src/service/api';
+import { toast } from 'react-toastify';
 
 
 
@@ -22,7 +23,14 @@ function Usuarios() {
       if (response && response.status === 200 && response.data) {
         setUsuarios(response.data);
       }
-    })
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  })
   }, [api])
 
   const [usuarios, setUsuarios] = useState<t.Usuario[]>();

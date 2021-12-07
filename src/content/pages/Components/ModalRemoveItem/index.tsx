@@ -29,6 +29,7 @@ import Stack from '@mui/material/Stack';
 import api from 'src/service/api';
 import * as t from '../../../../models/Types'
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import { toast } from 'react-toastify';
 
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
@@ -74,7 +75,14 @@ function SimpleDialog(props: dialogProps) {
           
 
         }
-      });
+      }).catch(error => {
+        toast.warn('Sessão expirada', { autoClose: 1000 });
+        sessionStorage.clear();
+        sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+        setTimeout(function refreshing() {
+          window.location.reload();
+        }, 500);
+    });
   }
 
   const [item, setItem] = useState<t.produto>();
@@ -89,7 +97,14 @@ function SimpleDialog(props: dialogProps) {
       if(response && response.status === 200){
         setItem(response.data);
       }
-    })
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  })
   },[])
 
   return (

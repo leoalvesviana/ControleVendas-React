@@ -6,6 +6,7 @@ import RecentOrders from './RecentOrders';
 import { useEffect, useState } from 'react';
 import api from 'src/service/api';
 import * as t from "../../../models/Types"
+import { toast } from 'react-toastify';
 
 
 
@@ -26,7 +27,14 @@ function ApplicationsTransactions() {
       if (response && response.status === 200 && response.data) {
         setClienteList(response.data);
       }
-    })
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  })
   }, [api]);
 
   return (
