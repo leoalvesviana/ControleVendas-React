@@ -5,7 +5,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import ManageAccountsTwoToneIcon from '@mui/icons-material/ManageAccountsTwoTone';
-
+import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';
 
 
 export interface MenuItem {
@@ -55,6 +55,11 @@ const menuItems: MenuItems[] = [
         name: 'Usuários',
         icon: ManageAccountsTwoToneIcon,
         link: '/tarefas/Usuarios'
+      },
+      {
+        name: 'Enviar E-mail',
+        icon: ForwardToInboxTwoToneIcon,
+        link: '/tarefas/SendEmail'
       }
 
     ]

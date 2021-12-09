@@ -30,6 +30,7 @@ const UserProfile = Loader(lazy(() => import('src/content/applications/Users/pro
 const UserSettings = Loader(lazy(() => import('src/content/applications/Users/settings')));
 const DetailsCliente = Loader(lazy(() => import('src/content/applications/DetailsCliente')));
 const Usuarios = Loader(lazy(() => import('src/content/applications/Usuarios')))
+const SendEmail = Loader(lazy(() => import('src/content/applications/SendEmail')))
 
 // Components
 
@@ -158,6 +159,11 @@ const routes: PartialRouteObject[] = [
       {
         path: 'Usuarios',
         element: <Usuarios />
+      },
+      ,
+      {
+        path: 'SendEmail',
+        element: <SendEmail />
       },
       {
         path: 'profile',
