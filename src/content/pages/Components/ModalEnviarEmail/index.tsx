@@ -240,6 +240,7 @@ const ModalEnviarEmail: React.FC<ModalProps> = ({ changeEmail }) => {
           color="inherit"
           size="small"
           onClick={handleClickOpen}
+          title="Enviar Email"
         >
           < ForwardToInboxTwoToneIcon fontSize="small" />
         </IconButton>
