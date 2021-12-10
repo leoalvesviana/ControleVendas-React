@@ -44,14 +44,16 @@ import * as t from '../../../models/Types'
 import { Dispatch, SetStateAction } from 'react';
 import ModalEditUser from 'src/content/pages/Components/ModalEditUser';
 import ModalDelUser from 'src/content/pages/Components/ModalDelUser';
+import ModalDelEmail from 'src/content/pages/Components/ModalDelEmail';
+import ModalEditEmail from 'src/content/pages/Components/ModalEditEmail';
 
 
 
 interface RecentOrdersTableProps {
   className?: string;
   cryptoOrders: CryptoOrder[];
-  setUsuarios: Dispatch<SetStateAction<t.Usuario[]>>;
-  usuarios: t.Usuario[];
+  setEmail: Dispatch<SetStateAction<t.Email[]>>;
+  Email: t.Email[];
 }
 
 interface Filters {
@@ -102,7 +104,7 @@ const applyPagination = (
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, usuarios, setUsuarios }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, Email, setEmail }) => {
 
   const [selectedCryptoOrders, setSelectedCryptoOrders] = useState<string[]>(
     []
@@ -184,7 +186,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, usuarios,
       )}
       {!selectedBulkActions && (
         <CardHeader
-          title="E-mails enviados"
+          title="E-mails remetentes"
         />
       )}
       <Divider />
@@ -192,18 +194,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, usuarios,
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Nome</TableCell>
               <TableCell>E-mail</TableCell>
               <TableCell align="right">Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {usuarios &&
-              usuarios.map((usuario) => {
+            {Email &&
+              Email.map((Email) => {
                 return (
                   <TableRow
                     hover
-                    key={usuario.codigo}
+                    key={Email.codigo}
                   >
                     <TableCell>
                       <Typography
@@ -213,57 +214,21 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, usuarios,
                         gutterBottom
                         noWrap
                       >
-                        {usuario.nome}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="body1"
-                        fontWeight="bold"
-                        color="text.primary"
-                        gutterBottom
-                        noWrap
-                      >
-                        {usuario.login}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="body1"
-                        fontWeight="bold"
-                        color="text.primary"
-                        gutterBottom
-                        noWrap
-                      >
-                        {usuario.email}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="body1"
-                        color="text.primary"
-                        gutterBottom
-                        noWrap
-                      >
-                        {usuario.admin ?
-                          <IconButton><AdminPanelSettingsTwoToneIcon color="success" fontSize="small" /></IconButton>
-                          :
-                          <IconButton><GppBadTwoToneIcon color="error" fontSize="small" /></IconButton>
-                        }
+                        {Email.email}
                       </Typography>
                     </TableCell>
                     <TableCell align="right" style={{ display: 'flex', height: '75px' }}>
                       <Tooltip title="Editar" arrow>
-                        <ModalEditUser codigo={usuario.codigo} changeUsuarios={setUsuarios} />
+                        <ModalEditEmail codigo={Email.codigo} changeEmail={setEmail} />
                       </Tooltip>
                       <Tooltip title="Remover" arrow>
-                        <ModalDelUser codigo={usuario.codigo} changeUsuarios={setUsuarios} />
+                        <ModalDelEmail codigo={Email.codigo} changeEmail={setEmail} />
                       </Tooltip>
                     </TableCell>
                   </TableRow>
                 );
               })
-            } */}
+            }
           </TableBody>
         </Table>
       </TableContainer>

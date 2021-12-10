@@ -6,18 +6,18 @@ import * as t from '../../../models/Types'
 import { Dispatch, SetStateAction } from 'react';
 
 interface Props{
-  setUsuarios: Dispatch<SetStateAction<t.Usuario[]>>;
-  usuarios: t.Usuario[];
+  setEmail: Dispatch<SetStateAction<t.Email[]>>;
+  Email: t.Email[];
 }
 
-const RecentOrders: React.FC<Props> = ({usuarios,setUsuarios}) => {
+const RecentOrders: React.FC<Props> = ({Email,setEmail}) => {
 
   const cryptoOrders: CryptoOrder[] = [
   ];
 
   return (
     <Card>
-      <RecentOrdersTable cryptoOrders={cryptoOrders} usuarios={usuarios} setUsuarios={setUsuarios}/>
+      <RecentOrdersTable cryptoOrders={cryptoOrders} Email={Email} setEmail={setEmail}/>
     </Card>
   );
 }

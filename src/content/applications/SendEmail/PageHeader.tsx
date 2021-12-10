@@ -3,12 +3,13 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import ModalSendEmail from 'src/content/pages/Components/ModalSendEmail';
 import * as t from '../../../models/Types'
 import { Dispatch, SetStateAction } from 'react';
+import ModalCreateEmail from 'src/content/pages/Components/ModalCreateEmail';
 
 interface HeaderProps {
-  setUsuarios: Dispatch<SetStateAction<t.Usuario[]>>
+  setEmail: Dispatch<SetStateAction<t.Email[]>>
 }
 
-const PageHeader: React.FC<HeaderProps> = ({ setUsuarios }) => {
+const PageHeader: React.FC<HeaderProps> = ({ setEmail }) => {
 
   return (
     <Card>
@@ -16,13 +17,13 @@ const PageHeader: React.FC<HeaderProps> = ({ setUsuarios }) => {
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography variant="h3" component="h3" gutterBottom>
-              Enviar e-mail
+              E-mails
             </Typography>
             <Typography variant="subtitle2">
             </Typography>
           </Grid>
           <Grid item>
-            <ModalSendEmail changeUsuarios={setUsuarios} />
+            <ModalCreateEmail changeEmail={setEmail} />
           </Grid>
         </Grid>
       </CardContent>

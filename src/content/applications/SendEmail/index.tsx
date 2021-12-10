@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 
 
 
-function Usuarios() {
+function Email() {
 
   useEffect(() => {
     let config = {
@@ -19,9 +19,9 @@ function Usuarios() {
       }
     }
 
-    api.get(`/Usuario/ObterTodos`, config).then(response => {
+    api.get(`/Email/GetEmails`, config).then(response => {
       if (response && response.status === 200 && response.data) {
-        setUsuarios(response.data);
+        setEmail(response.data);
       }
     }).catch(error => {
       toast.warn('Sessão expirada', { autoClose: 1000 });
@@ -33,7 +33,7 @@ function Usuarios() {
     })
   }, [api])
 
-  const [usuarios, setUsuarios] = useState<t.Usuario[]>();
+  const [Email, setEmail] = useState<t.Email[]>();
 
   return (
     <>
@@ -41,7 +41,7 @@ function Usuarios() {
         <title>E-mail</title>
       </Helmet>
       <PageTitleWrapper>
-        <PageHeader setUsuarios={setUsuarios} />
+        <PageHeader setEmail={setEmail} />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -52,8 +52,8 @@ function Usuarios() {
           spacing={3}
         >
           <Grid item xs={12} style={{ paddingBottom: '20px' }}>
-            {usuarios &&
-              <RecentOrders usuarios={usuarios} setUsuarios={setUsuarios} />
+            {Email &&
+              <RecentOrders Email={Email} setEmail={setEmail} />
             }
           </Grid>
         </Grid>
@@ -62,4 +62,4 @@ function Usuarios() {
   );
 }
 
-export default Usuarios;
+export default Email;
