@@ -1,6 +1,5 @@
 import { Typography, Button, Grid, Card, CardContent } from '@mui/material';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import ModalSendEmail from 'src/content/pages/Components/ModalSendEmail';
 import * as t from '../../../models/Types'
 import { Dispatch, SetStateAction } from 'react';
 import ModalCreateEmail from 'src/content/pages/Components/ModalCreateEmail';

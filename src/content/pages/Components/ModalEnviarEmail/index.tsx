@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
@@ -24,6 +24,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import * as t from '../../../../models/Types';
 import Label from 'src/components/Label';
+import OptionType from 'react-select'
 
 toast.configure()
 
@@ -40,27 +41,74 @@ interface ColourOption {
 interface DialogProps {
   onClose: () => void;
   open: boolean;
-  setUser: Dispatch<SetStateAction<t.Usuario[]>>
+  EmailRemetente: t.Email
 }
 
 const SimpleDialog: React.FC<DialogProps> = (props) => {
-  const { onClose, setUser, open } = props;
+  const { onClose, EmailRemetente, open } = props;
 
   const handleClose = () => {
     onClose();
   };
 
+  const [options, setOptions] = useState<any[]>();
+  const [selecionados, setSelecionados] = useState<any[]>();
+  const [destinatarios, setDestinatarios] = useState<any[]>([]);
+  const [clientes, setClientes] = useState<t.Cliente[]>();
+
+  useEffect(() => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.get(`/Clientes/GetClientes/`,config).then(response => {
+      if(response.status === 200){
+        setClientes(response.data);
+        let _optionsOptionsClientes = [];
+        response.data.forEach((Clientes) => {
+          _optionsOptionsClientes.push({ value: Clientes.codigo, label: `${Clientes.nome}` })
+        })
+        setOptions(_optionsOptionsClientes)
+      }
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  })
+  }, [api])
+
   async function handleSubmit() {
-    const { nome, login, email, senha } = formData;
+    const { assunto, corpoDoEmail } = formData;
+
+    const remetente: t.Email = {
+      codigo: EmailRemetente.codigo,
+      email: EmailRemetente.email,
+      senha: EmailRemetente.senha
+    };
+    
+    clientes.forEach( (cliente) => {
+      
+      selecionados.forEach((op) => {
+        if(cliente.codigo === op.value){
+          let escolhidos = destinatarios;
+          escolhidos.push(cliente);
+          setDestinatarios(escolhidos);
+        }
+      })
+    })
 
     const data = {
-      nome,
-      login,
-      email,
-      senha,
-      admin: checkbox,
+      remetente,
+      destinatarios: destinatarios,
+      assunto,
+      corpoDoEmail
     };
-    if (nome === "" || login === "" || email === "" || senha === "") {
+
+    if (assunto == "" || corpoDoEmail == "" || destinatarios == null) {
       toast.error("Os campos 'Assunto', 'Texto' devem ser preenchidos.",
         {
           position: "top-center",
@@ -77,22 +125,9 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
           authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
         }
       }
-      await api.post('/Usuario/Inserir', data, config).then(response => {
-        if (response.status === 200) {
-          api.get(`/Usuario/ObterTodos`, config).then(response => {
-            if (response.status === 200) {
-              toast.success('Usuário criado com sucesso!', { autoClose: 2000 });
-              setUser(response.data)
-              onClose();
-            }
-          }).catch(error => {
-            toast.warn('Sessão expirada', { autoClose: 1000 });
-            sessionStorage.clear();
-            sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
-            setTimeout(function refreshing() {
-              window.location.reload();
-            }, 500);
-          })
+      await api.post('/Email/EnviarSelecionados', data, config).then(response => {
+        if (response.status === 200) {  
+            onClose();
         }
       }).catch(error => {
         toast.warn('Sessão expirada', { autoClose: 1000 });
@@ -105,29 +140,19 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
     }
   }
 
+  
+
+  
+
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   }
 
   const [formData, setFormData] = useState({
-    nome: '',
-    login: '',
-    email: '',
-    senha: ''
+    assunto: '',
+    corpoDoEmail: ''
   });
-
-  const [checkbox, setCheckbox] = useState(false);
-
-  const handleCheckboxChange = () => {
-    setCheckbox(!checkbox)
-  }
-
-  const onChangeEmail = (option: any[]) => {
-    // setEmail(option);
-    let valor = 0;
-    //console.log(option)
-  }
 
   const dot = (color = 'blue') => ({
     alignItems: 'center',
@@ -150,6 +175,9 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
     singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
   };
 
+  const onChangeDestinatarios = (opcao: any) => {
+    setSelecionados(opcao)
+  }
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -161,17 +189,18 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
           <TextField
             label="De:"
             name="remetente"
+            disabled
             multiline
             style={{ width: 405 }}
-            onChange={handleFieldChange}
+            value={EmailRemetente.email}
           />
         </ListItem>
         <ListItem>
-          <Select
-            // value={produtos}
-            // options={optionsProdutos}
+          <Select           
             isMulti={true}
-            // onChange={e => onChangeProdutos(e)}
+            onChange={e => onChangeDestinatarios(e)}
+            options={options}
+            value={selecionados}
             styles={selectStylesMulti}
             placeholder="Para:"
 
@@ -190,7 +219,7 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
         <ListItem>
           <TextField
             label="Texto"
-            name="texto"
+            name="corpoDoEmail"
             multiline
             required
             style={{ width: 405 }}
@@ -210,10 +239,10 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
 }
 
 interface ModalProps {
-  changeEmail: Dispatch<SetStateAction<t.Email[]>>
+  codigo: number
 }
 
-const ModalEnviarEmail: React.FC<ModalProps> = ({ changeEmail }) => {
+const ModalEnviarEmail: React.FC<ModalProps> = ({ codigo }) => {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
@@ -225,6 +254,28 @@ const ModalEnviarEmail: React.FC<ModalProps> = ({ changeEmail }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const [Email, setEmail] = useState<t.Email>();
+
+  useEffect(() => {
+    let config = {
+      headers: {
+        authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
+      }
+    }
+    api.get(`/Email/GetEmail/${codigo}`,config).then(response => {
+      if(response.status === 200){
+        setEmail(response.data)
+      }
+    }).catch(error => {
+      toast.warn('Sessão expirada', { autoClose: 1000 });
+      sessionStorage.clear();
+      sessionStorage.setItem("UsuarioLogado", JSON.stringify(false))
+      setTimeout(function refreshing() {
+        window.location.reload();
+      }, 500);
+  })
+  }, [api])
 
 
   return (
@@ -243,11 +294,13 @@ const ModalEnviarEmail: React.FC<ModalProps> = ({ changeEmail }) => {
         >
           < ForwardToInboxTwoToneIcon fontSize="small" />
         </IconButton>
-        <SimpleDialog
+        {Email &&
+          <SimpleDialog
           open={open}
           onClose={handleClose}
-          setUser={changeEmail}
+          EmailRemetente={Email}
         />
+        }
       </Grid>
     </>
   );

@@ -224,7 +224,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, Email, se
                         <ModalDelEmail codigo={Email.codigo} changeEmail={setEmail} />
                       </Tooltip>
                       <Tooltip title="Eniver Email" arrow>
-                        <ModalEnviarEmail changeEmail={setEmail} />
+                        <ModalEnviarEmail codigo={Email.codigo} />
                       </Tooltip>
                       <Tooltip title="Enviar Email para todos" arrow>
                         <ModalSendEveryone codigo={Email.codigo} />
