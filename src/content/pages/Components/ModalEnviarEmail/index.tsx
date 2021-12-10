@@ -62,8 +62,8 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
         authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
       }
     }
-    api.get(`/Clientes/GetClientes/`,config).then(response => {
-      if(response.status === 200){
+    api.get(`/Clientes/GetClientes/`, config).then(response => {
+      if (response.status === 200) {
         setClientes(response.data);
         let _optionsOptionsClientes = [];
         response.data.forEach((Clientes) => {
@@ -78,7 +78,7 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
       setTimeout(function refreshing() {
         window.location.reload();
       }, 500);
-  })
+    })
   }, [api])
 
   async function handleSubmit() {
@@ -89,11 +89,11 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
       email: EmailRemetente.email,
       senha: EmailRemetente.senha
     };
-    
-    clientes.forEach( (cliente) => {
-      
+
+    clientes.forEach((cliente) => {
+
       selecionados.forEach((op) => {
-        if(cliente.codigo === op.value){
+        if (cliente.codigo === op.value) {
           let escolhidos = destinatarios;
           escolhidos.push(cliente);
           setDestinatarios(escolhidos);
@@ -126,8 +126,8 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
         }
       }
       await api.post('/Email/EnviarSelecionados', data, config).then(response => {
-        if (response.status === 200) {  
-            onClose();
+        if (response.status === 200) {
+          onClose();
         }
       }).catch(error => {
         toast.warn('Sessão expirada', { autoClose: 1000 });
@@ -140,9 +140,9 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
     }
   }
 
-  
 
-  
+
+
 
   const handleFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -169,7 +169,7 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
   });
 
   const selectStylesMulti: StylesConfig<ColourOption> = {
-    control: (styles) => ({ ...styles, backgroundColor: 'white', maxWidth: "405px", minWidth: "405px", minHeight: "70px" }),
+    control: (styles) => ({ ...styles, backgroundColor: 'white', maxWidth: "200px", minWidth: "200px", minHeight: "52px" }),
     input: (styles) => ({ ...styles, ...dot() }),
     placeholder: (styles) => ({ ...styles, ...dot('#ccc') }),
     singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
@@ -191,12 +191,10 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
             name="remetente"
             disabled
             multiline
-            style={{ width: 405 }}
+            style={{ width: 200 }}
             value={EmailRemetente.email}
-          />
-        </ListItem>
-        <ListItem>
-          <Select           
+          />&nbsp;
+          <Select
             isMulti={true}
             onChange={e => onChangeDestinatarios(e)}
             options={options}
@@ -205,6 +203,9 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
             placeholder="Para:"
 
           />
+        </ListItem>
+        <ListItem>
+
         </ListItem>
         <ListItem>
           <TextField
@@ -263,8 +264,8 @@ const ModalEnviarEmail: React.FC<ModalProps> = ({ codigo }) => {
         authorization: `Bearer ${JSON.parse(sessionStorage.getItem("Token"))}`
       }
     }
-    api.get(`/Email/GetEmail/${codigo}`,config).then(response => {
-      if(response.status === 200){
+    api.get(`/Email/GetEmail/${codigo}`, config).then(response => {
+      if (response.status === 200) {
         setEmail(response.data)
       }
     }).catch(error => {
@@ -274,7 +275,7 @@ const ModalEnviarEmail: React.FC<ModalProps> = ({ codigo }) => {
       setTimeout(function refreshing() {
         window.location.reload();
       }, 500);
-  })
+    })
   }, [api])
 
 
@@ -297,10 +298,10 @@ const ModalEnviarEmail: React.FC<ModalProps> = ({ codigo }) => {
         </IconButton>
         {Email &&
           <SimpleDialog
-          open={open}
-          onClose={handleClose}
-          EmailRemetente={Email}
-        />
+            open={open}
+            onClose={handleClose}
+            EmailRemetente={Email}
+          />
         }
       </Grid>
     </>
