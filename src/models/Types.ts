@@ -65,3 +65,9 @@ export interface Usuario{
     senha: string;
     admin: boolean;
 }
+
+export interface Email{
+    codigo: number;
+    email: string;
+    senha: string;
+}
