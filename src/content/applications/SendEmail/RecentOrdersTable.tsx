@@ -184,7 +184,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, usuarios,
       )}
       {!selectedBulkActions && (
         <CardHeader
-          title="Lista de clientes"
+          title="E-mails enviados"
         />
       )}
       <Divider />

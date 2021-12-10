@@ -19,7 +19,6 @@ const PageHeader: React.FC<HeaderProps> = ({ setUsuarios }) => {
               Enviar e-mail
             </Typography>
             <Typography variant="subtitle2">
-              Lista de E-mails enviados.
             </Typography>
           </Grid>
           <Grid item>
