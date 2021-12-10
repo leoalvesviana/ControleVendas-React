@@ -6,7 +6,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import AttachEmailOutlinedIcon from '@mui/icons-material/AttachEmailOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
-import { Container, Grid, Card, CardHeader, CardContent, Divider, ListItem, Checkbox } from '@mui/material';
+import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';
+import { Container, Grid, Card, CardHeader, CardContent, Divider, ListItem, Checkbox, IconButton, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import React, { Component } from 'react'
@@ -128,7 +129,7 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
     //console.log(option)
   }
 
-  const dot = (color = 'transparent') => ({
+  const dot = (color = 'blue') => ({
     alignItems: 'center',
     display: 'flex',
     ':before': {
@@ -161,7 +162,7 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
             label="De:"
             name="remetente"
             multiline
-            style={{ width: 200 }}
+            style={{ width: 405 }}
             onChange={handleFieldChange}
           />
         </ListItem>
@@ -209,14 +210,14 @@ const SimpleDialog: React.FC<DialogProps> = (props) => {
 }
 
 interface ModalProps {
-  changeUsuarios: Dispatch<SetStateAction<t.Usuario[]>>
+  changeEmail: Dispatch<SetStateAction<t.Email[]>>
 }
 
-const ModalCreateUser: React.FC<ModalProps> = ({ changeUsuarios }) => {
+const ModalEnviarEmail: React.FC<ModalProps> = ({ changeEmail }) => {
 
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(emails[1]);
-
+  const theme = useTheme();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -229,17 +230,27 @@ const ModalCreateUser: React.FC<ModalProps> = ({ changeUsuarios }) => {
   return (
     <>
       <Grid item>
-        <Button sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-          onClick={handleClickOpen}><AttachEmailOutlinedIcon sx={{ fontSize: 25 }} /></Button>
+        <IconButton
+          sx={{
+            '&:hover': {
+              background: theme.colors.primary.lighter
+            },
+            color: theme.palette.primary.main
+          }}
+          color="inherit"
+          size="small"
+          onClick={handleClickOpen}
+        >
+          < ForwardToInboxTwoToneIcon fontSize="small" />
+        </IconButton>
         <SimpleDialog
           open={open}
           onClose={handleClose}
-          setUser={changeUsuarios}
+          setUser={changeEmail}
         />
       </Grid>
     </>
   );
 }
 
-export default ModalCreateUser;
+export default ModalEnviarEmail;

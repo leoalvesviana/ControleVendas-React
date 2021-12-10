@@ -2,9 +2,7 @@ import { FC, ChangeEvent } from 'react';
 import React, { useEffect, useState } from 'react';
 import api from 'src/service/api';
 import { format } from 'date-fns';
-import ModalEditCliente from 'src/content/pages/Components/ModalEditCliente';
-import ModalDelCliente from 'src/content/pages/Components/ModalDelCliente';
-import AdminPanelSettingsTwoToneIcon from '@mui/icons-material/AdminPanelSettingsTwoTone';
+import ModalEnviarEmail from 'src/content/pages/Components/ModalEnviarEmail';
 import numeral from 'numeral';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -223,6 +221,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, Email, se
                       </Tooltip>
                       <Tooltip title="Remover" arrow>
                         <ModalDelEmail codigo={Email.codigo} changeEmail={setEmail} />
+                      </Tooltip>
+                      <Tooltip title="Eniver Email" arrow>
+                        <ModalEnviarEmail changeEmail={setEmail} />
                       </Tooltip>
                     </TableCell>
                   </TableRow>
