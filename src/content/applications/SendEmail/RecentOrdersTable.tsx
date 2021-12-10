@@ -44,6 +44,7 @@ import ModalEditUser from 'src/content/pages/Components/ModalEditUser';
 import ModalDelUser from 'src/content/pages/Components/ModalDelUser';
 import ModalDelEmail from 'src/content/pages/Components/ModalDelEmail';
 import ModalEditEmail from 'src/content/pages/Components/ModalEditEmail';
+import ModalSendEveryone from 'src/content/pages/Components/ModalSendEveryone';
 
 
 
@@ -224,6 +225,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders, Email, se
                       </Tooltip>
                       <Tooltip title="Eniver Email" arrow>
                         <ModalEnviarEmail changeEmail={setEmail} />
+                      </Tooltip>
+                      <Tooltip title="Enviar Email para todos" arrow>
+                        <ModalSendEveryone codigo={Email.codigo} />
                       </Tooltip>
                     </TableCell>
                   </TableRow>
